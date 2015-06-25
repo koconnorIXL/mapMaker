@@ -1,0 +1,36 @@
+
+
+path {
+  fill: transparent;
+  stroke: black;
+}
+.labelTable {
+  display: table;
+  border-collapse: collapse;
+}
+
+.labelRow {
+  display: table-row;
+}
+
+.labelCell {
+  display: table-cell;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  border: solid 1px;
+}
+
+.labelCell input {
+  margin: 10px 0;
+}
+
+.headers {
+  font-weight: bold;
+}
+
+
+.labelRow.options .labelCell.coordinates input {
+  width: 50px;
+}
+
