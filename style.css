@@ -1,9 +1,23 @@
 
+svg {
+  border: solid;
+}
 
 path {
   fill: transparent;
   stroke: black;
 }
+
+.controller {
+  display: inline-block;
+  padding-right: 25px;
+}
+
+.mapLabelManager {
+  display: inline-block;
+  vertical-align: top;
+}
+
 .labelTable {
   display: table;
   border-collapse: collapse;
@@ -29,8 +43,16 @@ path {
   font-weight: bold;
 }
 
-
 .labelRow.options .labelCell.coordinates input {
   width: 50px;
 }
+
+.datasetController div {
+  color: red; 
+}
+
+.datasetController div.selected {
+  color: green; 
+}
+
 
