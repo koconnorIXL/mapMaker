@@ -1,5 +1,7 @@
 node_modules/*
-*.json
 build
 build/*
 *DS_Store*
+*.swp
+geojsonDatasets/*
+topojsonDatasets/*
