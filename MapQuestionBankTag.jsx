@@ -45,6 +45,10 @@ var MapQuestionBankTag = React.createClass({
     return (
       <pre className="questionBankTags">{s}</pre>
     );
+  },
+
+  componentWillUnmount: function() {
+    console.log('hello');
   }
 });
 
