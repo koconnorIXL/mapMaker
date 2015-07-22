@@ -1,3 +1,6 @@
+function pointFromArray(a) {
+  return '(' + a.join(',') + ')';
+}
 
 var MapLabelManager = React.createClass({
   
