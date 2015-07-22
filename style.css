@@ -4,7 +4,6 @@ svg {
 }
 
 path {
-  fill: transparent;
   stroke: black;
 }
 
@@ -51,7 +50,7 @@ path {
   color: red; 
 }
 
-.datasetController div.selected {
+.datasetController .selected div {
   color: green; 
 }
 

@@ -3,6 +3,7 @@ var MapLabelManager = require('./MapLabelManager.jsx');
 var MapQuestionBankTag = require('./MapQuestionBankTag.jsx');
 var DatasetController = require('./DatasetController.jsx');
 var Map = require('./Map.jsx');
+var datasetOptions = require('./Datasets.jsx');
 
 
 var MAX_SCALE_RATIO = 8;
@@ -21,7 +22,9 @@ var MapMaker = React.createClass({
       projectionType: "mercator",
       parallels: [30, 60],
       labels: [],
-      datasets: ['Countries', 'US States']
+      datasets: [
+        {name: 'Countries', colors: datasetOptions['Countries'].defaultColors}, 
+        {name: 'US States', colors: datasetOptions['US States'].defaultColors}]
     };
   },
 

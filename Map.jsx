@@ -22,15 +22,37 @@ var Map = React.createClass({
 
     var datasets = [];
     for (var i = 0; i < this.props.datasets.length; i++) {
-      var dataset = datasetOptions[this.props.datasets[i]];
+      datasetName = this.props.datasets[i].name;
+      var dataset = datasetOptions[datasetName];
+      var datasetColors = this.props.datasets[i].colors;
+      // If the user hasn't picked colors yet, use the default ones.
+      if (datasetColors == undefined) {
+        datasetColors = dataset.defaultColors;
+      }
       var filename = dataset.filename;
       var name = filename.substring(0, filename.length - 5);
 
       var json = this.getTopojson(filename);
-      var features = topojson.feature(json, json.objects[name]).features.map(function(feature) {
-        return <path className={dataset.individualName} d={path(feature)} />;
+      var displayFeatures = topojson.feature(json, json.objects[name]).features.map(function(feature) {
+        // Pick the appropriate fill color for this path.
+        var chosenColorIndex = feature.properties.mapcolor7;
+        switch (datasetName) {
+          case 'Countries':
+            // The mapcolor7 property provided in the Countries dataset goes from 1 to 7, not 0 to 6.
+            chosenColorIndex = chosenColorIndex - 1;
+            break;
+          case 'Lakes':
+            // All lakes are the same color.
+            chosenColorIndex = 0;
+            break;
+        }
+
+        return <path 
+          className={dataset.individualName} 
+          d={path(feature)} 
+          fill={datasetColors[chosenColorIndex]} />;
       });
-      datasets.push(<g className={dataset.collectiveName}>{features}</g>);
+      datasets.push(<g className={dataset.collectiveName}>{displayFeatures}</g>);
     }
 
     return (

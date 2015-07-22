@@ -27,6 +27,17 @@ var MapQuestionBankTag = React.createClass({
       attrs.push('parallels=\"' + pointFromArray(this.props.parallels) + '\"');
     }
 
+    var datasets = [];
+    for (var i = 0; i < this.props.datasets.length; i++) {
+      var dataset = this.props.datasets[i];
+      var datasetColors = dataset.colors;
+      if (datasetColors == undefined){
+        datasetColors = [];
+      }
+      datasets.push(dataset.name + ":[" + datasetColors.join(',') + ']');
+    }
+    attrs.push("datasets=\"[" + datasets.join(',') + "]\"");
+
     var labels = this.props.labels.map(function(label) {
       if (label.type === 'point') {
         return '  <label type=\"point\" coordinates=\"' + pointFromArray(label.coordinates) + '\" labelText=\"' + label.labelText + '\" />\n';
