@@ -4,76 +4,130 @@ var datasetOptions = require('./Datasets.jsx');
 var cache = {};
 var Map = React.createClass({
 
-  render: function() {
+  componentDidMount: function() {
+    this.redraw();
+  },
+
+  componentDidUpdate: function() {
+    this.redraw();
+  },
+
+  redraw: function() {
     var projection = getProjection(this.props);
     var path = d3.geo.path().projection(projection);
+    var jsonGetter = this.getTopojson;
+
     this.mouseDown = false;
+    var domNode = d3.select(this.getDOMNode());
 
-    var counter = 0; 
-    var labels = this.props.labels.map(function(label) {
-      var p = projection(label.coordinates);
-      return (
-        <g key={counter++} className="mapLabel">
-          <circle cx={p[0]} cy={p[1]} r={3} />
-          <text x={p[0]} y={p[1]} textAnchor="start" dx="5">{label.labelText}</text>
-        </g>
-      );
-    });
+    // Clear the old map.
+    domNode.select('svg').remove();
 
-    var datasets = [];
-    for (var i = 0; i < this.props.datasets.length; i++) {
-      datasetName = this.props.datasets[i].name;
-      var dataset = datasetOptions[datasetName];
-      var datasetColors = this.props.datasets[i].colors;
-      // If the user hasn't picked colors yet, use the default ones.
-      if (datasetColors == undefined) {
-        datasetColors = dataset.defaultColors;
-      }
-      var filename = dataset.filename;
+    // Create the new one.
+    var svg = domNode.append('svg')
+      .attr('class', 'map')
+      .attr('width', 800)
+      .attr('height', 800)
+      .on('wheel', this.handleMouseWheel)
+      .on('mousedown', this.handleMouseDown)
+      .on('mouseup', this.handleMouseUp)
+      .on('mousemove', this.handleMouseMove)
+      .attr('xmlns', "http://www.w3.org/2000/svg");
+
+    // Create and add all labels.
+    var labelComponents = svg.selectAll("g")
+      .data(this.props.labels)
+      .enter().append("g")
+        .attr("class", "mapLabel")
+        .attr("key", function(d, i) { return i; });
+        
+    labelComponents.append("circle")
+      .attr("cx", function(d) { return projection(d.coordinates)[0]; })
+      .attr("cy", function(d) { return projection(d.coordinates)[1]; })
+      .attr("r", 3);
+
+    labelComponents.append("text")
+      .attr("x", function(d) { return projection(d.coordinates)[0]; })
+      .attr("y", function(d) { return projection(d.coordinates)[1]; })
+      .attr("textAnchor", "start")
+      .attr("dx", 5)
+      .text(function(d) { return d.labelText; });
+
+    // Create and add all dataset paths.
+    var datasetComponents = svg.selectAll(".datasetPaths")
+      .data(this.props.datasets)
+      .enter().append("g")
+        .attr("class", function(d) { return datasetOptions[d.name].collectiveName; });
+
+    datasetComponents.each(function(dataset) {
+      // Add a path component for each path in this dataset.
+
+      // Get the json for this dataset.
+      var filename = datasetOptions[dataset.name].filename;
       var name = filename.substring(0, filename.length - 5);
+      var json = jsonGetter(filename);
 
-      var json = this.getTopojson(filename);
-      var displayFeatures = topojson.feature(json, json.objects[name]).features.map(function(feature) {
-        // Pick the appropriate fill color for this path.
-        var chosenColorIndex = feature.properties.mapcolor7;
-        switch (datasetName) {
-          case 'Countries':
-            // The mapcolor7 property provided in the Countries dataset goes from 1 to 7, not 0 to 6.
-            chosenColorIndex = chosenColorIndex - 1;
-            break;
-          case 'Lakes':
-            // All lakes are the same color.
-            chosenColorIndex = 0;
-            break;
-        }
+      // Get the color scheme, selected sub-options, and base class name for this dataset.
+      var datasetColors = dataset.colors;
+      var selectedSubOptions = dataset.subOptions;
+      var commonClassName = datasetOptions[dataset.name].individualName;
 
-        return <path 
-          className={dataset.individualName} 
-          d={path(feature)} 
-          fill={datasetColors[chosenColorIndex]} />;
-      });
-      datasets.push(<g className={dataset.collectiveName}>{displayFeatures}</g>);
-    }
+      // Create a path component for each feature in this dataset.
+      var node = d3.select(this);
+      node.selectAll("path")
+        .data(topojson.feature(json, json.objects[name]).features)
+        .enter().append("path")
+        .attr("d", function(feature) { return path(feature); })
+        .attr("class", function(feature) { 
+          var subOptionForPath;
+          if (dataset.name == 'Countries') {
+            subOptionForPath = feature.properties.continent;
+          }
+          if (dataset.name == 'States/Provinces') {
+            subOptionForPath = feature.properties.admin;
+          }
 
-    return (
-      <svg 
-        className="map" 
-        xmlns="http://www.w3.org/2000/svg" 
-        width='800' 
-        height='800'
-        onWheel={this.handleMouseWheel}
-        onMouseDown={this.handleMouseDown}
-        onMouseUp={this.handleMouseUp}
-        onMouseMove={this.handleMouseMove}
-      >
-        {labels}
-        {datasets}
-      </svg>
-    );
+          // If this feature is part of an unselected sub-option for its dataset, we do not want to
+          // display a path for it, so we will add a 'hidden' tag.
+          // Note that not all datasets have sub-options, so this only applies when there are
+          // sub-options for the dataset.
+          if (datasetOptions[dataset.name].subOptions.length > 0 && 
+            selectedSubOptions.indexOf(subOptionForPath) == -1) 
+          {
+            return commonClassName + ' hidden';
+          }
+          return commonClassName; 
+        })
+        .attr("fill", function(feature) { 
+          var chosenColorIndex = feature.properties.mapcolor7;
+
+          switch (dataset.name) {
+            case 'Countries':
+              // The mapcolor7 property provided in the Countries dataset goes from 1 to 7, not 0 to 6.
+              chosenColorIndex = chosenColorIndex - 1;
+              break;
+            case 'Lakes':
+              // All lakes are the same color.
+              chosenColorIndex = 0;
+              break;
+          }
+          return datasetColors[chosenColorIndex]; 
+        });
+
+        // Add exterior boundaries for the dataset.
+        node.append("path")
+          .datum(topojson.mesh(json, json.objects[name], function(a,b) { return a === b; }))
+          .attr("d", path)
+          .attr("fill", "transparent");
+    });
+  },
+
+  render: function() {
+    return <div className="mapContainer"></div>;
   },
   
   handleMouseDown: function(e) {
-    e.preventDefault();
+    d3.event.preventDefault();
     this.mouseDown = true;
   },
 
@@ -86,21 +140,21 @@ var Map = React.createClass({
   handleMouseMove: function(e) {
     if (this.mouseDown) {
       if (this.lastX) {
-        var dx = e.pageX - this.lastX;
-        var dy = e.pageY - this.lastY;
+        var dx = d3.event.pageX - this.lastX;
+        var dy = d3.event.pageY - this.lastY;
         this.props.dragRotate(dx, dy);
       }
-      this.lastX = e.pageX;
-      this.lastY = e.pageY;
+      this.lastX = d3.event.pageX;
+      this.lastY = d3.event.pageY;
     }
   },
 
   handleMouseWheel: function(e) {
-    e.preventDefault();
-    if (e.deltaY > 0) {
+    d3.event.preventDefault();
+    if (d3.event.deltaY > 0) {
       this.props.zoomOut();
     }
-    else if (e.deltaY < 0) {
+    else if (d3.event.deltaY < 0) {
       this.props.zoomIn();
     }
   },

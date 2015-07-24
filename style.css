@@ -46,12 +46,22 @@ path {
   width: 50px;
 }
 
-.datasetController div {
+.datasetController {
   color: red; 
 }
 
-.datasetController .selected div {
+.datasetController .selected {
   color: green; 
 }
 
+.datasetController .datasetSubOption {
+  color: red;
+}
 
+.datasetController .datasetSubOption.selectedSubOption {
+  color: green;
+}
+
+.hidden {
+  display: none;
+}

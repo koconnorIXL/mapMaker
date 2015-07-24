@@ -4,6 +4,7 @@ var MapQuestionBankTag = require('./MapQuestionBankTag.jsx');
 var DatasetController = require('./DatasetController.jsx');
 var Map = require('./Map.jsx');
 var datasetOptions = require('./Datasets.jsx');
+var Dataset = require('./Dataset.js');
 
 
 var MAX_SCALE_RATIO = 8;
@@ -23,8 +24,14 @@ var MapMaker = React.createClass({
       parallels: [30, 60],
       labels: [],
       datasets: [
-        {name: 'Countries', colors: datasetOptions['Countries'].defaultColors}, 
-        {name: 'US States', colors: datasetOptions['US States'].defaultColors}]
+        new Dataset(
+          'Countries', 
+          datasetOptions['Countries'].defaultColors, 
+          datasetOptions['Countries'].subOptions),
+        new Dataset(
+          'States/Provinces', 
+          datasetOptions['States/Provinces'].defaultColors, 
+          ['United States of America'])]
     };
   },
 

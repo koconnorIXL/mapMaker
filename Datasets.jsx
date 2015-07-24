@@ -3,24 +3,21 @@ module.exports = {
     filename: 'countries.json',
     collectiveName: 'countries',
     individualName: 'country',
-    defaultColors: ['#759B18', '#528220', '#94B240', '#376626', '#669955', '#669900', '#75A319']
+    defaultColors: ['#759B18', '#528220', '#94B240', '#376626', '#669955', '#669900', '#75A319'],
+    subOptions: ['North America', 'South America', 'Africa', 'Europe', 'Asia', 'Oceania', 'Antarctica']
   },
-  'US States': {
-    filename: 'usa.json',
-    collectiveName: 'us_states',
-    individualName: 'state',
-    defaultColors: ['#759B18', '#528220', '#94B240', '#376626', '#669955', '#669900', '#75A319']
+  'States/Provinces': {
+    filename: 'admin1.json',
+    collectiveName: 'states_and_provinces',
+    individualName: 'state_or_province',
+    defaultColors: ['#759B18', '#528220', '#94B240', '#376626', '#669955', '#669900', '#75A319'],
+    subOptions: ['Australia', 'Brazil', 'Canada', 'United States of America']
   },
   'Lakes': {
     filename: 'lakes.json',
     collectiveName: 'lakes',
     individualName: 'lake',
-    defaultColors: ['#A3D8E5']
-  },
-  'States/Provinces': {
-    filename: 'admin1.json',
-    collectiveName: 'provinces',
-    individualName: 'province',
-    defaultColors: ['#759B18', '#528220', '#94B240', '#376626', '#669955', '#669900', '#75A319']
+    defaultColors: ['#A3D8E5'],
+    subOptions: []
   }
 };

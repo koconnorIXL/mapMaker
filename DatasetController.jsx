@@ -1,4 +1,5 @@
 var datasetOptions = require('./Datasets.jsx');
+var Dataset = require('./Dataset.js');
 
 var DatasetController = React.createClass({
   handleClick: function(e) {
@@ -11,29 +12,52 @@ var DatasetController = React.createClass({
     this.updateSelected();
   },
 
+  handleSubOptionClick: function(e) {
+    e.target.classList.toggle('selectedSubOption');
+    this.updateSelected();
+  },
+
   updateSelected: function() {
-    var selected = React.findDOMNode(this).querySelectorAll('.selected');
+    var selectedDatasets = React.findDOMNode(this).querySelectorAll('.selected');
     var datasets = [];
-    for (var i = 0; i < selected.length; i++) {
-      var colorList = [];
-      var selectedChildren = selected[i].children;
+    for (var i = 0; i < selectedDatasets.length; i++) {
+      var selectedChildren = selectedDatasets[i].children;
       var datasetName = selectedChildren[0].innerText;
-      // If this selected element has only one child, then it is newly selected.
-      // We will thus use the default colors for the dataset.
-      if (selectedChildren.length <= 1) {
+
+      // Get the colors for this dataset.
+      // If there are no color pickers in the color pickers div, this dataset is newly selected,
+      // so we will use the default colors for the dataset.
+      var colorList = [];
+      var datasetColors = selectedChildren[1].children;
+      if (datasetColors.length < 1) {
         colorList = datasetOptions[datasetName].defaultColors;
       }
       else {
         // Get the values from all the color pickers associated with this dataset.
-        for (var j = 1; j < selectedChildren.length; j++) {
-          colorList.push(selectedChildren[j].value);
+        for (var j = 0; j < datasetColors.length; j++) {
+          colorList.push(datasetColors[j].value);
         }
       }
-      datasets.push({
-        name: datasetName,
-        colors: colorList
-      });
+
+      // Get all the selected sub-options for the dataset.
+      // If there are no sub-options listed, we will select all sub-options by default.
+      var subOptionsList = [];
+      var datasetSubOptions = selectedChildren[2].children;
+      if (datasetSubOptions.length < 1) {
+        subOptionsList = datasetOptions[datasetName].subOptions;
+      }
+      else {
+        // Get all selected sub-options.
+        var selectedSubOptionComponents = 
+          React.findDOMNode(this.refs[datasetName]).querySelectorAll('.selectedSubOption');
+        for (var j = 0; j < selectedSubOptionComponents.length; j++) {
+          subOptionsList.push(selectedSubOptionComponents[j].innerText);
+        }
+      }
+
+      datasets.push(new Dataset(datasetName, colorList, subOptionsList));
     }
+
     this.props.updateDatasets(datasets);
   },
 
@@ -42,15 +66,19 @@ var DatasetController = React.createClass({
     for (var prop in datasetOptions) {
       if (datasetOptions.hasOwnProperty(prop)) {
 
-        var cName = 'datasetOption';
+        var overallClassName = 'datasetOption';
         // Make the list of color pickers that will be displayed for this dataset. If the dataset is
         // not selected, this set is empty.
         var colorPickers = [];
 
+        // Make the list of selectors for sub-options.
+        var subOptionSelectors = [];
+
         // Check if the 'datasets' list contains this option as the name of one of its objects.
+        // If so, we will display color pickers and sub-options.
         var propPassedIn = this.props.datasets.filter(function(obj) { return obj.name == prop; });
         if (propPassedIn.length > 0) {
-          cName += ' selected';
+          overallClassName += ' selected';
 
           var colors = propPassedIn[0].colors;
 
@@ -62,15 +90,42 @@ var DatasetController = React.createClass({
           for (var i = 0; i < colors.length; i++) {
             colorPickers.push(<input type="color" onChange={this.updateColor} value={colors[i]} />);
           }
+
+          // Some datasets do not involve sub-options. For those that do, create the sub-option selectors.
+          var possibleSubOptions = datasetOptions[prop].subOptions;
+          if (possibleSubOptions != undefined) {
+            var selectedSubOptions = propPassedIn[0].subOptions;
+
+            // If no options were passed in, display all subOptions as selected.
+            if (selectedSubOptions == undefined) {
+              selectedSubOptions = datasetOptions[prop].subOptions;
+            }
+
+            for (var i = 0; i < possibleSubOptions.length; i++) {
+              var subOptionClassName = 'datasetSubOption';
+              if (selectedSubOptions.indexOf(possibleSubOptions[i]) !== -1) {
+                subOptionClassName += ' selectedSubOption';
+              }
+              subOptionSelectors.push(<div className={subOptionClassName} onClick={this.handleSubOptionClick}>
+                {possibleSubOptions[i]}
+              </div>);
+            }
+          }
         }
 
-        datasetFields.push(<div className={cName}>
+        datasetFields.push(<div className={overallClassName} ref={prop}>
           <div 
             className="datasetName"
             onClick={this.handleClick}>
             {prop}
           </div>
-          {colorPickers}
+          <div className="datasetColors">
+            {colorPickers}
+          </div>
+          <div className="datasetSubOptions">
+            {subOptionSelectors}
+          </div>
+          <hr />
         </div>);
       }
     }

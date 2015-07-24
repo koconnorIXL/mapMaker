@@ -27,30 +27,26 @@ var MapQuestionBankTag = React.createClass({
       attrs.push('parallels=\"' + pointFromArray(this.props.parallels) + '\"');
     }
 
-    var datasets = [];
-    for (var i = 0; i < this.props.datasets.length; i++) {
-      var dataset = this.props.datasets[i];
-      var datasetColors = dataset.colors;
-      if (datasetColors == undefined){
-        datasetColors = [];
-      }
-      datasets.push(dataset.name + ":[" + datasetColors.join(',') + ']');
-    }
-    attrs.push("datasets=\"[" + datasets.join(',') + "]\"");
+    var datasets = this.props.datasets.map(function(dataset) {
+      return "  <Dataset name=\"" + dataset.name + 
+        "\" colors=[" + dataset.colors.join(', ') + 
+        "] subOptions=[" + dataset.subOptions.join(', ') + "] />\n";
+    });
 
     var labels = this.props.labels.map(function(label) {
       if (label.type === 'point') {
-        return '  <label type=\"point\" coordinates=\"' + pointFromArray(label.coordinates) + '\" labelText=\"' + label.labelText + '\" />\n';
+        return '  <Label type=\"point\" coordinates=\"' + pointFromArray(label.coordinates) +
+          '\" labelText=\"' + label.labelText + '\" />\n';
       }
       else if (label.type === 'city') {
-        return '  <label type=\"city\" name=\"' + label.name + '\" />\n';
+        return '  <Label type=\"city\" name=\"' + label.name + '\" />\n';
       }
       else {
         return '';
       }
     });
 
-    var s = "<Map " + attrs.join(' ') + " >\n" + labels.join('') + 
+    var s = "<Map>\n  <Projection " + attrs.join(' ') + " />\n" + datasets.join('') + labels.join('') + 
     "</Map>";
 
     return (
