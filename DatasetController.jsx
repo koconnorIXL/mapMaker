@@ -91,25 +91,18 @@ var DatasetController = React.createClass({
             colorPickers.push(<input type="color" onChange={this.updateColor} value={colors[i]} />);
           }
 
-          // Some datasets do not involve sub-options. For those that do, create the sub-option selectors.
+          // Create the sub-option selectors.
           var possibleSubOptions = datasetOptions[prop].subOptions;
-          if (possibleSubOptions != undefined) {
-            var selectedSubOptions = propPassedIn[0].subOptions;
+          var selectedSubOptions = propPassedIn[0].subOptions;
 
-            // If no options were passed in, display all subOptions as selected.
-            if (selectedSubOptions == undefined) {
-              selectedSubOptions = datasetOptions[prop].subOptions;
+          for (var i = 0; i < possibleSubOptions.length; i++) {
+            var subOptionClassName = 'datasetSubOption';
+            if (selectedSubOptions.indexOf(possibleSubOptions[i]) !== -1) {
+              subOptionClassName += ' selectedSubOption';
             }
-
-            for (var i = 0; i < possibleSubOptions.length; i++) {
-              var subOptionClassName = 'datasetSubOption';
-              if (selectedSubOptions.indexOf(possibleSubOptions[i]) !== -1) {
-                subOptionClassName += ' selectedSubOption';
-              }
-              subOptionSelectors.push(<div className={subOptionClassName} onClick={this.handleSubOptionClick}>
-                {possibleSubOptions[i]}
-              </div>);
-            }
+            subOptionSelectors.push(<div className={subOptionClassName} onClick={this.handleSubOptionClick}>
+              {possibleSubOptions[i]}
+            </div>);
           }
         }
 
