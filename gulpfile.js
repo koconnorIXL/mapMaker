@@ -9,7 +9,8 @@ function transpileJS() {
   // create browserify bundler for converting commonjs into browser-ready js
   var b = browserify({
     cache: {},
-    packageCache: {}
+    packageCache: {},
+    debug: true
   });
 
   // Wrap the bundler with watchify. This will cause the js to be re-bundled any time

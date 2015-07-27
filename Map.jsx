@@ -1,4 +1,3 @@
-var $ = require('jquery');
 var d3 = require('d3');
 var topojson = require('topojson');
 var React = require('react');
@@ -103,61 +102,61 @@ var Map = React.createClass({
       // Get the json for this dataset.
       var filename = datasetOptions[dataset.name].filename;
       var name = filename.substring(0, filename.length - 5);
-      var json = jsonGetter(filename);
+      jsonGetter(filename, function(json) {
+        // Get the color scheme, selected sub-options, and base class name for this dataset.
+        var datasetColors = dataset.colors;
+        var selectedSubOptions = dataset.subOptions;
+        var commonClassName = datasetOptions[dataset.name].individualName;
 
-      // Get the color scheme, selected sub-options, and base class name for this dataset.
-      var datasetColors = dataset.colors;
-      var selectedSubOptions = dataset.subOptions;
-      var commonClassName = datasetOptions[dataset.name].individualName;
+        // Create a path component for each feature in this dataset.
+        var node = d3.select('svg.map g.' + datasetOptions[dataset.name].collectiveName);
+        node.selectAll("path")
+          .data(topojson.feature(json, json.objects[name]).features)
+          .enter().append("path")
+          .attr("d", function(feature) { return path(feature); })
+          .attr("class", function(feature) { 
+            var subOptionForPath;
+            if (dataset.name == 'Countries') {
+              subOptionForPath = feature.properties.continent;
+            }
+            if (dataset.name == 'States/Provinces') {
+              subOptionForPath = feature.properties.admin;
+            }
 
-      // Create a path component for each feature in this dataset.
-      var node = d3.select(this);
-      node.selectAll("path")
-        .data(topojson.feature(json, json.objects[name]).features)
-        .enter().append("path")
-        .attr("d", function(feature) { return path(feature); })
-        .attr("class", function(feature) { 
-          var subOptionForPath;
-          if (dataset.name == 'Countries') {
-            subOptionForPath = feature.properties.continent;
-          }
-          if (dataset.name == 'States/Provinces') {
-            subOptionForPath = feature.properties.admin;
-          }
+            // If this feature is part of an unselected sub-option for its dataset, we do not want to
+            // display a path for it, so we will add a 'hidden' tag.
+            // Note that not all datasets have sub-options, so this only applies when there are
+            // sub-options for the dataset.
+            if (datasetOptions[dataset.name].subOptions.length > 0 && 
+              selectedSubOptions.indexOf(subOptionForPath) == -1) 
+            {
+              return commonClassName + ' hidden';
+            }
+            return commonClassName; 
+          })
+          .attr("fill", function(feature) { 
+            var chosenColorIndex = feature.properties.mapcolor7;
 
-          // If this feature is part of an unselected sub-option for its dataset, we do not want to
-          // display a path for it, so we will add a 'hidden' tag.
-          // Note that not all datasets have sub-options, so this only applies when there are
-          // sub-options for the dataset.
-          if (datasetOptions[dataset.name].subOptions.length > 0 && 
-            selectedSubOptions.indexOf(subOptionForPath) == -1) 
-          {
-            return commonClassName + ' hidden';
-          }
-          return commonClassName; 
-        })
-        .attr("fill", function(feature) { 
-          var chosenColorIndex = feature.properties.mapcolor7;
+            switch (dataset.name) {
+              case 'Countries':
+                // The mapcolor7 property provided in the Countries dataset goes from 1 to 7, not 0 to 6.
+                chosenColorIndex = chosenColorIndex - 1;
+                break;
+              case 'Lakes':
+                // All lakes are the same color.
+                chosenColorIndex = 0;
+                break;
+            }
+            return datasetColors[chosenColorIndex]; 
+          });
 
-          switch (dataset.name) {
-            case 'Countries':
-              // The mapcolor7 property provided in the Countries dataset goes from 1 to 7, not 0 to 6.
-              chosenColorIndex = chosenColorIndex - 1;
-              break;
-            case 'Lakes':
-              // All lakes are the same color.
-              chosenColorIndex = 0;
-              break;
-          }
-          return datasetColors[chosenColorIndex]; 
-        });
-
-        // Add exterior boundaries for the dataset.
-        node.append("path")
-          .datum(topojson.mesh(json, json.objects[name], function(a,b) { return a === b; }))
-          .attr("d", path)
-          .attr("fill", "transparent");
-    });
+          // Add exterior boundaries for the dataset.
+          node.append("path")
+            .datum(topojson.mesh(json, json.objects[name], function(a,b) { return a === b; }))
+            .attr("d", path)
+            .attr("fill", "transparent");
+      }.bind(this));
+    }.bind(this));
   },
 
   render: function() {
@@ -197,14 +196,17 @@ var Map = React.createClass({
     }
   },
 
-  getTopojson: function(filename) {
+  getTopojson: function(filename, cb) {
     if (!cache[filename]) {
-      $.ajaxSetup({async: false});
-      var data = JSON.parse($.get('topojsonDatasets/' + filename).responseText);
-      $.ajaxSetup({async: true});
-      cache[filename] = data;
+      d3.json('topojsonDatasets/' + filename, function(err, parsedJSON) {
+        if (err) { console.log(err); }
+        cache[filename] = parsedJSON;
+        cb(parsedJSON);
+      });
     }
-    return cache[filename];
+    else {
+      cb(cache[filename]);
+    }
   }
 });
 
