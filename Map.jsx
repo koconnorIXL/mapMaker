@@ -98,7 +98,7 @@ var Map = React.createClass({
           .attr("transform", function(feature) {
             var coords = projection(feature.geometry.coordinates);
             if (coords[0] === Infinity || coords[1] === Infinity) {
-              // Don't display the label off the screen.
+              // TODO: find a solution for this.
               coords = [0, 0];
             }
             return "translate(" + coords + ")";
@@ -133,9 +133,6 @@ var Map = React.createClass({
   },
 
   getClassName: function(feature, dataset, datasetOptions, commonClassName) {
-    commonClassName = feature.properties.NAME;
-    // TODO: remove this cities class name thing.
-
     // If this feature is part of an unselected sub-option for its dataset, we do not want to
     // display a path for it, so we will add a 'hidden' to its class name list. 
     // Note that not all datasets have sub-options, so this only applies when there are
@@ -151,7 +148,8 @@ var Map = React.createClass({
       if (dataset.name == 'Cities') {
         // The Cities dataset gives the country for each city, but we must also use the Countries
         // dataset to map the country names to continents so that we can turn whole continents
-        // of cities off and on.
+        // of cities off and on. We therefore need to find the entry in the Countries dataset that
+        // matches the country name for this city.
         var countryName = feature.properties.ADM0NAME;
         var countryDataset = this.getTopojson('countries.json').objects.countries.geometries;
         for (var i = 0; i < countryDataset.length; i++) {
@@ -162,11 +160,6 @@ var Map = React.createClass({
             subOptionForPath = countryDataset[i].properties.continent;
             break;
           }
-        }
-        if (subOptionForPath == undefined) {
-          // We never found the correct country match. This hopefully shouldn't happen much.
-          // But if it happens, the city will be hidden, which i guess is good?
-          var dummy = 0;
         }
       }
 
