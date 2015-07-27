@@ -1,3 +1,5 @@
+var React = require('react');
+
 function pointFromArray(a) {
   return '(' + a.join(',') + ')';
 }

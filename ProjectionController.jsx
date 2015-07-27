@@ -1,4 +1,4 @@
-
+var React = require('react');
 var getProjection = require('./ProjectionUtils.js').getProjection;
 var ProjectionController = React.createClass({
  

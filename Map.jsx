@@ -1,5 +1,43 @@
+var $ = require('jquery');
+var d3 = require('d3');
+var topojson = require('topojson');
+var React = require('react');
 var getProjection = require('./ProjectionUtils.js').getProjection;
 var datasetOptions = require('./Datasets.jsx');
+
+var mapSize = 800;
+
+function getViewBox(scale, translate) {
+  translate[0] *= -1;
+  translate[1] *= -1;
+
+  var min = mapSize / 2 * (1 - 1 / scale);
+  var max = mapSize / 2 * (1 + 1 / scale);
+
+  var minX = min + translate[0] - mapSize / 2;
+  var maxX = max + translate[0] - mapSize / 2;
+  var minY = min + translate[1] - mapSize / 2;
+  var maxY = max + translate[1] - mapSize / 2;
+
+  if (minX < 0) {
+    maxX -= minX;
+    minX = 0;
+  }
+  else if (maxX > mapSize) {
+    minX -= (maxX - mapSize);
+    maxX = mapSize;
+  }
+  if (minY < 0) {
+    maxY -= minY;
+    minY = 0;
+  }
+  else if (maxY > mapSize) {
+    minY -= (maxY - mapSize);
+    maxY = mapSize;
+  }
+
+  return [minX, minY, maxX, maxY].join(' ');
+}
 
 var cache = {};
 var Map = React.createClass({
@@ -27,8 +65,8 @@ var Map = React.createClass({
     // Create the new one.
     var svg = domNode.append('svg')
       .attr('class', 'map')
-      .attr('width', 800)
-      .attr('height', 800)
+      .attr('width', mapSize)
+      .attr('height', mapSize)
       .on('wheel', this.handleMouseWheel)
       .on('mousedown', this.handleMouseDown)
       .on('mouseup', this.handleMouseUp)
@@ -209,10 +247,10 @@ var Map = React.createClass({
 
   getTopojson: function(filename) {
     if (!cache[filename]) {
-      jQuery.ajaxSetup({async: false});
-      var topojson = JSON.parse($.get('topojsonDatasets/' + filename).responseText);
-      jQuery.ajaxSetup({async: true});
-      cache[filename] = topojson;
+      $.ajaxSetup({async: false});
+      var data = JSON.parse($.get('topojsonDatasets/' + filename).responseText);
+      $.ajaxSetup({async: true});
+      cache[filename] = data;
     }
     return cache[filename];
   }

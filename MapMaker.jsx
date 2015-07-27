@@ -1,3 +1,4 @@
+var React = require('react');
 var ProjectionController = require('./ProjectionController.jsx');
 var MapLabelManager = require('./MapLabelManager.jsx');
 var MapQuestionBankTag = require('./MapQuestionBankTag.jsx');
