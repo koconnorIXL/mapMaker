@@ -19,5 +19,12 @@ module.exports = {
     individualName: 'lake',
     defaultColors: ['#A3D8E5'],
     subOptions: []
+  },
+  'Cities': {
+    filename: 'cities.json',
+    collectiveName: 'cities',
+    individualName: 'city',
+    defaultColors: ['#ff0000'],
+    subOptions: ['North America', 'South America', 'Africa', 'Europe', 'Asia', 'Oceania', 'Antarctica']
   }
 };
