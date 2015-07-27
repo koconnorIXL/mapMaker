@@ -67,9 +67,9 @@ var Map = React.createClass({
       .attr('width', mapSize)
       .attr('height', mapSize)
       .on('wheel', this.handleMouseWheel)
-      .on('mousedown', this.handleMouseDown)
-      .on('mouseup', this.handleMouseUp)
-      .on('mousemove', this.handleMouseMove)
+//      .on('mousedown', this.handleMouseDown)
+//      .on('mouseup', this.handleMouseUp)
+//      .on('mousemove', this.handleMouseMove)
       .attr('xmlns', "http://www.w3.org/2000/svg");
 
     // Create and add all labels.
