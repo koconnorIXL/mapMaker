@@ -62,6 +62,10 @@ path {
   color: green;
 }
 
+.minSizeInput {
+  color: black;
+}
+
 .hidden {
   display: none;
 }

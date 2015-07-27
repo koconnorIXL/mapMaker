@@ -18,6 +18,11 @@ var DatasetController = React.createClass({
     this.updateSelected();
   },
 
+  handleSliderChange: function(e) {
+    e.preventDefault();
+    this.updateSelected();
+  },
+
   updateSelected: function() {
     var selectedDatasets = React.findDOMNode(this).querySelectorAll('.selected');
     var datasets = [];
@@ -56,7 +61,22 @@ var DatasetController = React.createClass({
         }
       }
 
-      datasets.push(new Dataset(datasetName, colorList, subOptionsList));
+      // For cities, there is a size slider whose value needs to be passed along. For all other datasets, this
+      // value will be null.
+      // TODO: this is currently dependent on the length of the datasetSubOptions.
+      var cityMinSize = null;
+      if (datasetName == 'Cities') {
+        var cityMinSizeInput = React.findDOMNode(this.refs[datasetName]).querySelector('.cityMinSizeFillIn');
+
+        if (cityMinSizeInput === null) {
+          // 'Cities' has just been newly selected, so we use the default minimum size.
+          cityMinSize = datasetOptions[datasetName].defaultMinSize;
+        } else {
+          cityMinSize = cityMinSizeInput.value;
+        }
+      }
+
+      datasets.push(new Dataset(datasetName, colorList, subOptionsList, cityMinSize));
     }
 
     this.props.updateDatasets(datasets);
@@ -74,6 +94,9 @@ var DatasetController = React.createClass({
 
         // Make the list of selectors for sub-options.
         var subOptionSelectors = [];
+
+        // This variable will hold the size slider for the 'Cities' dataset.
+        var citySlider;
 
         // Check if the 'datasets' list contains this option as the name of one of its objects.
         // If so, we will display color pickers and sub-options.
@@ -105,6 +128,19 @@ var DatasetController = React.createClass({
               {possibleSubOptions[i]}
             </div>);
           }
+
+          // For the 'cities' dataset, create a slider for the minimum size of city to display 
+          // (based on the city index from 0-10). 0 is the value for cities too small to appear on the scale.
+          // TODO: turn 0 into 11? or change this comment.
+          if (prop == 'Cities') {
+            citySlider = <form onSubmit={this.handleSliderChange}>
+              <div className="txt">Minimum size of city to display (0-10):</div>
+              <input className="cityMinSizeFillIn"
+                type="number"
+                defaultValue={propPassedIn[0].minSize} />
+              <input type="submit" />
+            </form>;
+          }
         }
 
         datasetFields.push(<div className={overallClassName} ref={prop}>
@@ -119,6 +155,7 @@ var DatasetController = React.createClass({
           <div className="datasetSubOptions">
             {subOptionSelectors}
           </div>
+          {citySlider}
           <hr />
         </div>);
       }

@@ -24,7 +24,8 @@ module.exports = {
     filename: 'cities.json',
     collectiveName: 'cities',
     individualName: 'city',
-    defaultColors: ['#ff0000'],
-    subOptions: ['North America', 'South America', 'Africa', 'Europe', 'Asia', 'Oceania', 'Antarctica']
+    defaultColors: ['#000000'],
+    subOptions: ['North America', 'South America', 'Africa', 'Europe', 'Asia', 'Oceania', 'Antarctica'],
+    defaultMinSize: 3
   }
 };

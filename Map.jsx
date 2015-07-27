@@ -137,7 +137,7 @@ var Map = React.createClass({
             var coords = projection(feature.geometry.coordinates);
             if (coords[0] === Infinity || coords[1] === Infinity) {
               // TODO: find a solution for this.
-              coords = [0, 0];
+              coords = [-10, -10];
             }
             return "translate(" + coords + ")";
           });
@@ -201,7 +201,13 @@ var Map = React.createClass({
         }
       }
 
+      // If this path is part of an unselected sub-option or if it is a city that is too small to
+      // display, we will hide it.
       if (dataset.subOptions.indexOf(subOptionForPath) == -1) {
+        return commonClassName + ' hidden';
+      }
+
+      if (dataset.name == 'Cities' && feature.properties.SCALERANK > dataset.minSize) {
         return commonClassName + ' hidden';
       }
     }
