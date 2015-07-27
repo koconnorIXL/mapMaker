@@ -1,3 +1,4 @@
+var React = require('react');
 var datasetOptions = require('./Datasets.jsx');
 var Dataset = require('./Dataset.js');
 
