@@ -22,9 +22,7 @@ exports.getProjection = function(props) {
   if (props.clipExtent) {
     proj.clipExtent(props.clipExtent);
   }
-  if (props.precision) {
-    proj.precision(props.precision);
-  }
+  proj.precision(5);
   if (props.parallels && proj.parallels) {
     proj.parallels(props.parallels);
   }

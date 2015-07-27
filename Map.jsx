@@ -1,4 +1,3 @@
-var $ = require('jquery');
 var d3 = require('d3');
 var topojson = require('topojson');
 var React = require('react');
@@ -68,9 +67,9 @@ var Map = React.createClass({
       .attr('width', mapSize)
       .attr('height', mapSize)
       .on('wheel', this.handleMouseWheel)
-      .on('mousedown', this.handleMouseDown)
-      .on('mouseup', this.handleMouseUp)
-      .on('mousemove', this.handleMouseMove)
+//      .on('mousedown', this.handleMouseDown)
+//      .on('mouseup', this.handleMouseUp)
+//      .on('mousemove', this.handleMouseMove)
       .attr('xmlns', "http://www.w3.org/2000/svg");
 
     // Create and add all dataset paths.
@@ -83,72 +82,73 @@ var Map = React.createClass({
       // Get the json for this dataset.
       var filename = datasetOptions[dataset.name].filename;
       var name = filename.substring(0, filename.length - 5);
-      var json = jsonGetter(filename);
 
-      // Get the color scheme, selected sub-options, and base class name for this dataset.
-      var datasetColors = dataset.colors;
-      var selectedSubOptions = dataset.subOptions;
-      var commonClassName = datasetOptions[dataset.name].individualName;
+      jsonGetter(filename, function(json) {
+        // Get the color scheme, selected sub-options, and base class name for this dataset.
+        var datasetColors = dataset.colors;
+        var selectedSubOptions = dataset.subOptions;
+        var commonClassName = datasetOptions[dataset.name].individualName;
 
-      // Create a path component for each feature in this dataset.
-      var node = d3.select(this);
-      node.selectAll("path")
-        .data(topojson.feature(json, json.objects[name]).features)
-        .enter().append("path")
-        .attr("d", function(feature) { return path(feature); })
-        .attr("class", function(feature) { 
-          return getClassName(feature, dataset, datasetOptions, commonClassName);
-        })
-        .attr("fill", function(feature) { 
-          var chosenColorIndex = feature.properties.mapcolor7;
-
-          switch (dataset.name) {
-            case 'Countries':
-              // The mapcolor7 property provided in the Countries dataset goes from 1 to 7, not 0 to 6.
-              chosenColorIndex = chosenColorIndex - 1;
-              break;
-            case 'Lakes':
-              // All lakes are the same color.
-              chosenColorIndex = 0;
-              break;
-          }
-          return datasetColors[chosenColorIndex]; 
-        })
-        .attr("stroke", function(feature) {
-          // For cities, the stroke determines the color, not the fill.
-          // TODO: this is getting overridden by style.css at the moment. is it really necessary?
-          if (dataset.name == 'Cities') {
-            return datasetColors[0];
-          }
-          return '#000000';
-        });
-
-        // If this is the cities dataset, then we also want to add city labels.
-        if (dataset.name == 'Cities') {
-          node.selectAll(".city_label")
+        // Create a path component for each feature in this dataset.
+        var node = d3.select('svg.map g.' + datasetOptions[dataset.name].collectiveName);
+        node.selectAll("path")
           .data(topojson.feature(json, json.objects[name]).features)
-          .enter().append("text")
+          .enter().append("path")
+          .attr("d", function(feature) { return path(feature); })
           .attr("class", function(feature) { 
             return getClassName(feature, dataset, datasetOptions, 'city_label');
           })
-          .attr("dy", ".35em")
-          .text(function(feature) { return feature.properties.NAME; })
-          .attr("transform", function(feature) {
-            var coords = projection(feature.geometry.coordinates);
-            if (coords[0] === Infinity || coords[1] === Infinity) {
-              // TODO: find a solution for this.
-              coords = [-10, -10];
-            }
-            return "translate(" + coords + ")";
-          });
-        }
+          .attr("fill", function(feature) { 
+            var chosenColorIndex = feature.properties.mapcolor7;
 
-        // Add exterior boundaries for the dataset.
-        node.append("path")
-          .datum(topojson.mesh(json, json.objects[name], function(a,b) { return a === b; }))
-          .attr("d", path)
-          .attr("fill", "transparent");
-    });
+            switch (dataset.name) {
+              case 'Countries':
+                // The mapcolor7 property provided in the Countries dataset goes from 1 to 7, not 0 to 6.
+                chosenColorIndex = chosenColorIndex - 1;
+                break;
+              case 'Lakes':
+                // All lakes are the same color.
+                chosenColorIndex = 0;
+                break;
+            }
+            return datasetColors[chosenColorIndex]; 
+          })
+          .attr("stroke", function(feature) {
+            // For cities, the stroke determines the color, not the fill.
+            // TODO: this is getting overridden by style.css at the moment. is it really necessary?
+            if (dataset.name == 'Cities') {
+              return datasetColors[0];
+            }
+            return '#000000';
+          });;
+
+          // If this is the cities dataset, then we also want to add city labels.
+          if (dataset.name == 'Cities') {
+            node.selectAll(".city_label")
+            .data(topojson.feature(json, json.objects[name]).features)
+            .enter().append("text")
+            .attr("class", function(feature) { 
+              return getClassName(feature, dataset, datasetOptions, 'city_label');
+            })
+            .attr("dy", ".35em")
+            .text(function(feature) { return feature.properties.NAME; })
+            .attr("transform", function(feature) {
+              var coords = projection(feature.geometry.coordinates);
+              if (coords[0] === Infinity || coords[1] === Infinity) {
+                // TODO: find a solution for this.
+                coords = [-10, -10];
+              }
+              return "translate(" + coords + ")";
+            });
+          }
+
+          // Add exterior boundaries for the dataset.
+          node.append("path")
+            .datum(topojson.mesh(json, json.objects[name], function(a,b) { return a === b; }))
+            .attr("d", path)
+            .attr("fill", "transparent");
+      }.bind(this));
+    }.bind(this));
 
     // Create and add all labels.
     var labelComponents = svg.selectAll("g")
@@ -251,14 +251,17 @@ var Map = React.createClass({
     }
   },
 
-  getTopojson: function(filename) {
+  getTopojson: function(filename, cb) {
     if (!cache[filename]) {
-      $.ajaxSetup({async: false});
-      var data = JSON.parse($.get('topojsonDatasets/' + filename).responseText);
-      $.ajaxSetup({async: true});
-      cache[filename] = data;
+      d3.json('topojsonDatasets/' + filename, function(err, parsedJSON) {
+        if (err) { console.log(err); }
+        cache[filename] = parsedJSON;
+        cb(parsedJSON);
+      });
     }
-    return cache[filename];
+    else {
+      cb(cache[filename]);
+    }
   }
 });
 
