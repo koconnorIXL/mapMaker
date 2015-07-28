@@ -215,7 +215,7 @@ var Map = React.createClass({
         (feature.properties.SCALERANK > dataset.filterInfo.minSize ||
         (dataset.filterInfo.stateCapitalsOnly && feature.properties.FEATURECLA !== 'Admin-1 capital') ||
         (dataset.name == 'Cities' && dataset.filterInfo.countryCapitalsOnly && feature.properties.FEATURECLA !== 'Admin-0 capital') ||
-        (dataset.filterInfo.USOnly && feature.properties.ADM0NAME !== "United States of America"))
+        (dataset.filterInfo.USOnly && feature.properties.ADM0NAME !== "United States of America")))
       {
         return commonClassName + ' hidden';
       }
