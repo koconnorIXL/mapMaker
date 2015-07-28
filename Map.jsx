@@ -112,14 +112,6 @@ var Map = React.createClass({
                 break;
             }
             return datasetColors[chosenColorIndex]; 
-          })
-          .attr("stroke", function(feature) {
-            // For cities, the stroke determines the color, not the fill.
-            // TODO: this is getting overridden by style.css at the moment. is it really necessary?
-            if (dataset.name == 'Cities') {
-              return datasetColors[0];
-            }
-            return '#000000';
           });
 
           // If this is the cities dataset, then we also want to add city labels.
@@ -135,7 +127,7 @@ var Map = React.createClass({
             .attr("transform", function(feature) {
               var coords = projection(feature.geometry.coordinates);
               if (coords[0] === Infinity || coords[1] === Infinity) {
-                // TODO: find a solution for this.
+                // TODO: find a better solution for this - right now, I'm just hiding it off-screen.
                 coords = [-10, -10];
               }
               return "translate(" + coords + ")";
@@ -218,24 +210,12 @@ var Map = React.createClass({
         return commonClassName + ' hidden';
       }
 
-      if (dataset.name == 'Cities' && feature.properties.SCALERANK > dataset.filterInfo.minSize) {
-        return commonClassName + ' hidden';
-      }
-
-      if (dataset.name == 'Cities' && dataset.filterInfo.stateCapitalsOnly && 
-        feature.properties.FEATURECLA !== 'Admin-1 capital') 
-      {
-        return commonClassName + ' hidden';
-      }
-
-      if (dataset.name == 'Cities' && dataset.filterInfo.countryCapitalsOnly && 
-        feature.properties.FEATURECLA !== 'Admin-0 capital') 
-      {
-        return commonClassName + ' hidden';
-      }
-
-      if (dataset.name == 'Cities' && dataset.filterInfo.USOnly && 
-        feature.properties.ADM0NAME !== "United States of America") 
+      // Cities have more filters than the other datasets.
+      if (dataset.name == 'Cities' &&
+        (feature.properties.SCALERANK > dataset.filterInfo.minSize ||
+        (dataset.filterInfo.stateCapitalsOnly && feature.properties.FEATURECLA !== 'Admin-1 capital') ||
+        (dataset.name == 'Cities' && dataset.filterInfo.countryCapitalsOnly && feature.properties.FEATURECLA !== 'Admin-0 capital') ||
+        (dataset.filterInfo.USOnly && feature.properties.ADM0NAME !== "United States of America"))
       {
         return commonClassName + ' hidden';
       }
