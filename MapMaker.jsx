@@ -4,6 +4,7 @@ var MapLabelManager = require('./MapLabelManager.jsx');
 var MapQuestionBankTag = require('./MapQuestionBankTag.jsx');
 var DatasetController = require('./DatasetController.jsx');
 var Map = require('./Map.jsx');
+var SubcontrollerContainer = require('./SubcontrollerContainer.jsx');
 var datasetOptions = require('./Datasets.jsx');
 var Dataset = require('./Dataset.js');
 
@@ -32,7 +33,8 @@ var MapMaker = React.createClass({
         new Dataset(
           'States/Provinces', 
           datasetOptions['States/Provinces'].defaultColors, 
-          ['United States of America'])]
+          ['United States of America'])],
+      showGridLines: true 
     };
   },
 
@@ -92,37 +94,40 @@ var MapMaker = React.createClass({
     
     return (
       <div>
-        <ProjectionController
+        <SubcontrollerContainer
           {...this.state}
+          type={ProjectionController}
+          title="Projection Options"
           maxScaleRatio={MAX_SCALE_RATIO}
           changeState={this.changeState}
         />
-        <MapLabelManager 
+        <SubcontrollerContainer
+          type={MapLabelManager}
+          title={"Labels"}
           labels={this.state.labels}
           addPointLabel={this.addPointLabel}
           addCityLabel={this.addCityLabel}
           removeLabel={this.removeLabel}
         />
-        <MapQuestionBankTag {...this.state} />
-        <DatasetController
+        <SubcontrollerContainer
+          {...this.state}
+          type={MapQuestionBankTag}
+          title={"Question Bank Text"}
+        />
+        <SubcontrollerContainer
+          type={DatasetController}
+          title="Map Data Options"
           datasets={this.state.datasets}
           updateDatasets={this.updateDatasets}
         />
         <Map 
-          projectionType={this.state.projectionType}
-          rotate={this.state.rotate}
+          {...this.state}
           translate={[this.state.width / 2, this.state.height / 2]}
-          center={this.state.center}
           scale={this.state.scaleRatio * Math.max(this.state.width, this.state.height)}
-          clipAngle={this.state.clipAngle}
           clipExtent={[[0, 0], [this.state.width, this.state.height]]}
-          precision={this.state.precision}
-          parallels={this.state.parallels}
-          labels={this.state.labels}
           zoomIn={this.zoomIn}
           zoomOut={this.zoomOut}
           dragRotate={this.dragRotate}
-          datasets={this.state.datasets}
         />
       </div>
     );

@@ -25,7 +25,8 @@ var ProjectionController = React.createClass({
       parallels: [
         parseInt(form.querySelectorAll('.parallels.' + c)[0].value, 10),
         parseInt(form.querySelectorAll('.parallels.' + c)[1].value, 10)
-      ]
+      ],
+      showGridLines: form.querySelector('.showGridLines').value === 'Yes'
     };
 
     if (newState.projectionType === 'orthographic') {
@@ -52,7 +53,7 @@ var ProjectionController = React.createClass({
 
   render: function() {
     return (
-      <form onSubmit={this.update}>
+      <form className="projectionController" onSubmit={this.update}>
         <div className='txt'>Projection Type: </div>
         <select className="projectionType n0" >
           <option>mercator</option>
@@ -115,6 +116,11 @@ var ProjectionController = React.createClass({
           <span>,</span>
           <input className='parallels fi n1' type='number' defaultValue={this.props.parallels[1]} />
         </div>
+        <div className='txt'>Show grid lines?</div>
+        <select className="showGridLines n0" >
+          <option selected={this.props.showGridLines}>Yes</option>
+          <option selected={!this.props.showGridLines}>No</option>
+        </select>
         <input type="submit" />
       </form>
     );

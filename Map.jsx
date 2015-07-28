@@ -150,6 +150,16 @@ var Map = React.createClass({
       }.bind(this));
     }.bind(this));
 
+    if (this.props.showGridLines) {
+      var graticuleGroup = svg.append('g').attr('class', 'graticuleGroup');
+
+      graticuleGroup
+        .append('path')
+        .datum(d3.geo.graticule())
+        .attr('class', 'graticule')
+        .attr('d', path);
+    }
+
     // Create and add all labels.
     var labelComponents = svg.selectAll("g")
       .data(this.props.labels)
