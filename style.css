@@ -3,10 +3,6 @@ svg {
   border: solid;
 }
 
-path {
-  stroke: black;
-}
-
 .controller {
   display: inline-block;
   padding-right: 25px;
@@ -70,7 +66,7 @@ path {
   color: green;
 }
 
-.filterInput {
+.notSelectable {
   color: black;
 }
 

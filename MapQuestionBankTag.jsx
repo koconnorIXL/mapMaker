@@ -30,9 +30,21 @@ var MapQuestionBankTag = React.createClass({
     }
 
     var datasets = this.props.datasets.map(function(dataset) {
-      return "  <Dataset name=\"" + dataset.name + 
+      var datasetString = "  <Dataset name=\"" + dataset.name + 
         "\" colors=[" + dataset.colors.join(', ') + 
-        "] subOptions=[" + dataset.subOptions.join(', ') + "] />\n";
+        "] subOptions=[" + dataset.subOptions.join(', ') + "]";
+
+      if (dataset.name == 'Cities') {
+        return datasetString + ">\n    <CitiesInfo minSize=\"" + dataset.filterInfo.minSize + 
+        "\" countryCapitalsOnly=\"" + dataset.filterInfo.countryCapitalsOnly +
+        "\" stateCapitalsOnly=\"" + dataset.filterInfo.stateCapitalsOnly +
+        "\" USOnly=\"" + dataset.filterInfo.USOnly +
+        "\" font=\"" + dataset.styleInfo.font + 
+        "\" fontSize=\"" + dataset.styleInfo.fontSize + 
+        "\" />\n  </Dataset>\n";
+      }
+
+      return datasetString + " />\n";
     });
 
     var labels = this.props.labels.map(function(label) {

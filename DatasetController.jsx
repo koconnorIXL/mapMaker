@@ -34,7 +34,7 @@ var DatasetController = React.createClass({
       // If there are no color pickers in the color pickers div, this dataset is newly selected,
       // so we will use the default colors for the dataset.
       var colorList = [];
-      var datasetColors = selectedChildren[1].children;
+      var datasetColors = selectedChildren[2].children;
       if (datasetColors.length < 1) {
         colorList = datasetOptions[datasetName].defaultColors;
       }
@@ -48,7 +48,7 @@ var DatasetController = React.createClass({
       // Get all the selected sub-options for the dataset.
       // If there are no sub-options listed, we will select all sub-options by default.
       var subOptionsList = [];
-      var datasetSubOptions = selectedChildren[2].children;
+      var datasetSubOptions = selectedChildren[3].children;
       if (datasetSubOptions.length < 1) {
         subOptionsList = datasetOptions[datasetName].subOptions;
       }
@@ -61,23 +61,32 @@ var DatasetController = React.createClass({
         }
       }
 
-      // For cities, there are filter selectors whose values need to be passed along. For all other datasets, these
+      // For cities, there are extra options whose values need to be passed along. For all other datasets, these
       // values will be irrelevant.
       var cityMinSize = null;
       var countryCapitalsOnly = false;
       var stateCapitalsOnly = false;
       var USOnly = false;
+      var font;
+      var fontSize;
       if (datasetName == 'Cities') {
         var cityMinSizeInput = React.findDOMNode(this.refs[datasetName]).querySelector('.cityMinSizeFillIn');
         var countryCapitalsOnlyInput = React.findDOMNode(this.refs[datasetName]).querySelector('.countryCapitalsOnly');
         var stateCapitalsOnlyInput = React.findDOMNode(this.refs[datasetName]).querySelector('.stateCapitalsOnly');
         var USOnlyInput = React.findDOMNode(this.refs[datasetName]).querySelector('.USOnly');
+        var fontInput = React.findDOMNode(this.refs[datasetName]).querySelector('.fontFillIn');
+        var fontSizeInput = React.findDOMNode(this.refs[datasetName]).querySelector('.fontSizeFillIn');
 
         if (cityMinSizeInput === null) {
           // 'Cities' has just been newly selected, so we use the default minimum size.
           cityMinSize = datasetOptions[datasetName].defaultMinSize;
+          font = datasetOptions[datasetName].defaultFont;
+          fontSize = datasetOptions[datasetName].defaultFontSize;
         } else {
+          // Get values from user input.
           cityMinSize = parseInt(cityMinSizeInput.value);
+          font = fontInput.value;
+          fontSize = fontSizeInput.value;
           countryCapitalsOnly = countryCapitalsOnlyInput.checked;
           stateCapitalsOnly = stateCapitalsOnlyInput.checked;
           USOnly = USOnlyInput.checked;
@@ -89,7 +98,8 @@ var DatasetController = React.createClass({
           datasetName, 
           colorList, 
           subOptionsList, 
-          {minSize: cityMinSize, countryCapitalsOnly: countryCapitalsOnly, stateCapitalsOnly: stateCapitalsOnly, USOnly: USOnly}));
+          {minSize: cityMinSize, countryCapitalsOnly: countryCapitalsOnly, stateCapitalsOnly: stateCapitalsOnly, USOnly: USOnly},
+          {font: font, fontSize: fontSize}));
     }
 
     this.props.updateDatasets(datasets);
@@ -109,7 +119,10 @@ var DatasetController = React.createClass({
         var subOptionSelectors = [];
 
         // This variable will hold the form for selecting filters for the cities to display.
-        var cityFilterInput;
+        var cityFilterInput = null;
+
+        // The instructions for picking colors for selected datasets.
+        var datasetColorsText = null;
 
         // Check if the 'datasets' list contains this option as the name of one of its objects.
         // If so, we will display color pickers and sub-options.
@@ -142,9 +155,11 @@ var DatasetController = React.createClass({
             </div>);
           }
 
+          datasetColorsText = "Pick color(s) to use when displaying the dataset:";
+
           // For the 'cities' dataset, we have multiple filters to reduce the number of cities displayed.
           if (prop == 'Cities') {
-            cityFilterInput = <form className="filterInput" onSubmit={this.handleFilterChange}>
+            cityFilterInput = <form className="notSelectable" onSubmit={this.handleFilterChange}>
               <div className="txt">Minimum population of city to display:</div>
               <input className="cityMinSizeFillIn" type="number" defaultValue={propPassedIn[0].filterInfo.minSize} />
               <br />
@@ -154,8 +169,16 @@ var DatasetController = React.createClass({
               <br />
               <input className="USOnly" type="checkbox">US cities only?</input>
               <br />
+              <div className="txt">Label font:</div>
+              <input className="fontFillIn" type="text" defaultValue={propPassedIn[0].styleInfo.font} />
+              <br />
+              <div className="txt">Font size:</div>
+              <input className="fontSizeFillIn" type="text" defaultValue={propPassedIn[0].styleInfo.fontSize} />
+              <br />
               <input type="submit" />
             </form>;
+
+            datasetColorsText = "Pick colors to use when displaying cities (general cities, state/region capitals, country capitals):"
           }
         }
 
@@ -164,6 +187,9 @@ var DatasetController = React.createClass({
             className="datasetName"
             onClick={this.handleClick}>
             {prop}
+          </div>
+          <div className="datasetColorsLabel notSelectable">
+            {datasetColorsText}
           </div>
           <div className="datasetColors">
             {colorPickers}

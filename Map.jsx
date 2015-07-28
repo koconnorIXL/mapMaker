@@ -54,6 +54,7 @@ var Map = React.createClass({
     var path = d3.geo.path().projection(projection);
     var jsonGetter = this.getTopojson;
     var getClassName = this.getClassName;
+    var getColorIndexForCity = this.getColorIndexForCity;
 
     this.mouseDown = false;
     var domNode = d3.select(this.getDOMNode());
@@ -110,8 +111,17 @@ var Map = React.createClass({
                 // All lakes are the same color.
                 chosenColorIndex = 0;
                 break;
+              case 'Cities':
+                chosenColorIndex = getColorIndexForCity(feature);
             }
             return datasetColors[chosenColorIndex]; 
+          })
+          .attr("stroke", function(feature) {
+            if (dataset.name == 'Cities') {
+              return datasetColors[getColorIndexForCity(feature)];
+            }
+            // For all other datasets, stroke is black.
+            return "#000000";
           });
 
           // If this is the cities dataset, then we also want to add city labels.
@@ -126,12 +136,17 @@ var Map = React.createClass({
             .text(function(feature) { return feature.properties.name; })
             .attr("transform", function(feature) {
               var coords = projection(feature.geometry.coordinates);
+              // The labels are overlapping the point markers a bit, so this is to fix that.
+              coords[0] = coords[0] + 5;
               if (coords[0] === Infinity || coords[1] === Infinity) {
                 // TODO: find a better solution for this - right now, I'm just hiding it off-screen.
                 coords = [-10, -10];
               }
               return "translate(" + coords + ")";
-            });
+            })
+            .attr("fill", function(feature) { return datasetColors[getColorIndexForCity(feature)]; })
+            .attr("font-family", dataset.styleInfo.font)
+            .attr("font-size", dataset.styleInfo.fontSize);
           }
 
           // Add exterior boundaries for the dataset.
@@ -218,6 +233,17 @@ var Map = React.createClass({
       }
     }
     return commonClassName; 
+  },
+
+  getColorIndexForCity: function(feature) {
+    // Capital cities can have a different color from regular cities.
+    var chosenColorIndex = 0;
+    if (feature.properties.feature_code == 'PPLA') {
+      chosenColorIndex = 1;
+    } else if (feature.properties.feature_code == 'PPLC') {
+      chosenColorIndex = 2;
+    }
+    return chosenColorIndex;
   },
 
   render: function() {
