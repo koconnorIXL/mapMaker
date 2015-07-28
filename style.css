@@ -85,7 +85,7 @@ path {
 
 .subcontrollerContainer .subcontroller {
   overflow: hidden;
-  transition: all 1000ms;
+  transition: all 500ms;
   max-height: 100%;
   margin: 10px;
 }
