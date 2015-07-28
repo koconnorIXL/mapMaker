@@ -4,6 +4,7 @@ var MapLabelManager = require('./MapLabelManager.jsx');
 var MapQuestionBankTag = require('./MapQuestionBankTag.jsx');
 var DatasetController = require('./DatasetController.jsx');
 var Map = require('./Map.jsx');
+var SubcontrollerContainer = require('./SubcontrollerContainer.jsx');
 var datasetOptions = require('./Datasets.jsx');
 var Dataset = require('./Dataset.js');
 
@@ -92,19 +93,29 @@ var MapMaker = React.createClass({
     
     return (
       <div>
-        <ProjectionController
+        <SubcontrollerContainer
           {...this.state}
+          type={ProjectionController}
+          title="Projection Options"
           maxScaleRatio={MAX_SCALE_RATIO}
           changeState={this.changeState}
         />
-        <MapLabelManager 
+        <SubcontrollerContainer
+          type={MapLabelManager}
+          title={"Labels"}
           labels={this.state.labels}
           addPointLabel={this.addPointLabel}
           addCityLabel={this.addCityLabel}
           removeLabel={this.removeLabel}
         />
-        <MapQuestionBankTag {...this.state} />
-        <DatasetController
+        <SubcontrollerContainer
+          {...this.state}
+          type={MapQuestionBankTag}
+          title={"Question Bank Text"}
+        />
+        <SubcontrollerContainer
+          type={DatasetController}
+          title="Map Data Options"
           datasets={this.state.datasets}
           updateDatasets={this.updateDatasets}
         />
