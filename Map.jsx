@@ -157,6 +157,16 @@ var Map = React.createClass({
             .attr("fill", "transparent");
       }.bind(this));
     }.bind(this));
+
+    if (this.props.showGridLines) {
+      var graticuleGroup = svg.append('g').attr('class', 'graticuleGroup');
+
+      graticuleGroup
+        .append('path')
+        .datum(d3.geo.graticule())
+        .attr('class', 'graticule')
+        .attr('d', path);
+    }
   },
 
   render: function() {

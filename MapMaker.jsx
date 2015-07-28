@@ -33,7 +33,8 @@ var MapMaker = React.createClass({
         new Dataset(
           'States/Provinces', 
           datasetOptions['States/Provinces'].defaultColors, 
-          ['United States of America'])]
+          ['United States of America'])],
+      showGridLines: true 
     };
   },
 
@@ -120,20 +121,13 @@ var MapMaker = React.createClass({
           updateDatasets={this.updateDatasets}
         />
         <Map 
-          projectionType={this.state.projectionType}
-          rotate={this.state.rotate}
+          {...this.state}
           translate={[this.state.width / 2, this.state.height / 2]}
-          center={this.state.center}
           scale={this.state.scaleRatio * Math.max(this.state.width, this.state.height)}
-          clipAngle={this.state.clipAngle}
           clipExtent={[[0, 0], [this.state.width, this.state.height]]}
-          precision={this.state.precision}
-          parallels={this.state.parallels}
-          labels={this.state.labels}
           zoomIn={this.zoomIn}
           zoomOut={this.zoomOut}
           dragRotate={this.dragRotate}
-          datasets={this.state.datasets}
         />
       </div>
     );
