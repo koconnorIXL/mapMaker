@@ -26,6 +26,6 @@ module.exports = {
     individualName: 'city',
     defaultColors: ['#000000'],
     subOptions: ['North America', 'South America', 'Africa', 'Europe', 'Asia', 'Oceania', 'Antarctica', 'Seven seas (open ocean)'],
-    defaultMinSize: 3
+    defaultMinSize: 1000000
   }
 };

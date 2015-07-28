@@ -123,7 +123,7 @@ var Map = React.createClass({
               return getClassName(feature, dataset, datasetOptions, 'city_label');
             })
             .attr("dy", ".35em")
-            .text(function(feature) { return feature.properties.NAME; })
+            .text(function(feature) { return feature.properties.name; })
             .attr("transform", function(feature) {
               var coords = projection(feature.geometry.coordinates);
               if (coords[0] === Infinity || coords[1] === Infinity) {
@@ -190,14 +190,11 @@ var Map = React.createClass({
         // dataset to map the country names to continents so that we can turn whole continents
         // of cities off and on. We therefore need to find the entry in the Countries dataset that
         // matches the country name for this city.
-        var countryName = feature.properties.ADM0NAME;
+        var countryCode = feature.properties.country_code;
         this.getTopojson('countries.json', function(json) {
           var countryDataset = json.objects.countries.geometries;
           for (var i = 0; i < countryDataset.length; i++) {
-            if (countryDataset[i].properties.name === countryName || 
-              countryDataset[i].properties.name_long === countryName ||
-              countryDataset[i].properties.subunit === countryName) 
-            {
+            if (countryDataset[i].properties.iso_a2 === countryCode) {
               subOptionForPath = countryDataset[i].properties.continent;
             }
           }
@@ -212,10 +209,10 @@ var Map = React.createClass({
 
       // Cities have more filters than the other datasets.
       if (dataset.name == 'Cities' &&
-        (feature.properties.SCALERANK > dataset.filterInfo.minSize ||
-        (dataset.filterInfo.stateCapitalsOnly && feature.properties.FEATURECLA !== 'Admin-1 capital') ||
-        (dataset.name == 'Cities' && dataset.filterInfo.countryCapitalsOnly && feature.properties.FEATURECLA !== 'Admin-0 capital') ||
-        (dataset.filterInfo.USOnly && feature.properties.ADM0NAME !== "United States of America")))
+        (feature.properties.population < dataset.filterInfo.minSize ||
+        (dataset.filterInfo.stateCapitalsOnly && feature.properties.feature_code !== 'PPLA') ||
+        (dataset.name == 'Cities' && dataset.filterInfo.countryCapitalsOnly && feature.properties.feature_code !== 'PPLC') ||
+        (dataset.filterInfo.USOnly && feature.properties.country_code !== "US")))
       {
         return commonClassName + ' hidden';
       }

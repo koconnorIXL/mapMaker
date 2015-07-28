@@ -77,7 +77,7 @@ var DatasetController = React.createClass({
           // 'Cities' has just been newly selected, so we use the default minimum size.
           cityMinSize = datasetOptions[datasetName].defaultMinSize;
         } else {
-          cityMinSize = cityMinSizeInput.value;
+          cityMinSize = parseInt(cityMinSizeInput.value);
           countryCapitalsOnly = countryCapitalsOnlyInput.checked;
           stateCapitalsOnly = stateCapitalsOnlyInput.checked;
           USOnly = USOnlyInput.checked;
@@ -145,7 +145,7 @@ var DatasetController = React.createClass({
           // For the 'cities' dataset, we have multiple filters to reduce the number of cities displayed.
           if (prop == 'Cities') {
             cityFilterInput = <form className="filterInput" onSubmit={this.handleFilterChange}>
-              <div className="txt">Minimum size of city to display (0-10):</div>
+              <div className="txt">Minimum population of city to display:</div>
               <input className="cityMinSizeFillIn" type="number" defaultValue={propPassedIn[0].filterInfo.minSize} />
               <br />
               <input className="countryCapitalsOnly" type="checkbox">Country capitals only?</input>
