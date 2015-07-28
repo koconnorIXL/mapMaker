@@ -4,7 +4,7 @@ module.exports = {
     collectiveName: 'countries',
     individualName: 'country',
     defaultColors: ['#759B18', '#528220', '#94B240', '#376626', '#669955', '#669900', '#75A319'],
-    subOptions: ['North America', 'South America', 'Africa', 'Europe', 'Asia', 'Oceania', 'Antarctica']
+    subOptions: ['North America', 'South America', 'Africa', 'Europe', 'Asia', 'Oceania', 'Antarctica', 'Seven seas (open ocean)']
   },
   'States/Provinces': {
     filename: 'admin1.json',
@@ -25,7 +25,7 @@ module.exports = {
     collectiveName: 'cities',
     individualName: 'city',
     defaultColors: ['#000000'],
-    subOptions: ['North America', 'South America', 'Africa', 'Europe', 'Asia', 'Oceania', 'Antarctica'],
+    subOptions: ['North America', 'South America', 'Africa', 'Europe', 'Asia', 'Oceania', 'Antarctica', 'Seven seas (open ocean)'],
     defaultMinSize: 3
   }
 };

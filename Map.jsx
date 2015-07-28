@@ -96,7 +96,7 @@ var Map = React.createClass({
           .enter().append("path")
           .attr("d", function(feature) { return path(feature); })
           .attr("class", function(feature) { 
-            return getClassName(feature, dataset, datasetOptions, 'city_label');
+            return getClassName(feature, dataset, datasetOptions, commonClassName);
           })
           .attr("fill", function(feature) { 
             var chosenColorIndex = feature.properties.mapcolor7;
@@ -120,7 +120,7 @@ var Map = React.createClass({
               return datasetColors[0];
             }
             return '#000000';
-          });;
+          });
 
           // If this is the cities dataset, then we also want to add city labels.
           if (dataset.name == 'Cities') {
@@ -189,16 +189,17 @@ var Map = React.createClass({
         // of cities off and on. We therefore need to find the entry in the Countries dataset that
         // matches the country name for this city.
         var countryName = feature.properties.ADM0NAME;
-        var countryDataset = this.getTopojson('countries.json').objects.countries.geometries;
-        for (var i = 0; i < countryDataset.length; i++) {
-          if (countryDataset[i].properties.name === countryName || 
-            countryDataset[i].properties.name_long === countryName ||
-            countryDataset[i].properties.subunit === countryName) 
-          {
-            subOptionForPath = countryDataset[i].properties.continent;
-            break;
+        this.getTopojson('countries.json', function(json) {
+          var countryDataset = json.objects.countries.geometries;
+          for (var i = 0; i < countryDataset.length; i++) {
+            if (countryDataset[i].properties.name === countryName || 
+              countryDataset[i].properties.name_long === countryName ||
+              countryDataset[i].properties.subunit === countryName) 
+            {
+              subOptionForPath = countryDataset[i].properties.continent;
+            }
           }
-        }
+        });
       }
 
       // If this path is part of an unselected sub-option or if it is a city that is too small to
@@ -207,7 +208,25 @@ var Map = React.createClass({
         return commonClassName + ' hidden';
       }
 
-      if (dataset.name == 'Cities' && feature.properties.SCALERANK > dataset.minSize) {
+      if (dataset.name == 'Cities' && feature.properties.SCALERANK > dataset.filterInfo.minSize) {
+        return commonClassName + ' hidden';
+      }
+
+      if (dataset.name == 'Cities' && dataset.filterInfo.stateCapitalsOnly && 
+        feature.properties.FEATURECLA !== 'Admin-1 capital') 
+      {
+        return commonClassName + ' hidden';
+      }
+
+      if (dataset.name == 'Cities' && dataset.filterInfo.countryCapitalsOnly && 
+        feature.properties.FEATURECLA !== 'Admin-0 capital') 
+      {
+        return commonClassName + ' hidden';
+      }
+
+      if (dataset.name == 'Cities' && dataset.filterInfo.USOnly && 
+        feature.properties.ADM0NAME !== "United States of America") 
+      {
         return commonClassName + ' hidden';
       }
     }

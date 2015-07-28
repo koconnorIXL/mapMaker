@@ -18,7 +18,7 @@ var DatasetController = React.createClass({
     this.updateSelected();
   },
 
-  handleSliderChange: function(e) {
+  handleFilterChange: function(e) {
     e.preventDefault();
     this.updateSelected();
   },
@@ -61,22 +61,35 @@ var DatasetController = React.createClass({
         }
       }
 
-      // For cities, there is a size slider whose value needs to be passed along. For all other datasets, this
-      // value will be null.
-      // TODO: this is currently dependent on the length of the datasetSubOptions.
+      // For cities, there are filter selectors whose values need to be passed along. For all other datasets, these
+      // values will be irrelevant.
       var cityMinSize = null;
+      var countryCapitalsOnly = false;
+      var stateCapitalsOnly = false;
+      var USOnly = false;
       if (datasetName == 'Cities') {
         var cityMinSizeInput = React.findDOMNode(this.refs[datasetName]).querySelector('.cityMinSizeFillIn');
+        var countryCapitalsOnlyInput = React.findDOMNode(this.refs[datasetName]).querySelector('.countryCapitalsOnly');
+        var stateCapitalsOnlyInput = React.findDOMNode(this.refs[datasetName]).querySelector('.stateCapitalsOnly');
+        var USOnlyInput = React.findDOMNode(this.refs[datasetName]).querySelector('.USOnly');
 
         if (cityMinSizeInput === null) {
           // 'Cities' has just been newly selected, so we use the default minimum size.
           cityMinSize = datasetOptions[datasetName].defaultMinSize;
         } else {
           cityMinSize = cityMinSizeInput.value;
+          countryCapitalsOnly = countryCapitalsOnlyInput.checked;
+          stateCapitalsOnly = stateCapitalsOnlyInput.checked;
+          USOnly = USOnlyInput.checked;
         }
       }
 
-      datasets.push(new Dataset(datasetName, colorList, subOptionsList, cityMinSize));
+      datasets.push(
+        new Dataset(
+          datasetName, 
+          colorList, 
+          subOptionsList, 
+          {minSize: cityMinSize, countryCapitalsOnly: countryCapitalsOnly, stateCapitalsOnly: stateCapitalsOnly, USOnly: USOnly}));
     }
 
     this.props.updateDatasets(datasets);
@@ -95,8 +108,8 @@ var DatasetController = React.createClass({
         // Make the list of selectors for sub-options.
         var subOptionSelectors = [];
 
-        // This variable will hold the size slider for the 'Cities' dataset.
-        var citySlider;
+        // This variable will hold the form for selecting filters for the cities to display.
+        var cityFilterInput;
 
         // Check if the 'datasets' list contains this option as the name of one of its objects.
         // If so, we will display color pickers and sub-options.
@@ -129,15 +142,18 @@ var DatasetController = React.createClass({
             </div>);
           }
 
-          // For the 'cities' dataset, create a slider for the minimum size of city to display 
-          // (based on the city index from 0-10). 0 is the value for cities too small to appear on the scale.
-          // TODO: turn 0 into 11? or change this comment.
+          // For the 'cities' dataset, we have multiple filters to reduce the number of cities displayed.
           if (prop == 'Cities') {
-            citySlider = <form onSubmit={this.handleSliderChange}>
+            cityFilterInput = <form className="filterInput" onSubmit={this.handleFilterChange}>
               <div className="txt">Minimum size of city to display (0-10):</div>
-              <input className="cityMinSizeFillIn"
-                type="number"
-                defaultValue={propPassedIn[0].minSize} />
+              <input className="cityMinSizeFillIn" type="number" defaultValue={propPassedIn[0].filterInfo.minSize} />
+              <br />
+              <input className="countryCapitalsOnly" type="checkbox">Country capitals only?</input>
+              <br />
+              <input className="stateCapitalsOnly" type="checkbox">State capitals only?</input>
+              <br />
+              <input className="USOnly" type="checkbox">US cities only?</input>
+              <br />
               <input type="submit" />
             </form>;
           }
@@ -155,7 +171,7 @@ var DatasetController = React.createClass({
           <div className="datasetSubOptions">
             {subOptionSelectors}
           </div>
-          {citySlider}
+          {cityFilterInput}
           <hr />
         </div>);
       }
