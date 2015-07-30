@@ -55,6 +55,8 @@ var Map = React.createClass({
     var jsonGetter = this.getTopojson;
     var getClassName = this.getClassName;
     var getColorIndexForCity = this.getColorIndexForCity;
+    var width = this.props.width;
+    var height = this.props.height;
 
     this.mouseDown = false;
     var domNode = d3.select(this.getDOMNode());
@@ -65,8 +67,8 @@ var Map = React.createClass({
     // Create the new one.
     var svg = domNode.append('svg')
       .attr('class', 'map')
-      .attr('width', mapSize)
-      .attr('height', mapSize)
+      .attr('width', width)
+      .attr('height', height)
       .on('wheel', this.handleMouseWheel)
 //      .on('mousedown', this.handleMouseDown)
 //      .on('mouseup', this.handleMouseUp)
@@ -126,34 +128,83 @@ var Map = React.createClass({
 
           // If this is the cities dataset, then we also want to add city labels.
           if (dataset.name == 'Cities') {
-            node.selectAll(".city_label")
-            .data(topojson.feature(json, json.objects[name]).features)
-            .enter().append("text")
-            .attr("class", function(feature) { 
-              return getClassName(feature, dataset, datasetOptions, 'city_label');
-            })
-            .attr("dy", ".35em")
-            .text(function(feature) { return feature.properties.name; })
-            .attr("transform", function(feature) {
-              var coords = projection(feature.geometry.coordinates);
-              // The labels are overlapping the point markers a bit, so this is to fix that.
-              coords[0] = coords[0] + 5;
-              if (coords[0] === Infinity || coords[1] === Infinity) {
-                // TODO: find a better solution for this - right now, I'm just hiding it off-screen.
-                coords = [-10, -10];
-              }
-              return "translate(" + coords + ")";
-            })
-            .attr("fill", function(feature) { return datasetColors[getColorIndexForCity(feature)]; })
-            .attr("font-family", dataset.styleInfo.font)
-            .attr("font-size", dataset.styleInfo.fontSize);
-          }
+            var labelAnchors = [];
+            var labelAnchorLinks = [];
 
-          // Add exterior boundaries for the dataset.
-          node.append("path")
-            .datum(topojson.mesh(json, json.objects[name], function(a,b) { return a === b; }))
-            .attr("d", path)
-            .attr("fill", "transparent");
+            // Add a label and reference point for each city that's displayed.
+            d3.selectAll("." + datasetOptions[dataset.name].individualName + ":not(.hidden)").each(function(feature) {
+              // Only include cities that are currently within the bounding box.
+              var coords = projection(feature.geometry.coordinates);
+              if (0 < coords[0] && coords[0] < width && 0 < coords[1] && coords[1] < height) {
+                labelAnchors.push({
+                  feature: feature,
+                  x: coords[0],
+                  y: coords[1],
+                  fixed: true
+                });
+                labelAnchors.push({
+                  feature: feature
+                });
+              }
+            });
+
+            // Link labels to their reference points.
+            for (var i = 0; i < labelAnchors.length/2; i++) {
+              labelAnchorLinks.push({
+                source : i * 2,
+                target : i * 2 + 1,
+                weight : 1
+              });
+            }
+
+            // Run the force.
+            var force = d3.layout.force()
+              .nodes(labelAnchors)
+              .links(labelAnchorLinks)
+              .gravity(0)
+              .linkDistance(0)
+              .linkStrength(8)
+              .charge(-400)
+              .chargeDistance(85)
+              .friction(0.95)
+              .size([width, height]);
+            force.start();
+
+            // Make the labels.
+            var labelHolders = svg.selectAll(".city_label_holder")
+              .data(force.nodes())
+              .enter().append("g")
+              .attr("class", "city_label_holder");
+
+            labelHolders.append("text")
+              .attr("class", 'city_label')
+              .text(function(node, i) { return i % 2 == 0 ? "" : node.feature.properties.name; }) // Don't put text in for the reference nodes.
+              .attr("fill", function(node) { return datasetColors[getColorIndexForCity(node.feature)]; })
+              .attr("font-family", dataset.styleInfo.font)
+              .attr("font-size", dataset.styleInfo.fontSize);
+
+            force.on("tick", function() {
+              labelHolders.each(function(d, i) {
+                if(i % 2 == 1) {
+                  d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
+
+                  // Center the text horizontally around its reference point
+                  var b = this.childNodes[0].getBBox();
+                  var coords = projection(d.feature.geometry.coordinates);
+                  var diffX = d.x - coords[0];
+                  var shiftY = d.y < coords[1] ? -5 : 5;
+                  this.childNodes[0].setAttribute("transform", "translate(" + -0.5*b.width + "," + shiftY + ")");
+                }
+              });
+            });
+          }
+          else {
+            // Add exterior boundaries for the dataset.
+            node.append("path")
+              .datum(topojson.mesh(json, json.objects[name], function(a,b) { return a === b; }))
+              .attr("d", path)
+              .attr("fill", "transparent");
+          }
       }.bind(this));
     }.bind(this));
 
