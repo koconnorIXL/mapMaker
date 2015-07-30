@@ -187,13 +187,6 @@ var Map = React.createClass({
               labelHolders.each(function(d, i) {
                 if(i % 2 == 1) {
                   d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
-
-                  // Center the text horizontally around its reference point
-                  var b = this.childNodes[0].getBBox();
-                  var coords = projection(d.feature.geometry.coordinates);
-                  var diffX = d.x - coords[0];
-                  var shiftY = d.y < coords[1] ? -5 : 5;
-                  this.childNodes[0].setAttribute("transform", "translate(" + -0.5*b.width + "," + shiftY + ")");
                 }
               });
             });
