@@ -77,9 +77,18 @@ var MapMaker = React.createClass({
 
   addCityLabel: function(cityName) {
     this.state.labels.push({
-      type: 'city',
+      type: 'city-show',
       name: cityName 
     });
+    this.setState({ labels: this.state.labels });
+  },
+
+  hideCityLabel: function(cityName) {
+    this.state.labels.push({
+      type: 'city-hide',
+      name: cityName 
+    });
+    this.setState({ labels: this.state.labels });
   },
 
   removeLabel: function(index) {
@@ -108,6 +117,7 @@ var MapMaker = React.createClass({
           addPointLabel={this.addPointLabel}
           addCityLabel={this.addCityLabel}
           removeLabel={this.removeLabel}
+          hideCityLabel={this.hideCityLabel}
         />
         <SubcontrollerContainer
           {...this.state}

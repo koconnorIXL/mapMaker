@@ -12,7 +12,14 @@ var MapLabelManager = React.createClass({
     var longitude = row.querySelector('.coordinates .longitude').value;
     var latitude = row.querySelector('.coordinates .latitude').value;
     var labelText = row.querySelector('.labelText input').value;
-    this.props.addPointLabel(longitude, latitude, labelText);
+
+    if (type === 'Point') {
+      this.props.addPointLabel(longitude, latitude, labelText);
+    } else if (type === 'City (Show)') {
+      this.props.addCityLabel(labelText);
+    } else { // City (Hide)
+      this.props.hideCityLabel(labelText);
+    }
   },
 
   removeLabel: function(e) {
@@ -32,12 +39,12 @@ var MapLabelManager = React.createClass({
           </div>
         );
       }
-      else if (label.type === 'city') {
+      else if (label.type === 'city-show' || label.type === 'city-hide') {
         return (
           <div className='labelRow' key={counter++}>
             <div className='labelCell delete' onClick={this.removeLabel}>X</div>
             <div className='labelCell type'>{label.type}</div>
-            <div className='labelCell coordiantes'></div>
+            <div className='labelCell coordinates'></div>
             <div className='labelCell labelText'>{label.name}</div>
           </div>
         );
@@ -65,7 +72,8 @@ var MapLabelManager = React.createClass({
             <div className="labelCell type">
               <select>
                 <option>Point</option>
-                <option>City</option>
+                <option>City (Show)</option>
+                <option>City (Hide)</option>
               </select>
             </div>
             <div className="labelCell coordinates">

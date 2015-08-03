@@ -52,8 +52,8 @@ var MapQuestionBankTag = React.createClass({
         return '  <Label type=\"point\" coordinates=\"' + pointFromArray(label.coordinates) +
           '\" labelText=\"' + label.labelText + '\" />\n';
       }
-      else if (label.type === 'city') {
-        return '  <Label type=\"city\" name=\"' + label.name + '\" />\n';
+      else if (label.type === 'city-show' || label.type === 'city-hide') {
+        return '  <Label type=\"' + label.type + '\" name=\"' + label.name + '\" />\n';
       }
       else {
         return '';

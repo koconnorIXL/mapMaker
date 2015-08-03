@@ -212,8 +212,8 @@ var Map = React.createClass({
     }
 
     // Create and add all labels.
-    var labelComponents = svg.selectAll("g")
-      .data(this.props.labels)
+    var labelComponents = svg.selectAll("g.mapLabel")
+      .data(this.props.labels.filter(function(element) { return element.type === 'point'; }))
       .enter().append("g")
         .attr("class", "mapLabel")
         .attr("key", function(d, i) { return i; });
@@ -232,6 +232,33 @@ var Map = React.createClass({
   },
 
   getClassName: function(feature, dataset, datasetOptions, commonClassName) {
+
+    if (dataset.name == 'Cities') {
+      // If this city has been specifically specified as a label to include, don't run it through any other
+      // filters.
+      if (this.props.labels.filter(function(element) {
+        return element.type === 'city-show' && element.name === feature.properties.name; 
+      }).length > 0) {
+        return commonClassName;
+      }
+
+      // Similarly, if it's been specifically specified as a city to hide, hide it.
+      if (this.props.labels.filter(function(element) {
+        return element.type === 'city-hide' && element.name === feature.properties.name; 
+      }).length > 0) {
+        return commonClassName + " hidden";
+      }
+
+      // Cities have more filters than the other datasets.
+      if (feature.properties.population < dataset.filterInfo.minSize ||
+        (dataset.filterInfo.stateCapitalsOnly && feature.properties.feature_code !== 'PPLA') ||
+        (dataset.name == 'Cities' && dataset.filterInfo.countryCapitalsOnly && feature.properties.feature_code !== 'PPLC') ||
+        (dataset.filterInfo.USOnly && feature.properties.country_code !== "US"))
+      {
+        return commonClassName + ' hidden';
+      }
+    }
+
     // If this feature is part of an unselected sub-option for its dataset, we do not want to
     // display a path for it, so we will add a 'hidden' to its class name list. 
     // Note that not all datasets have sub-options, so this only applies when there are
@@ -263,16 +290,6 @@ var Map = React.createClass({
       // If this path is part of an unselected sub-option or if it is a city that is too small to
       // display, we will hide it.
       if (dataset.subOptions.indexOf(subOptionForPath) == -1) {
-        return commonClassName + ' hidden';
-      }
-
-      // Cities have more filters than the other datasets.
-      if (dataset.name == 'Cities' &&
-        (feature.properties.population < dataset.filterInfo.minSize ||
-        (dataset.filterInfo.stateCapitalsOnly && feature.properties.feature_code !== 'PPLA') ||
-        (dataset.name == 'Cities' && dataset.filterInfo.countryCapitalsOnly && feature.properties.feature_code !== 'PPLC') ||
-        (dataset.filterInfo.USOnly && feature.properties.country_code !== "US")))
-      {
         return commonClassName + ' hidden';
       }
     }

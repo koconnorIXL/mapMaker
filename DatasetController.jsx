@@ -175,6 +175,7 @@ var DatasetController = React.createClass({
               <div className="txt">Font size:</div>
               <input className="fontSizeFillIn" type="text" defaultValue={propPassedIn[0].styleInfo.fontSize} />
               <br />
+              <div className="txt">To hide/show specific cities, go to the 'Labels' section.</div>
               <input type="submit" />
             </form>;
 
