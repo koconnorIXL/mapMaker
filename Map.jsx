@@ -102,6 +102,13 @@ var Map = React.createClass({
             return getClassName(feature, dataset, datasetOptions, commonClassName);
           })
           .attr("fill", function(feature) { 
+            // If there's a specific color specified for this feature, use that one.
+            var pathColors = dataset.pathColors.filter(function(element) { return element.name === feature.properties.name; });
+            if (pathColors.length > 0) {
+              return pathColors[0].color;
+            }
+
+            // Otherwise, use the appropriate overall dataset colors.
             var chosenColorIndex = feature.properties.mapcolor7;
 
             switch (dataset.name) {

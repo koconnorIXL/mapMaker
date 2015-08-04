@@ -29,11 +29,13 @@ var MapMaker = React.createClass({
         new Dataset(
           'Countries', 
           datasetOptions['Countries'].defaultColors, 
-          datasetOptions['Countries'].subOptions),
+          datasetOptions['Countries'].subOptions,
+          []),
         new Dataset(
           'States/Provinces', 
           datasetOptions['States/Provinces'].defaultColors, 
-          ['United States of America'])],
+          ['United States of America'],
+          [])],
       showGridLines: true 
     };
   },

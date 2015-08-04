@@ -1,6 +1,7 @@
 var React = require('react');
 var datasetOptions = require('./Datasets.jsx');
 var Dataset = require('./Dataset.js');
+var PathColorManager = require('./PathColorManager.jsx');
 
 var DatasetController = React.createClass({
   handleClick: function(e) {
@@ -23,7 +24,11 @@ var DatasetController = React.createClass({
     this.updateSelected();
   },
 
-  updateSelected: function() {
+  updatePathColor: function(pathColorObject) {
+    this.updateSelected(pathColorObject);
+  },
+
+  updateSelected: function(pathColorObject) {
     var selectedDatasets = React.findDOMNode(this).querySelectorAll('.selected');
     var datasets = [];
     for (var i = 0; i < selectedDatasets.length; i++) {
@@ -58,6 +63,27 @@ var DatasetController = React.createClass({
           React.findDOMNode(this.refs[datasetName]).querySelectorAll('.selectedSubOption');
         for (var j = 0; j < selectedSubOptionComponents.length; j++) {
           subOptionsList.push(selectedSubOptionComponents[j].innerText);
+        }
+      }
+
+      // Get the list of paths for which different colors have been specified.
+      var pathColors = [];
+      var propPassedIn = this.props.datasets.filter(function(obj) { return obj.name == datasetName; });
+      if (propPassedIn.length > 0) {
+        pathColors = propPassedIn[0].pathColors;
+      }
+      // If this.state contains a change to be made to this pathColors list, make that change.
+      if (pathColorObject !== undefined && 
+        pathColorObject.datasetName === datasetName) {
+        switch(pathColorObject.action) {
+          case "remove":
+            pathColors.splice(pathColorObject.index, 1);
+            break;
+          case "add":
+            pathColors.push({name: pathColorObject.name, color: pathColorObject.color});
+            break;
+          case "change":
+            pathColors[pathColorObject.index].color = pathColorObject.color;
         }
       }
 
@@ -98,6 +124,7 @@ var DatasetController = React.createClass({
           datasetName, 
           colorList, 
           subOptionsList, 
+          pathColors,
           {minSize: cityMinSize, countryCapitalsOnly: countryCapitalsOnly, stateCapitalsOnly: stateCapitalsOnly, USOnly: USOnly},
           {font: font, fontSize: fontSize}));
     }
@@ -123,6 +150,9 @@ var DatasetController = React.createClass({
 
         // The instructions for picking colors for selected datasets.
         var datasetColorsText = null;
+
+        // The mechanism for picking specific colors for specific paths.
+        var pathColorManager = null;
 
         // Check if the 'datasets' list contains this option as the name of one of its objects.
         // If so, we will display color pickers and sub-options.
@@ -154,6 +184,13 @@ var DatasetController = React.createClass({
               {possibleSubOptions[i]}
             </div>);
           }
+
+          // Make the path color manager.
+          pathColorManager = <PathColorManager 
+            updatePathColor={this.updatePathColor} 
+            datasetName={prop}
+            paths={propPassedIn[0].pathColors}
+          />;
 
           datasetColorsText = "Pick color(s) to use when displaying the dataset:";
 
@@ -197,6 +234,9 @@ var DatasetController = React.createClass({
           </div>
           <div className="datasetSubOptions">
             {subOptionSelectors}
+          </div>
+          <div className="datasetPathColors">
+            {pathColorManager}
           </div>
           {cityFilterInput}
           <hr />

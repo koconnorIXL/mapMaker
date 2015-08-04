@@ -21,16 +21,16 @@ svg {
   vertical-align: top;
 }
 
-.labelTable {
+.labelTable,.pathTable {
   display: table;
   border-collapse: collapse;
 }
 
-.labelRow {
+.labelRow,.pathRow {
   display: table-row;
 }
 
-.labelCell {
+.labelCell,.pathCell {
   display: table-cell;
   padding-left: 20px;
   padding-right: 20px;
