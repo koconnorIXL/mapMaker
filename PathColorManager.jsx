@@ -29,7 +29,7 @@ var PathColorManager = React.createClass({
   },
 
   fillOptions: function(options) {
-    React.findDOMNode(this.refs.nameSelect).innerHTML = {options};
+    React.findDOMNode(this.refs.nameSelect).innerHTML = options;
   },
 
   componentDidMount: function() {
