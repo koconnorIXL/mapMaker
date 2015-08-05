@@ -171,7 +171,9 @@ var Map = React.createClass({
               .gravity(0)
               .linkDistance(0)
               .linkStrength(8)
-              .charge(-400)
+              .charge(function(node) {
+                return -10 * node.feature.properties.name.length * node.feature.properties.name.length; 
+              })
               .chargeDistance(85)
               .friction(0.95)
               .size([width, height]);

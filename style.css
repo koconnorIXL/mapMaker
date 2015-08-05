@@ -94,7 +94,7 @@ svg {
 .subcontrollerContainer .subcontroller {
   overflow: hidden;
   transition: all 500ms;
-  max-height: 1000px;
+  max-height: 2000px;
   margin: 10px;
 }
 
