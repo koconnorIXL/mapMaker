@@ -74,6 +74,11 @@ svg {
   display: none;
 }
 
+.datasetOutline {
+  fill: transparent;
+  stroke: black;
+}
+
 .subcontrollerContainer {
   position: relative;
   border: solid brown;
