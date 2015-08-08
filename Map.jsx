@@ -205,7 +205,7 @@ var Map = React.createClass({
             node.append("path")
               .datum(topojson.mesh(json, json.objects[name], function(a,b) { return a === b; }))
               .attr("d", path)
-              .attr("fill", "transparent");
+              .attr("class", "datasetOutline");
           }
       }.bind(this));
     }.bind(this));
