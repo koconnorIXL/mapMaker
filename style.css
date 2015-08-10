@@ -107,3 +107,7 @@ svg {
   max-height: 0;
 }
 
+.graticule {
+  stroke: black;
+}
+
