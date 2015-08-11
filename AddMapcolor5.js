@@ -4,7 +4,8 @@ var MapColoring = require('./MapColoring.js');
 
 var datasetsToModify = [
   'countries.json',
-  'admin1.json'
+  'admin1.json',
+  'usa.json'
 ];
 
 datasetsToModify.forEach(function(filename) {
