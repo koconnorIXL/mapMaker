@@ -86,6 +86,7 @@ Vertex.prototype.names = function(geometryCollection) {
   }.bind(this));
 }
 
+/** Utility method for debugging. */
 function listNeighbors(geometryCollection, v) {
   console.log('Vertex: ' + v.names(geometryCollection));
   var names = [];
@@ -199,31 +200,18 @@ exports.fastFiveColoring = function(geometryCollection) {
   
       V1.color = V12.color;
       V2.color = V12.color;
-      //console.log('coloring(s5) ' + V.names(geometryCollection));
-      //listNeighbors(geometryCollection, V);
       addColorDifferentFromNeighbors(V);
-      //console.log(V.color);
     }
   
     // add and color all the nodes that were removed from the graph for having degree <= 4
     while (S4.length > 0) {
       var v = S4.pop();
       addToGraph(vertices, v);
-      //console.log('coloring(s4) ' + v.names(geometryCollection));
-      //listNeighbors(geometryCollection, v);
       addColorDifferentFromNeighbors(v);
-      //console.log(v.color);
     }
   }
   var neighborLists = topojson.neighbors(geometryCollection);
 
-//  neighborLists.forEach(function(neighborList, index) {
-//    var props = geometryCollection[index].properties;
-//    console.log('name: ' + props.name);
-//    console.log('neighbors:');
-//    console.log(neighborList.map(function(i) { return geometryCollection[i].properties.name; }));
-//  });
-  
   // Convert neighborLists into a format which the coloring5 method is expecting
   vertices = neighborLists.map(function(neighbors, index) { return new Vertex([index], neighbors); });
   vertices.forEach(function(v) {
