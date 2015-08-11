@@ -3,14 +3,14 @@ module.exports = {
     filename: 'countries.json',
     collectiveName: 'countries',
     individualName: 'country',
-    defaultColors: ['#759B18', '#528220', '#94B240', '#376626', '#669955', '#669900', '#75A319'],
+    defaultColors: ['#d290fc', '#c678ef', '#b161db', '#9949ce', '#7f37b7'],
     subOptions: ['North America', 'South America', 'Africa', 'Europe', 'Asia', 'Oceania', 'Antarctica', 'Seven seas (open ocean)']
   },
   'States/Provinces': {
     filename: 'admin1.json',
     collectiveName: 'states_and_provinces',
     individualName: 'state_or_province',
-    defaultColors: ['#759B18', '#528220', '#94B240', '#376626', '#669955', '#669900', '#75A319'],
+    defaultColors: ['#d290fc', '#c678ef', '#b161db', '#9949ce', '#7f37b7'],
     subOptions: ['Australia', 'Brazil', 'Canada', 'United States of America']
   },
   'Lakes': {

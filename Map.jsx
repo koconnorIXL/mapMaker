@@ -109,13 +109,9 @@ var Map = React.createClass({
             }
 
             // Otherwise, use the appropriate overall dataset colors.
-            var chosenColorIndex = feature.properties.mapcolor7;
+            var chosenColorIndex = feature.properties.mapcolor5;
 
             switch (dataset.name) {
-              case 'Countries':
-                // The mapcolor7 property provided in the Countries dataset goes from 1 to 7, not 0 to 6.
-                chosenColorIndex = chosenColorIndex - 1;
-                break;
               case 'Lakes':
                 // All lakes are the same color.
                 chosenColorIndex = 0;
