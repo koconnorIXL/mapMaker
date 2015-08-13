@@ -138,8 +138,8 @@ exports.fastFiveColoring = function(geometryCollection) {
   
     // initialize S5
     vertices.forEach(function(vertex, i) {
-      if (inS5(neighbors, i)) {
-        S5.push(i);
+      if (inS5(vertices, vertex)) {
+        S5.push(vertex);
       }
     });
   
