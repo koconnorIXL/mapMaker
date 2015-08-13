@@ -2,85 +2,15 @@ var fs = require('fs');
 var d3 = require('d3');
 var topojson = require('topojson');
 var MapColoring = require('./MapColoring.js');
+var removeSmallIslands = require('./RemoveSmallIslands.js').removeSmallIslands;
+var ResolveBorders = require('./FixDisputedBoundaries.js');
 
 var datasetsToModify = [
   'countries.json',
   'admin1.json',
-  'usa.json'
+  'usa.json',
+  'disputed_boundaries.json'
 ];
-
-var standardProjection = d3.geo.equirectangular();
-
-var REMOVED = 'REMOVED';
-var MODIFIED = 'MODIFIED';
-var NO_CHANGE = 'NO_CHANGE';
-
-function removeSmallIslands(geojson, d3Path, minArea) {
-  
-  switch(geojson.type) {
-    case 'Polygon':
-      if (d3Path.area(geojson) < minArea) {
-        geojson.coordinates = [];
-        return REMOVED;
-      }
-      else {
-        return NO_CHANGE;
-      }
-    case 'MultiPolygon':
-      var newCoords = geojson.coordinates.filter(function(polygon) {
-        return d3Path.area({ type: 'Polygon', coordinates: polygon}) > minArea;
-      });
-      var oldNumPolys = geojson.coordinates.length;
-      geojson.coordinates = newCoords;
-      if (newCoords.length === 0) {
-        return REMOVED;
-      }
-      else if (newCoords.length < oldNumPolys) {
-        return MODIFIED;
-      }
-      else {
-        return NO_CHANGE;
-      }
-    case 'GeometryCollection':
-      var newGeos = geojson.geometries.filter(function(geo) {
-        return removeSmallIslands(geo, d3Path, minArea) !== REMOVED;
-      });
-      var oldNumGeos = geojson.geometries.length;
-      geojson.geometries = newGeos;
-      if (newGeos.length === 0) {
-        return REMOVED;
-      }
-      else if (newGeos.length < oldNumGeos) {
-        return MODIFIED;
-      }
-      else {
-        return NO_CHANGE;
-      }
-    case 'Feature':
-      var res = removeSmallIslands(geojson.geometry, d3Path, minArea);
-      if (res === REMOVED) {
-        geojson.geometry = null;
-      }
-      return res;
-    case 'FeatureCollection':
-      var newFeatures = geojson.features.filter(function(feature) {
-        return removeSmallIslands(feature, d3Path, minArea) !== REMOVED;
-      });
-      var oldNumFeatures = geojson.features.length;
-      geojson.features = newFeatures;
-      if (newFeatures.length === 0) {
-        return REMOVED;
-      }
-      else if (newFeatures.length < oldNumFeatures) {
-        return MODIFIED;
-      }
-      else {
-        return NO_CHANGE;
-      }
-    default:
-      return NO_CHANGE;
-  }
-}
 
 datasetsToModify.forEach(function(filename) {
 
@@ -88,6 +18,7 @@ datasetsToModify.forEach(function(filename) {
   var data = JSON.parse(fs.readFileSync('geojsonDatasets/' + filename));
   
   // Prune some small islands out of the geojson data.
+  var standardProjection = d3.geo.equirectangular();
   removeSmallIslands(data, d3.geo.path().projection(standardProjection), 3);
 
   // convert the geojson to topojson
@@ -104,6 +35,11 @@ datasetsToModify.forEach(function(filename) {
     'minimum-area': 0.02
   };
   topojsonData = topojson.simplify(topojsonData, simplifyOptions);
+
+  // resolve some disputed country boundaries in the countries dataset
+  if (filename === 'countries.json') {
+    topojsonData = ResolveBorders.mergeMoroccoWesternSahara(topojsonData);
+  }
 
   // add a mapcolor5 field to the topojson
   var geometryCollection = topojsonData.objects[filename.slice(0, filename.length - 5)].geometries;
