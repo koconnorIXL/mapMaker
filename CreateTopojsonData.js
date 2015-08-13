@@ -86,9 +86,9 @@ datasetsToModify.forEach(function(filename) {
 
   // Get the geojson data.
   var data = JSON.parse(fs.readFileSync('geojsonDatasets/' + filename));
-
+  
   // Prune some small islands out of the geojson data.
-  removeSmallIslands(data, d3.geo.path().projection(standardProjection), 0.01);
+  removeSmallIslands(data, d3.geo.path().projection(standardProjection), 3);
 
   // convert the geojson to topojson
   var options = {
@@ -97,6 +97,13 @@ datasetsToModify.forEach(function(filename) {
   var topojsonData = topojson.topology({collection: data}, options);
   topojsonData.objects[filename.slice(0, filename.length - 5)] = topojsonData.objects.collection;
   topojsonData.objects.collection = null;
+
+  // smooth out some of the really detailed boundaries
+  var simplifyOptions = {
+    'coordinate-system': 'cartesian',
+    'minimum-area': 0.08
+  };
+  topojsonData = topojson.simplify(topojsonData, simplifyOptions);
 
   // add a mapcolor5 field to the topojson
   var geometryCollection = topojsonData.objects[filename.slice(0, filename.length - 5)].geometries;
@@ -107,6 +114,6 @@ datasetsToModify.forEach(function(filename) {
     geometryCollection[i].properties.mapcolor5 = fiveColoring[i];
   }
 
-  fs.writeFile('topojsonDatasets/' + filename.slice(0, filename.length - 5) + '.json', JSON.stringify(data));
+  fs.writeFile('topojsonDatasets/' + filename.slice(0, filename.length - 5) + '.json', JSON.stringify(topojsonData));
 });
 
