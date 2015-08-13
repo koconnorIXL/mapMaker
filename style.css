@@ -3,6 +3,10 @@ svg {
   border: solid;
 }
 
+path {
+  stroke-width: 0.4;
+}
+
 .controller {
   display: inline-block;
   padding-right: 25px;

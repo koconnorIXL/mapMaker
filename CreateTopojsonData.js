@@ -88,7 +88,7 @@ datasetsToModify.forEach(function(filename) {
   var data = JSON.parse(fs.readFileSync('geojsonDatasets/' + filename));
   
   // Prune some small islands out of the geojson data.
-  removeSmallIslands(data, d3.geo.path().projection(standardProjection), 3);
+  removeSmallIslands(data, d3.geo.path().projection(standardProjection), 5);
 
   // convert the geojson to topojson
   var options = {
@@ -101,7 +101,7 @@ datasetsToModify.forEach(function(filename) {
   // smooth out some of the really detailed boundaries
   var simplifyOptions = {
     'coordinate-system': 'cartesian',
-    'minimum-area': 0.08
+    'minimum-area': 0.02
   };
   topojsonData = topojson.simplify(topojsonData, simplifyOptions);
 
