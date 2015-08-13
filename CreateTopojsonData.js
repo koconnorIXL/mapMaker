@@ -88,7 +88,7 @@ datasetsToModify.forEach(function(filename) {
   var data = JSON.parse(fs.readFileSync('geojsonDatasets/' + filename));
   
   // Prune some small islands out of the geojson data.
-  removeSmallIslands(data, d3.geo.path().projection(standardProjection), 5);
+  removeSmallIslands(data, d3.geo.path().projection(standardProjection), 3);
 
   // convert the geojson to topojson
   var options = {
