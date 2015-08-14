@@ -107,7 +107,7 @@ exports.fastFiveColoring = function(geometryCollection) {
     vertices.forEach(function(vertex) {
       var indicesToRemove = [];
       vertex.neighbors.forEach(function(neighbor, index) {
-        if (vertex.neighbors.indexOf(neighbor) < index) {
+        if (vertex.neighbors.indexOf(neighbor) < index || vertex === neighbor) {
           indicesToRemove.push(index);
         }
       });
@@ -138,8 +138,8 @@ exports.fastFiveColoring = function(geometryCollection) {
   
     // initialize S5
     vertices.forEach(function(vertex, i) {
-      if (inS5(neighbors, i)) {
-        S5.push(i);
+      if (inS5(vertices, vertex)) {
+        S5.push(vertex);
       }
     });
   
@@ -197,6 +197,7 @@ exports.fastFiveColoring = function(geometryCollection) {
       removeFromGraph(vertices, V12);
       addToGraph(vertices, V1);
       addToGraph(vertices, V2);
+      addToGraph(vertices, V);
   
       V1.color = V12.color;
       V2.color = V12.color;

@@ -29,5 +29,12 @@ module.exports = {
     defaultMinSize: 1000000,
     defaultFont: "Times New Roman",
     defaultFontSize: "14px"
+  },
+  'Disputed Boundaries': {
+    filename: 'disputed_boundaries.json',
+    collectiveName: 'disputed_boundaries',
+    individualName: 'disputed_boundary',
+    defaultColors: [],
+    subOptions: []
   }
 };

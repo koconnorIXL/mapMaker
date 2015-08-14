@@ -1,0 +1,16 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "disputed_boundary": true,
+        "countries_name_long": [ "Morocco", "Western Sahara" ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [ [ -13.172986, 27.670540 ], [ -8.669004, 27.670540 ] ]
+      }
+    }
+  ]
+}

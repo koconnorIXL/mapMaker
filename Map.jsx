@@ -196,7 +196,7 @@ var Map = React.createClass({
               });
             });
           }
-          else {
+          else if (dataset.name !== 'Disputed Boundaries') {
             // Add exterior boundaries for the dataset.
             node.append("path")
               .datum(topojson.mesh(json, json.objects[name], function(a,b) { return a === b; }))

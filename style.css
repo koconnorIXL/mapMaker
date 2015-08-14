@@ -3,6 +3,14 @@ svg {
   border: solid;
 }
 
+path {
+  stroke-width: 0.4;
+}
+
+path.disputed_boundary {
+  stroke-dasharray: 5 3;
+}
+
 .controller {
   display: inline-block;
   padding-right: 25px;
