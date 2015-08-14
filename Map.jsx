@@ -287,6 +287,7 @@ var Map = React.createClass({
           for (var i = 0; i < countryDataset.length; i++) {
             if (countryDataset[i].properties.iso_a2 === countryCode) {
               subOptionForPath = countryDataset[i].properties.continent;
+              break;
             }
           }
         });
