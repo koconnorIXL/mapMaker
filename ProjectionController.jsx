@@ -1,5 +1,7 @@
 var React = require('react');
 var getProjection = require('./ProjectionUtils.js').getProjection;
+var datasetOptions = require('./Datasets.jsx');
+
 var ProjectionController = React.createClass({
  
   update: function(e) {
@@ -26,7 +28,9 @@ var ProjectionController = React.createClass({
         parseInt(form.querySelectorAll('.parallels.' + c)[0].value, 10),
         parseInt(form.querySelectorAll('.parallels.' + c)[1].value, 10)
       ],
-      showGridLines: form.querySelector('.showGridLines').value === 'Yes'
+      showGridLines: form.querySelector('.showGridLines').value === 'Yes',
+      zoomDataset: form.querySelector('.zoomDataset').value,
+      zoomPathName: form.querySelector('.zoompathName').value
     };
 
     if (newState.projectionType === 'orthographic') {
@@ -52,6 +56,9 @@ var ProjectionController = React.createClass({
   },
 
   render: function() {
+    var zoomDatasetOptions = Object.keys(datasetOptions).map(function(name) {
+      return <option selected={this.props.zoomDataset === name}>{name}</option>;
+    }.bind(this));
     return (
       <form className="projectionController" onSubmit={this.update}>
         <div className='txt'>Projection Type: </div>
@@ -121,6 +128,15 @@ var ProjectionController = React.createClass({
           <option selected={this.props.showGridLines}>Yes</option>
           <option selected={!this.props.showGridLines}>No</option>
         </select>
+        <div className="zoomToPathOptions">
+          <div className='txt'>Zoom to a path in a specific dataset. Note: the path must already be visible on the map.</div>
+          <div className='txt'>Dataset to which the path belongs:</div>
+          <select className="zoomDataset" >
+            {zoomDatasetOptions}
+          </select>
+          <div className='txt'>Name of path (e.g. "France" or "Tennessee"):</div>
+          <input className="zoomPathName" />
+        </div>
         <input type="submit" />
       </form>
     );

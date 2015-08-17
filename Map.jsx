@@ -5,6 +5,8 @@ var getProjection = require('./ProjectionUtils.js').getProjection;
 var datasetOptions = require('./Datasets.jsx');
 
 var mapSize = 800;
+var defaultStrokeWidth = 1.5;
+var defaultPointRadius = 4.5;
 
 function getViewBox(scale, translate) {
   translate[0] *= -1;
@@ -40,7 +42,6 @@ function getViewBox(scale, translate) {
 
 var cache = {};
 var Map = React.createClass({
-
   componentDidMount: function() {
     this.redraw();
   },
@@ -57,6 +58,8 @@ var Map = React.createClass({
     var getColorIndexForCity = this.getColorIndexForCity;
     var width = this.props.width;
     var height = this.props.height;
+    var strokeWidth = defaultStrokeWidth;
+    var pointRadius = defaultPointRadius;
 
     this.mouseDown = false;
     var domNode = d3.select(this.getDOMNode());
@@ -73,6 +76,7 @@ var Map = React.createClass({
 //      .on('mousedown', this.handleMouseDown)
 //      .on('mouseup', this.handleMouseUp)
 //      .on('mousemove', this.handleMouseMove)
+      .attr('viewBox', '0 0 ' + width + ' ' + height)
       .attr('xmlns', "http://www.w3.org/2000/svg");
 
     // Create and add all dataset paths.
@@ -80,6 +84,9 @@ var Map = React.createClass({
       .data(this.props.datasets)
       .enter().append("g")
         .attr("class", function(d) { return datasetOptions[d.name].collectiveName; });
+
+    var reactObj = this;
+    var zoomScale = 1;
 
     datasetComponents.each(function(dataset) {
       // Get the json for this dataset.
@@ -94,13 +101,17 @@ var Map = React.createClass({
 
         // Create a path component for each feature in this dataset.
         var node = d3.select('svg.map g.' + datasetOptions[dataset.name].collectiveName);
-        node.selectAll("path")
+        var paths = node.selectAll("path")
           .data(topojson.feature(json, json.objects[name]).features)
           .enter().append("path")
-          .attr("d", function(feature) { return path(feature); })
+          .attr("d", function(feature) { 
+            path.pointRadius(pointRadius);
+            return path(feature); 
+          })
           .attr("class", function(feature) { 
             return getClassName(feature, dataset, datasetOptions, commonClassName);
           })
+          .style("stroke-width", strokeWidth)
           .attr("fill", function(feature) { 
             // If there's a specific color specified for this feature, use that one.
             var pathColors = dataset.pathColors.filter(function(element) { return element.name === feature.properties.name; });
@@ -129,16 +140,61 @@ var Map = React.createClass({
             return "#000000";
           });
 
+
+          // If we want to center/zoom the map to a specific path from this dataset, do so.
+          if (dataset.name === reactObj.props.zoomDataset) {
+            paths.each(function (feature) {
+              if (feature.properties.name === reactObj.props.zoomPathName) {
+                var bounds = path.bounds(feature);
+                var dx = bounds[1][0] - bounds[0][0];
+                var dy = bounds[1][1] - bounds[0][1];
+                var newScaleRatio = Math.abs(dx / dy);
+                height = width / newScaleRatio;
+
+                zoomScale = width / dx;
+                strokeWidth = defaultStrokeWidth / zoomScale;
+                pointRadius = defaultPointRadius / zoomScale;
+
+                // Reset stroke width and point radius for existing paths.
+                svg.selectAll('path')
+                  .style("stroke-width", strokeWidth)
+                  .attr("d", function(feature) {
+                    path.pointRadius(pointRadius);
+                    return path(feature);
+                  });
+
+                // Resize city labels and markers.
+                svg.selectAll("image")
+                  .attr("transform", "scale(" + (1/zoomScale) + ")");
+
+                svg.selectAll("text")
+                  .attr("transform", "scale(" + (1/zoomScale) + ")");
+
+                // Reset height and view box of the map.
+                svg.attr('viewBox', bounds[0][0] + ' ' + bounds[0][1] + ' ' + dx + ' ' + dy)
+                  .attr("height", height);
+              }
+            }.bind(this));
+          }
+
           // If this is the cities dataset, then we also want to add city labels.
           if (dataset.name == 'Cities') {
             var labelAnchors = [];
             var labelAnchorLinks = [];
+            var mapBoundingBox = svg.attr('viewBox').split(' ');
+            var mapLeftX = parseFloat(mapBoundingBox[0]);
+            var mapTopY = parseFloat(mapBoundingBox[1]);
+            var mapRightX = parseFloat(mapBoundingBox[0]) + parseFloat(mapBoundingBox[2]);
+            var mapBottomY = parseFloat(mapBoundingBox[1]) + parseFloat(mapBoundingBox[3]);
 
             // Add a label and reference point for each city that's displayed.
             d3.selectAll("." + datasetOptions[dataset.name].individualName + ":not(.hidden)").each(function(feature) {
               // Only include cities that are currently within the bounding box.
               var coords = projection(feature.geometry.coordinates);
-              if (0 < coords[0] && coords[0] < width && 0 < coords[1] && coords[1] < height) {
+              if (mapLeftX < coords[0] && 
+                coords[0] < mapRightX && 
+                mapTopY < coords[1] && 
+                coords[1] < mapBottomY) {
                 labelAnchors.push({
                   feature: feature,
                   x: coords[0],
@@ -186,17 +242,26 @@ var Map = React.createClass({
               .text(function(node, i) { return i % 2 == 0 ? "" : node.feature.properties.name; }) // Don't put text in for the reference nodes.
               .attr("fill", function(node) { return datasetColors[getColorIndexForCity(node.feature)]; })
               .attr("font-family", dataset.styleInfo.font)
-              .attr("font-size", dataset.styleInfo.fontSize);
+              .attr("font-size", dataset.styleInfo.fontSize)
+              .attr("transform", "scale(" + (1/zoomScale) + ")");
 
             force.on("tick", function() {
               labelHolders.each(function(d, i) {
                 if(i % 2 == 1) {
                   d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
+
+                  // Get the size of the label.
+                  var labelWidth = this.getBBox().width;
+                  var labelHeight = this.getBBox().height;
+
+                  // Keep labels within the bounding box of the map.
+                  d.x = Math.max(mapLeftX, Math.min(mapRightX - labelWidth, d.x));
+                  d.y = Math.max(mapTopY, Math.min(mapBottomY - labelHeight, d.y));
                 }
               });
             });
           }
-          else if (dataset.name !== 'Disputed Boundaries') {
+          else if (dataset.showOutline) {
             // Add exterior boundaries for the dataset.
             node.append("path")
               .datum(topojson.mesh(json, json.objects[name], function(a,b) { return a === b; }))

@@ -87,6 +87,9 @@ var DatasetController = React.createClass({
         }
       }
 
+      // Only non-city datasets have this option.
+      var showOutline = false;;
+
       // For cities, there are extra options whose values need to be passed along. For all other datasets, these
       // values will be irrelevant.
       var cityMinSize = null;
@@ -117,6 +120,10 @@ var DatasetController = React.createClass({
           stateCapitalsOnly = stateCapitalsOnlyInput.checked;
           USOnly = USOnlyInput.checked;
         }
+      } else {
+        // Get whether to show the outline of this dataset.
+        var showOutlineInput = React.findDOMNode(this.refs[datasetName]).querySelector('.showOutlineInput');
+        showOutline = showOutlineInput.value === "Yes" ? true : false;
       }
 
       datasets.push(
@@ -125,6 +132,7 @@ var DatasetController = React.createClass({
           colorList, 
           subOptionsList, 
           pathColors,
+          showOutline,
           {minSize: cityMinSize, countryCapitalsOnly: countryCapitalsOnly, stateCapitalsOnly: stateCapitalsOnly, USOnly: USOnly},
           {font: font, fontSize: fontSize}));
     }
@@ -153,6 +161,9 @@ var DatasetController = React.createClass({
 
         // The mechanism for picking specific colors for specific paths.
         var pathColorManager = null;
+
+        // Input for whether to display the outline of this dataset.
+        var showOutlineInput = null;
 
         // Check if the 'datasets' list contains this option as the name of one of its objects.
         // If so, we will display color pickers and sub-options.
@@ -192,8 +203,6 @@ var DatasetController = React.createClass({
             paths={propPassedIn[0].pathColors}
           />;
 
-          datasetColorsText = "Pick color(s) to use when displaying the dataset:";
-
           // For the 'cities' dataset, we have multiple filters to reduce the number of cities displayed.
           if (prop == 'Cities') {
             cityFilterInput = <form className="notSelectable" onSubmit={this.handleFilterChange}>
@@ -217,6 +226,18 @@ var DatasetController = React.createClass({
             </form>;
 
             datasetColorsText = "Pick colors to use when displaying cities (general cities, state/region capitals, country capitals):"
+          } else {
+            // Make the 'show outline' input.
+            showOutlineInput = <form className="showOutlineInputContainer" onSubmit={this.handleFilterChange}>
+              <div className='txt'>Show dataset outline, regardless of which internal paths are shown?</div>
+              <select className="showOutlineInput" >
+                <option selected={this.props.showOutline}>Yes</option>
+                <option selected={!this.props.showOutline}>No</option>
+              </select>
+              <input type="submit" />
+            </form>;
+
+            datasetColorsText = "Pick color(s) to use when displaying the dataset:";
           }
         }
 
@@ -238,6 +259,7 @@ var DatasetController = React.createClass({
           <div className="datasetPathColors">
             {pathColorManager}
           </div>
+          {showOutlineInput}
           {cityFilterInput}
           <hr />
         </div>);
