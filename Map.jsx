@@ -7,6 +7,7 @@ var datasetOptions = require('./Datasets.jsx');
 var mapSize = 800;
 var defaultStrokeWidth = 1.5;
 var defaultPointRadius = 4.5;
+var starSizeMultiplier = 4;
 
 function getViewBox(scale, translate) {
   translate[0] *= -1;
@@ -181,6 +182,7 @@ var Map = React.createClass({
           if (dataset.name == 'Cities') {
             var labelAnchors = [];
             var labelAnchorLinks = [];
+            var starPoints = [];
             var mapBoundingBox = svg.attr('viewBox').split(' ');
             var mapLeftX = parseFloat(mapBoundingBox[0]);
             var mapTopY = parseFloat(mapBoundingBox[1]);
@@ -204,8 +206,26 @@ var Map = React.createClass({
                 labelAnchors.push({
                   feature: feature
                 });
+
+                if ((dataset.styleInfo.useStarForStateCapitals && feature.properties.feature_code === 'PPLA') ||
+                  (dataset.styleInfo.useStarForCountryCapitals && feature.properties.feature_code === 'PPLC')) {
+                  starPoints.push({
+                    x: coords[0],
+                    y: coords[1]
+                  });
+                }
               }
             });
+
+            // Add star icons as markers for the cities that need them.
+            svg.selectAll("image")
+              .data(starPoints)
+              .enter().append("svg:image")
+              .attr("xlink:href", "capital_city_marker.svg")
+              .attr("width", 2*starSizeMultiplier*pointRadius)
+              .attr("height", 2*starSizeMultiplier*pointRadius)
+              .attr("x", function(d) { return d.x - starSizeMultiplier*pointRadius; })
+              .attr("y", function(d) { return d.y - starSizeMultiplier*pointRadius; });
 
             // Link labels to their reference points.
             for (var i = 0; i < labelAnchors.length/2; i++) {

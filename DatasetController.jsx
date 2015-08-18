@@ -95,6 +95,8 @@ var DatasetController = React.createClass({
       var cityMinSize = null;
       var countryCapitalsOnly = false;
       var stateCapitalsOnly = false;
+      var useStarForCountryCapitals = true;
+      var useStarForStateCapitals = false;
       var USOnly = false;
       var font;
       var fontSize;
@@ -105,6 +107,8 @@ var DatasetController = React.createClass({
         var USOnlyInput = React.findDOMNode(this.refs[datasetName]).querySelector('.USOnly');
         var fontInput = React.findDOMNode(this.refs[datasetName]).querySelector('.fontFillIn');
         var fontSizeInput = React.findDOMNode(this.refs[datasetName]).querySelector('.fontSizeFillIn');
+        var useStarForStateCapitalsInput = React.findDOMNode(this.refs[datasetName]).querySelector('.useStarForStateCapitals');
+        var useStarForCountryCapitalsInput = React.findDOMNode(this.refs[datasetName]).querySelector('.useStarForCountryCapitals');
 
         if (cityMinSizeInput === null) {
           // 'Cities' has just been newly selected, so we use the default minimum size.
@@ -119,6 +123,8 @@ var DatasetController = React.createClass({
           countryCapitalsOnly = countryCapitalsOnlyInput.checked;
           stateCapitalsOnly = stateCapitalsOnlyInput.checked;
           USOnly = USOnlyInput.checked;
+          useStarForStateCapitals = useStarForStateCapitalsInput.checked;
+          useStarForCountryCapitals = useStarForCountryCapitalsInput.checked;
         }
       } else {
         // Get whether to show the outline of this dataset.
@@ -134,7 +140,7 @@ var DatasetController = React.createClass({
           pathColors,
           showOutline,
           {minSize: cityMinSize, countryCapitalsOnly: countryCapitalsOnly, stateCapitalsOnly: stateCapitalsOnly, USOnly: USOnly},
-          {font: font, fontSize: fontSize}));
+          {font: font, fontSize: fontSize, useStarForCountryCapitals: useStarForCountryCapitals, useStarForStateCapitals: useStarForStateCapitals}));
     }
 
     this.props.updateDatasets(datasets);
@@ -206,6 +212,8 @@ var DatasetController = React.createClass({
           // For the 'cities' dataset, we have multiple filters to reduce the number of cities displayed.
           if (prop == 'Cities') {
             cityFilterInput = <form className="notSelectable" onSubmit={this.handleFilterChange}>
+              <input className="useStarForCountryCapitals" type="checkbox" defaultChecked>Use a star icon to represent country capitals?</input>
+              <input className="useStarForStateCapitals" type="checkbox">Use a star icon to represent state capitals?</input>
               <div className="txt">Minimum population of city to display:</div>
               <input className="cityMinSizeFillIn" type="number" defaultValue={propPassedIn[0].filterInfo.minSize} />
               <br />
