@@ -129,7 +129,9 @@ var DatasetController = React.createClass({
       } else {
         // Get whether to show the outline of this dataset.
         var showOutlineInput = React.findDOMNode(this.refs[datasetName]).querySelector('.showOutlineInput');
-        showOutline = showOutlineInput.value === "Yes" ? true : false;
+        if (showOutlineInput) {
+          showOutline = showOutlineInput.value === "Yes" ? true : false;
+        }
       }
 
       datasets.push(

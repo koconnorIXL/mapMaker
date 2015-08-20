@@ -65,6 +65,7 @@ var ProjectionController = React.createClass({
         <select className="projectionType n0" >
           <option>mercator</option>
           <option>albers</option>
+          <option>albersUsa</option>
           <option>orthographic</option>
         </select>
         <div className='txt'>Center: </div>
