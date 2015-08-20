@@ -87,11 +87,16 @@ var DatasetController = React.createClass({
         }
       }
 
+      // Only non-city datasets have this option.
+      var showOutline = false;;
+
       // For cities, there are extra options whose values need to be passed along. For all other datasets, these
       // values will be irrelevant.
       var cityMinSize = null;
       var countryCapitalsOnly = false;
       var stateCapitalsOnly = false;
+      var useStarForCountryCapitals = true;
+      var useStarForStateCapitals = false;
       var USOnly = false;
       var font;
       var fontSize;
@@ -102,6 +107,8 @@ var DatasetController = React.createClass({
         var USOnlyInput = React.findDOMNode(this.refs[datasetName]).querySelector('.USOnly');
         var fontInput = React.findDOMNode(this.refs[datasetName]).querySelector('.fontFillIn');
         var fontSizeInput = React.findDOMNode(this.refs[datasetName]).querySelector('.fontSizeFillIn');
+        var useStarForStateCapitalsInput = React.findDOMNode(this.refs[datasetName]).querySelector('.useStarForStateCapitals');
+        var useStarForCountryCapitalsInput = React.findDOMNode(this.refs[datasetName]).querySelector('.useStarForCountryCapitals');
 
         if (cityMinSizeInput === null) {
           // 'Cities' has just been newly selected, so we use the default minimum size.
@@ -116,7 +123,13 @@ var DatasetController = React.createClass({
           countryCapitalsOnly = countryCapitalsOnlyInput.checked;
           stateCapitalsOnly = stateCapitalsOnlyInput.checked;
           USOnly = USOnlyInput.checked;
+          useStarForStateCapitals = useStarForStateCapitalsInput.checked;
+          useStarForCountryCapitals = useStarForCountryCapitalsInput.checked;
         }
+      } else {
+        // Get whether to show the outline of this dataset.
+        var showOutlineInput = React.findDOMNode(this.refs[datasetName]).querySelector('.showOutlineInput');
+        showOutline = showOutlineInput.value === "Yes" ? true : false;
       }
 
       datasets.push(
@@ -125,8 +138,9 @@ var DatasetController = React.createClass({
           colorList, 
           subOptionsList, 
           pathColors,
+          showOutline,
           {minSize: cityMinSize, countryCapitalsOnly: countryCapitalsOnly, stateCapitalsOnly: stateCapitalsOnly, USOnly: USOnly},
-          {font: font, fontSize: fontSize}));
+          {font: font, fontSize: fontSize, useStarForCountryCapitals: useStarForCountryCapitals, useStarForStateCapitals: useStarForStateCapitals}));
     }
 
     this.props.updateDatasets(datasets);
@@ -153,6 +167,9 @@ var DatasetController = React.createClass({
 
         // The mechanism for picking specific colors for specific paths.
         var pathColorManager = null;
+
+        // Input for whether to display the outline of this dataset.
+        var showOutlineInput = null;
 
         // Check if the 'datasets' list contains this option as the name of one of its objects.
         // If so, we will display color pickers and sub-options.
@@ -192,11 +209,11 @@ var DatasetController = React.createClass({
             paths={propPassedIn[0].pathColors}
           />;
 
-          datasetColorsText = "Pick color(s) to use when displaying the dataset:";
-
           // For the 'cities' dataset, we have multiple filters to reduce the number of cities displayed.
           if (prop == 'Cities') {
             cityFilterInput = <form className="notSelectable" onSubmit={this.handleFilterChange}>
+              <input className="useStarForCountryCapitals" type="checkbox" defaultChecked>Use a star icon to represent country capitals?</input>
+              <input className="useStarForStateCapitals" type="checkbox">Use a star icon to represent state capitals?</input>
               <div className="txt">Minimum population of city to display:</div>
               <input className="cityMinSizeFillIn" type="number" defaultValue={propPassedIn[0].filterInfo.minSize} />
               <br />
@@ -217,6 +234,18 @@ var DatasetController = React.createClass({
             </form>;
 
             datasetColorsText = "Pick colors to use when displaying cities (general cities, state/region capitals, country capitals):"
+          } else {
+            // Make the 'show outline' input.
+            showOutlineInput = <form className="showOutlineInputContainer" onSubmit={this.handleFilterChange}>
+              <div className='txt'>Show dataset outline, regardless of which internal paths are shown?</div>
+              <select className="showOutlineInput" >
+                <option selected={this.props.showOutline}>Yes</option>
+                <option selected={!this.props.showOutline}>No</option>
+              </select>
+              <input type="submit" />
+            </form>;
+
+            datasetColorsText = "Pick color(s) to use when displaying the dataset:";
           }
         }
 
@@ -238,6 +267,7 @@ var DatasetController = React.createClass({
           <div className="datasetPathColors">
             {pathColorManager}
           </div>
+          {showOutlineInput}
           {cityFilterInput}
           <hr />
         </div>);
