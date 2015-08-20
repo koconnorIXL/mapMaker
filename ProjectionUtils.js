@@ -4,10 +4,10 @@ exports.getProjection = function(props) {
     proj = d3.geo[props.projectionType]();
   }
 
-  if (props.rotate) {
+  if (props.rotate && proj.rotate) {
     proj.rotate(props.rotate);
   }
-  if (props.center) {
+  if (props.center && proj.center) {
     proj.center(props.center);
   }
   if (props.translate) {
@@ -16,13 +16,15 @@ exports.getProjection = function(props) {
   if (props.scale) {
     proj.scale(props.scale);
   }
-  if (props.clipAngle) {
+  if (props.clipAngle && proj.clipAngle) {
     proj.clipAngle(props.clipAngle);
   }
-  if (props.clipExtent) {
+  if (props.clipExtent && proj.clipExtent) {
     proj.clipExtent(props.clipExtent);
   }
-  proj.precision(5);
+  if (proj.precision) {
+    proj.precision(5);
+  }
   if (props.parallels && proj.parallels) {
     proj.parallels(props.parallels);
   }
