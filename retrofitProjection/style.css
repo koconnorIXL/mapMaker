@@ -1,0 +1,126 @@
+
+svg {
+  border: solid;
+}
+
+path {
+  stroke-width: 0.4;
+  fill: none;
+}
+
+path.extraData {
+  stroke: red;
+}
+
+path.disputed_boundary {
+  stroke-dasharray: 5 3;
+}
+
+.controller {
+  display: inline-block;
+  padding-right: 25px;
+}
+
+.projectionController select {
+  display: block;
+}
+
+.projectionController input[type="submit"] {
+  margin-top: 5px;
+}
+
+.mapLabelManager {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.labelTable,.pathTable {
+  display: table;
+  border-collapse: collapse;
+}
+
+.labelRow,.pathRow {
+  display: table-row;
+}
+
+.labelCell,.pathCell {
+  display: table-cell;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  border: solid 1px;
+}
+
+.labelCell input {
+  margin: 10px 0;
+}
+
+.headers {
+  font-weight: bold;
+}
+
+.labelRow.options .labelCell.coordinates input {
+  width: 50px;
+}
+
+.datasetController {
+  color: red; 
+}
+
+.datasetController .selected {
+  color: green; 
+}
+
+.datasetController .datasetSubOption {
+  color: red;
+}
+
+.datasetController .datasetSubOption.selectedSubOption {
+  color: green;
+}
+
+.notSelectable {
+  color: black;
+}
+
+.hidden {
+  display: none;
+}
+
+.datasetOutline {
+  fill: transparent;
+  stroke: black;
+}
+
+.subcontrollerContainer {
+  position: relative;
+  border: solid brown;
+  border-radius: 5px;
+  background-color: seashell;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.subcontrollerContainer .title {
+  text-align: center;
+  background-color: bisque;
+  font-size: 20px;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.subcontrollerContainer .subcontroller {
+  overflow: hidden;
+  transition: all 500ms;
+  max-height: 2000px;
+  margin: 10px;
+}
+
+.subcontrollerContainer.minimized .subcontroller {
+  max-height: 0;
+}
+
+.graticule {
+  stroke: black;
+}
+

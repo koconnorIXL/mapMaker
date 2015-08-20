@@ -1,0 +1,18 @@
+{
+  "name": "mapMaker",
+  "version": "0.0.1",
+  "description": "Tool for creating maps",
+  "author": "Kevin O'Connor",
+  "main": "./RetrofitProjection.jsx",
+  "dependencies": {
+    "browserify": ">=10.2.6",
+    "watchify":  ">=3.2.3",
+    "gulp": ">=3.8.11",
+    "vinyl-source-stream": ">=1.1.0",
+    "reactify": ">=1.1.1",
+    "react": ">=0.13.3",
+    "d3": ">=3.5.6",
+    "topojson": ">=1.6.19",
+    "underscore": ">=1.8.3"
+  }
+}
