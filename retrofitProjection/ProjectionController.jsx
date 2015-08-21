@@ -14,9 +14,9 @@ var ProjectionController = React.createClass({
         parseInt(form.querySelectorAll('.center.' + c)[1].value, 10)
       ],
       rotate: [
-        parseInt(form.querySelectorAll('.rotate.' + c)[0].value, 10),
-        parseInt(form.querySelectorAll('.rotate.' + c)[1].value, 10),
-        parseInt(form.querySelectorAll('.rotate.' + c)[2].value, 10)
+        parseFloat(form.querySelectorAll('.rotate.' + c)[0].value),
+        parseFloat(form.querySelectorAll('.rotate.' + c)[1].value),
+        parseFloat(form.querySelectorAll('.rotate.' + c)[2].value)
       ],
       translate: [
         parseInt(form.querySelectorAll('.translate.' + c)[0].value, 10),
