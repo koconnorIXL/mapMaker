@@ -15,16 +15,16 @@ var RetrofitProjection = React.createClass({
   
   getInitialState: function() {
     return {
-      rotate: [87, 2, 0],
+      rotate: [85.4, 2.4, -1.7],
       center: [-1, 39],
-      scaleRatio: 1.46,
+      scaleRatio: 1.48,
       clipAngle: null,
       width: 800,
       height: 800,
-      translate: [2, 245],
+      translate: [5, 249],
       precision: null,
       projectionType: "albers",
-      parallels: [15, 30],
+      parallels: [24, 24],
       labels: [],
       datasets: [
         new Dataset(
