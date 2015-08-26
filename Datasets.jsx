@@ -36,5 +36,12 @@ module.exports = {
     individualName: 'disputed_boundary',
     defaultColors: [],
     subOptions: []
+  },
+  'Soviet Union': {
+    filename: 'USSR.json',
+    collectiveName: 'soviet_republics',
+    individualName: 'soviet_republic',
+    defaultColors: ['#FF0000'],
+    subOptions: []
   }
 };
