@@ -9,7 +9,8 @@ var datasetsToModify = [
   'countries.json',
   'admin1.json',
   'usa.json',
-  'disputed_boundaries.json'
+  'disputed_boundaries.json',
+  'USSR-geojson.json'
 ];
 
 datasetsToModify.forEach(function(filename) {
