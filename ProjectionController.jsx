@@ -29,6 +29,8 @@ var ProjectionController = React.createClass({
         parseInt(form.querySelectorAll('.parallels.' + c)[1].value, 10)
       ],
       showGridLines: form.querySelector('.showGridLines').value === 'Yes',
+      showContinentLabels: form.querySelector('.showContinentLabels').value === 'Yes',
+      showOceanLabels: form.querySelector('.showOceanLabels').value === 'Yes',
       zoomDataset: form.querySelector('.zoomDataset').value,
       zoomPathName: form.querySelector('.zoompathName').value
     };
@@ -128,6 +130,16 @@ var ProjectionController = React.createClass({
         <select className="showGridLines n0" >
           <option selected={this.props.showGridLines}>Yes</option>
           <option selected={!this.props.showGridLines}>No</option>
+        </select>
+        <div className='txt'>Show continent labels?</div>
+        <select className="showContinentLabels" >
+          <option selected={this.props.showContinentLabels}>Yes</option>
+          <option selected={!this.props.showContinentLabels}>No</option>
+        </select>
+        <div className='txt'>Show ocean labels?</div>
+        <select className="showOceanLabels" >
+          <option selected={this.props.showOceanLabels}>Yes</option>
+          <option selected={!this.props.showOceanLabels}>No</option>
         </select>
         <div className="zoomToPathOptions">
           <div className='txt'>Zoom to a path in a specific dataset. Note: the path must already be visible on the map.</div>

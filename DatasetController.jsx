@@ -87,8 +87,10 @@ var DatasetController = React.createClass({
         }
       }
 
-      // Only non-city datasets have this option.
-      var showOutline = false;;
+      // Only non-city datasets have these options.
+      var showOutline = false;
+      var showPathLabels = false;
+
 
       // For cities, there are extra options whose values need to be passed along. For all other datasets, these
       // values will be irrelevant.
@@ -132,6 +134,10 @@ var DatasetController = React.createClass({
         if (showOutlineInput) {
           showOutline = showOutlineInput.value === "Yes" ? true : false;
         }
+        var showPathLabelsInput = React.findDOMNode(this.refs[datasetName]).querySelector('.showPathLabelsInput');
+        if (showPathLabelsInput) {
+          showPathLabels = showPathLabelsInput.value === "Yes" ? true : false;
+        }
       }
 
       datasets.push(
@@ -141,6 +147,7 @@ var DatasetController = React.createClass({
           subOptionsList, 
           pathColors,
           showOutline,
+          showPathLabels,
           {minSize: cityMinSize, countryCapitalsOnly: countryCapitalsOnly, stateCapitalsOnly: stateCapitalsOnly, USOnly: USOnly},
           {font: font, fontSize: fontSize, useStarForCountryCapitals: useStarForCountryCapitals, useStarForStateCapitals: useStarForStateCapitals}));
     }
@@ -237,13 +244,19 @@ var DatasetController = React.createClass({
 
             datasetColorsText = "Pick colors to use when displaying cities (general cities, state/region capitals, country capitals):"
           } else {
-            // Make the 'show outline' input.
-            showOutlineInput = <form className="showOutlineInputContainer" onSubmit={this.handleFilterChange}>
+            // Make the form for non-cities options.
+            showOutlineInput = <form className="nonCitiesInputContainer" onSubmit={this.handleFilterChange}>
               <div className='txt'>Show dataset outline, regardless of which internal paths are shown?</div>
               <select className="showOutlineInput" >
                 <option selected={this.props.showOutline}>Yes</option>
                 <option selected={!this.props.showOutline}>No</option>
               </select>
+              <div className='txt'>Show path labels for this dataset?</div>
+              <select className="showPathLabelsInput" >
+                <option selected={this.props.showPathLabels}>Yes</option>
+                <option selected={!this.props.showPathLabels}>No</option>
+              </select>
+              <div className='txt'>Submit changes:</div>
               <input type="submit" />
             </form>;
 

@@ -119,3 +119,15 @@ path.disputed_boundary {
   stroke: black;
 }
 
+.path-label {
+  font-size: 20px;
+  font-weight: 300;
+  text-anchor: middle;
+}
+
+.mapLabel {
+  text-anchor: middle;
+  font-size: 24px;
+  font-weight: 300;
+  fill-opacity: 0.5;
+}

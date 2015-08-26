@@ -1,13 +1,16 @@
 var d3 = require('d3');
 var topojson = require('topojson');
 var React = require('react');
+var seedrandom = require('seedrandom');
 var getProjection = require('./ProjectionUtils.js').getProjection;
 var datasetOptions = require('./Datasets.jsx');
+var labelPoints = require('./LabelPoints.jsx');
 
 var mapSize = 800;
 var defaultStrokeWidth = 1.5;
 var defaultPointRadius = 4.5;
 var starSizeMultiplier = 4;
+var pathLabelAreaMinimum = 10000;
 
 function getViewBox(scale, translate) {
   translate[0] *= -1;
@@ -99,6 +102,9 @@ var Map = React.createClass({
         var datasetColors = dataset.colors;
         var selectedSubOptions = dataset.subOptions;
         var commonClassName = datasetOptions[dataset.name].individualName;
+        if (!dataset.showPathLabels) {
+          commonClassName += " no-label";
+        }
 
         // Create a path component for each feature in this dataset.
         var node = d3.select('svg.map g.' + datasetOptions[dataset.name].collectiveName);
@@ -110,7 +116,7 @@ var Map = React.createClass({
             return path(feature); 
           })
           .attr("class", function(feature) { 
-            return getClassName(feature, dataset, datasetOptions, commonClassName);
+            return "feature-path " + getClassName(feature, dataset, datasetOptions, commonClassName);
           })
           .style("stroke-width", strokeWidth)
           .attr("fill", function(feature) { 
@@ -174,6 +180,12 @@ var Map = React.createClass({
                 // Reset height and view box of the map.
                 svg.attr('viewBox', bounds[0][0] + ' ' + bounds[0][1] + ' ' + dx + ' ' + dy)
                   .attr("height", height);
+
+                // Redraw path labels.
+                reactObj.createPathLabels(svg, zoomScale);
+
+                // Redraw extra labels.
+                reactObj.addExtraLabels(svg, zoomScale);
               }
             }.bind(this));
           }
@@ -186,17 +198,30 @@ var Map = React.createClass({
             var mapBoundingBox = svg.attr('viewBox').split(' ');
             var mapLeftX = parseFloat(mapBoundingBox[0]);
             var mapTopY = parseFloat(mapBoundingBox[1]);
-            var mapRightX = parseFloat(mapBoundingBox[0]) + parseFloat(mapBoundingBox[2]);
-            var mapBottomY = parseFloat(mapBoundingBox[1]) + parseFloat(mapBoundingBox[3]);
+            var mapWidth = parseFloat(mapBoundingBox[2]);
+            var mapHeight = parseFloat(mapBoundingBox[3]);
 
             // Add a label and reference point for each city that's displayed.
             d3.selectAll("." + datasetOptions[dataset.name].individualName + ":not(.hidden)").each(function(feature) {
               // Only include cities that are currently within the bounding box.
               var coords = projection(feature.geometry.coordinates);
-              if (mapLeftX < coords[0] && 
-                coords[0] < mapRightX && 
-                mapTopY < coords[1] && 
-                coords[1] < mapBottomY) {
+              var isStarPoint = false;
+              if (reactObj.isInView(coords, svg)) {
+                // If this city should have a star icon, add it to that list.
+                if ((dataset.styleInfo.useStarForStateCapitals && feature.properties.feature_code === 'PPLA') ||
+                  (dataset.styleInfo.useStarForCountryCapitals && feature.properties.feature_code === 'PPLC')) {
+                  isStarPoint = true;
+
+                  starPoints.push({
+                    x: coords[0],
+                    y: coords[1]
+                  });
+                }
+
+                // For the purposes of the force, modify these coordinates to correspond to coordinates
+                // within the view box.
+                coords[0] = (coords[0]-mapLeftX) * svg.attr("width") / mapWidth;
+                coords[1] = (coords[1] - mapTopY) * svg.attr("height") / mapHeight;
                 labelAnchors.push({
                   feature: feature,
                   x: coords[0],
@@ -204,16 +229,11 @@ var Map = React.createClass({
                   fixed: true
                 });
                 labelAnchors.push({
-                  feature: feature
+                  feature: feature,
+                  x: coords[0],
+                  y: coords[1],
+                  isStarPoint: isStarPoint
                 });
-
-                if ((dataset.styleInfo.useStarForStateCapitals && feature.properties.feature_code === 'PPLA') ||
-                  (dataset.styleInfo.useStarForCountryCapitals && feature.properties.feature_code === 'PPLC')) {
-                  starPoints.push({
-                    x: coords[0],
-                    y: coords[1]
-                  });
-                }
               }
             });
 
@@ -228,57 +248,80 @@ var Map = React.createClass({
               .attr("y", function(d) { return d.y - starSizeMultiplier*pointRadius; });
 
             // Link labels to their reference points.
-            for (var i = 0; i < labelAnchors.length/2; i++) {
+            for (var i = 0; i < labelAnchors.length / 2; i++) {
               labelAnchorLinks.push({
-                source : i * 2,
-                target : i * 2 + 1,
-                weight : 1
+                source: i * 2,
+                target: i * 2 + 1,
+                weight: 1
               });
             }
 
+            // Make the labels.
+            var labelHolders = svg.selectAll(".city_label_holder")
+              .data(labelAnchors)
+              .enter().append("g")
+              .attr("class", "city_label_holder")
+              .attr("transform", function(d) {
+                return "translate(" + d.x + "," + d.y + ")";
+              })
+              .attr("visibility", "hidden");
+
+            labelHolders.append("text")
+              .attr("class", 'city_label')
+              .text(function (node, i) {
+                return i % 2 == 0 ? "" : node.feature.properties.name;
+              }) // Don't put text in for the reference nodes.
+              .attr("fill", function (node) {
+                return datasetColors[getColorIndexForCity(node.feature)];
+              });
+
             // Run the force.
+            // Set a seed so that the labels are always placed in the same way.
+            seedrandom("seed", { global: true });
+
             var force = d3.layout.force()
               .nodes(labelAnchors)
               .links(labelAnchorLinks)
               .gravity(0)
-              .linkDistance(0)
+              .linkDistance(function (link, index) {
+                return link.target.isStarPoint ? starSizeMultiplier*defaultPointRadius : defaultPointRadius;
+              })
               .linkStrength(8)
-              .charge(function(node) {
-                return -10 * node.feature.properties.name.length * node.feature.properties.name.length; 
+              .charge(function (node) {
+                return -10 * node.feature.properties.name.length * node.feature.properties.name.length;
               })
               .chargeDistance(85)
               .friction(0.95)
-              .size([width, height]);
-            force.start();
+              .size([reactObj.props.width, reactObj.props.height])
+              .on("tick", function () {
+                labelHolders.each(function (d, i) {
+                  if (i % 2 == 1) {
+                    // Get the size of the label.
+                    var labelWidth = this.getBBox().width;
+                    var labelHeight = this.getBBox().height;
 
-            // Make the labels.
-            var labelHolders = svg.selectAll(".city_label_holder")
-              .data(force.nodes())
-              .enter().append("g")
-              .attr("class", "city_label_holder");
-
-            labelHolders.append("text")
-              .attr("class", 'city_label')
-              .text(function(node, i) { return i % 2 == 0 ? "" : node.feature.properties.name; }) // Don't put text in for the reference nodes.
-              .attr("fill", function(node) { return datasetColors[getColorIndexForCity(node.feature)]; })
-              .attr("font-family", dataset.styleInfo.font)
-              .attr("font-size", dataset.styleInfo.fontSize)
-              .attr("transform", "scale(" + (1/zoomScale) + ")");
-
-            force.on("tick", function() {
-              labelHolders.each(function(d, i) {
-                if(i % 2 == 1) {
-                  d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
-
-                  // Get the size of the label.
-                  var labelWidth = this.getBBox().width;
-                  var labelHeight = this.getBBox().height;
-
-                  // Keep labels within the bounding box of the map.
-                  d.x = Math.max(mapLeftX, Math.min(mapRightX - labelWidth, d.x));
-                  d.y = Math.max(mapTopY, Math.min(mapBottomY - labelHeight, d.y));
-                }
+                    // Keep labels within the area of the map.
+                    d.x = Math.max(0, Math.min(parseFloat(svg.attr("width")) - labelWidth, d.x));
+                    d.y = Math.max(0, Math.min(parseFloat(svg.attr("height")) - labelHeight, d.y));
+                  }
+                });
               });
+
+            force.start();
+            for (var i = 0; i < 100; i++) force.tick();
+            force.stop();
+
+            // Make the labels visible and put them in the correct locations.
+            labelHolders.each(function (d, i) {
+              if (i % 2 == 1) {
+                d3.select(this)
+                  .attr("transform", "translate("
+                  + (mapLeftX + (d.x * mapWidth/parseFloat(svg.attr("width"))))
+                  + "," + (mapTopY + (d.y * mapHeight/parseFloat(svg.attr("height")))) + ")")
+                  .attr("visibility", "visible");
+
+                d3.select(this).select("text").attr("transform", "scale(" + (1/zoomScale) + ")");
+              }
             });
           }
           else if (dataset.showOutline) {
@@ -288,6 +331,8 @@ var Map = React.createClass({
               .attr("d", path)
               .attr("class", "datasetOutline");
           }
+
+          this.createPathLabels(svg, zoomScale);
       }.bind(this));
     }.bind(this));
 
@@ -301,24 +346,121 @@ var Map = React.createClass({
         .attr('d', path);
     }
 
-    // Create and add all labels.
-    var labelComponents = svg.selectAll("g.mapLabel")
+    // Create and add all labels specifically listed.
+    var pointLabelComponents = svg.selectAll("g.mapLabel")
       .data(this.props.labels.filter(function(element) { return element.type === 'point'; }))
       .enter().append("g")
         .attr("class", "mapLabel")
         .attr("key", function(d, i) { return i; });
         
-    labelComponents.append("circle")
+    pointLabelComponents.append("circle")
       .attr("cx", function(d) { return projection(d.coordinates)[0]; })
       .attr("cy", function(d) { return projection(d.coordinates)[1]; })
       .attr("r", 3);
 
-    labelComponents.append("text")
+    pointLabelComponents.append("text")
       .attr("x", function(d) { return projection(d.coordinates)[0]; })
       .attr("y", function(d) { return projection(d.coordinates)[1]; })
       .attr("textAnchor", "start")
       .attr("dx", 5)
       .text(function(d) { return d.labelText; });
+
+    // Add continent/ocean labels.
+    this.addExtraLabels(svg, zoomScale);
+  },
+
+  addExtraLabels: function(svg, zoomScale) {
+    var projection = getProjection(this.props);
+
+    var extraLabelData = [];
+    if (this.props.showContinentLabels) {
+      extraLabelData = extraLabelData.concat(labelPoints.continentLabelInfo);
+    }
+    if (this.props.showOceanLabels) {
+      extraLabelData = extraLabelData.concat(labelPoints.oceanLabelInfo);
+    }
+    extraLabelData = extraLabelData.filter(function (d) {
+      return this.isInView(projection([d.long, d.lat]), svg);
+    }.bind(this));
+
+    // Create new map labels if necessary.
+    var labelComponents = svg.selectAll(".mapLabel")
+      .data(extraLabelData);
+
+    labelComponents.enter().append("text")
+      .attr("class", "mapLabel")
+      .attr("key", function (d, i) {
+        return i;
+      })
+      .attr("textAnchor", "middle")
+      .attr("dx", 5);
+
+    // Remove labels that are no longer on screen.
+    labelComponents.exit().remove();
+
+    // Update sizes of labels.
+    labelComponents
+      .attr("transform", function (d) {
+        return "translate(" + projection([d.long, d.lat])[0] + "," + projection([d.long, d.lat])[1] +
+          ")scale(" + Math.min(1 / zoomScale) + ")";
+      })
+      .text(function (d) { return d.label; });
+  },
+
+  isInView: function(coords, svg) {
+    var mapBoundingBox = svg.attr('viewBox').split(' ');
+    var mapLeftX = parseFloat(mapBoundingBox[0]);
+    var mapTopY = parseFloat(mapBoundingBox[1]);
+    var mapRightX = parseFloat(mapBoundingBox[0]) + parseFloat(mapBoundingBox[2]);
+    var mapBottomY = parseFloat(mapBoundingBox[1]) + parseFloat(mapBoundingBox[3]);
+
+    return coords &&
+      mapLeftX < coords[0] &&
+      coords[0] < mapRightX &&
+      mapTopY < coords[1] &&
+      coords[1] < mapBottomY;
+  },
+
+  createPathLabels: function(svg, zoomScale) {
+    var path = d3.geo.path().projection(getProjection(this.props));
+    // Create a list of the features for all the paths that need labels.
+    var pathFeaturesForLabels = [];
+
+    var mapBoundingBox = svg.attr('viewBox').split(' ');
+    var mapLeftX = parseFloat(mapBoundingBox[0]);
+    var mapTopY = parseFloat(mapBoundingBox[1]);
+    var mapRightX = parseFloat(mapBoundingBox[0]) + parseFloat(mapBoundingBox[2]);
+    var mapBottomY = parseFloat(mapBoundingBox[1]) + parseFloat(mapBoundingBox[3]);
+
+    svg.selectAll("path.feature-path:not(.hidden):not(.no-label)").each(function (feature) {
+      var bounds = path.bounds(feature);
+      var dx = Math.max(0, (Math.min(bounds[1][0], mapRightX) - Math.max(bounds[0][0], mapLeftX))) * zoomScale;
+      var dy = Math.max(0, (Math.min(bounds[1][1], mapBottomY) - Math.max(bounds[0][1], mapTopY))) * zoomScale;
+
+      // If this path is big enough in the current display to get its own label, add it to the list.
+      if (dx * dy !== Infinity && dx * dy > pathLabelAreaMinimum) {
+        pathFeaturesForLabels.push(feature);
+      }
+    }.bind(this));
+
+    var pathLabels = svg.selectAll(".path-label").data(pathFeaturesForLabels);
+
+    // If a path is now big enough to deserve a label, add one.
+    pathLabels.enter().append("text")
+      .attr("class", "path-label")
+      .attr("dy", ".35em");
+
+    // If a path has become too small for a label, remove its label.
+    pathLabels.exit().remove();
+
+    // Resize all existing labels.
+    pathLabels
+      .transition()
+      .duration(1) // We want instantaneous transition.
+      .attr("transform", function(d) {
+        return "translate(" + path.centroid(d) + ")scale(" + (1/zoomScale) + ")";
+      })
+      .text(function(d) { return d.properties.name; });
   },
 
   getClassName: function(feature, dataset, datasetOptions, commonClassName) {

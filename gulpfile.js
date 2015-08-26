@@ -4,6 +4,7 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var reactify = require('reactify');
 var watchify = require('watchify');
+var seedrandom = require('seedrandom');
 
 function transpileJS() {
   // create browserify bundler for converting commonjs into browser-ready js
