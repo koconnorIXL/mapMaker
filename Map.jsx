@@ -11,6 +11,7 @@ var defaultStrokeWidth = 1.5;
 var defaultPointRadius = 4.5;
 var starSizeMultiplier = 4;
 var pathLabelAreaMinimum = 10000;
+var boundingBoxMarginMultiplier = 1.1;
 
 function getViewBox(scale, translate) {
   translate[0] *= -1;
@@ -158,7 +159,7 @@ var Map = React.createClass({
                 var newScaleRatio = Math.abs(dx / dy);
                 height = width / newScaleRatio;
 
-                zoomScale = width / dx;
+                zoomScale = width / (dx * boundingBoxMarginMultiplier);
                 strokeWidth = defaultStrokeWidth / zoomScale;
                 pointRadius = defaultPointRadius / zoomScale;
 
@@ -178,7 +179,11 @@ var Map = React.createClass({
                   .attr("transform", "scale(" + (1/zoomScale) + ")");
 
                 // Reset height and view box of the map.
-                svg.attr('viewBox', bounds[0][0] + ' ' + bounds[0][1] + ' ' + dx + ' ' + dy)
+                svg.attr('viewBox', 
+                  (bounds[0][0] - (dx*(boundingBoxMarginMultiplier-1)/2)) + ' ' + 
+                    (bounds[0][1]-(dy*(boundingBoxMarginMultiplier-1)/2)) + ' ' + 
+                    dx*boundingBoxMarginMultiplier + ' ' + 
+                    dy*boundingBoxMarginMultiplier)
                   .attr("height", height);
 
                 // Redraw path labels.
