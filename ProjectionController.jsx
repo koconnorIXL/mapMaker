@@ -8,7 +8,7 @@ var ProjectionController = React.createClass({
     e.preventDefault();
     var fromSlider = arguments[arguments.length - 1] === 'fromSlider';
     var c = fromSlider ? 'slider' : 'fi';
-    var form = document.querySelector('form');
+    var form = document.querySelector('.projectionController');
     var newState = {
       projectionType: form.querySelector('.projectionType').value,
       center: [
@@ -65,10 +65,10 @@ var ProjectionController = React.createClass({
       <form className="projectionController" onSubmit={this.update}>
         <div className='txt'>Projection Type: </div>
         <select className="projectionType n0" >
-          <option>mercator</option>
-          <option>albers</option>
-          <option>albersUsa</option>
-          <option>orthographic</option>
+          <option selected={this.props.projectionType === "mercator"}>mercator</option>
+          <option selected={this.props.projectionType === "albers"}>albers</option>
+          <option selected={this.props.projectionType === "albersUsa"}>albersUsa</option>
+          <option selected={this.props.projectionType === "orthographic"}>orthographic</option>
         </select>
         <div className='txt'>Center: </div>
         <input className="center slider n0" type='range' onChange={this.updateSlider} min="-180" max="180" value={this.props.center[0]} />
@@ -148,7 +148,7 @@ var ProjectionController = React.createClass({
             {zoomDatasetOptions}
           </select>
           <div className='txt'>Name of path (e.g. "France" or "Tennessee"):</div>
-          <input className="zoomPathName" />
+          <input className="zoomPathName" defaultValue={this.props.zoomPathName} />
         </div>
         <input type="submit" />
       </form>

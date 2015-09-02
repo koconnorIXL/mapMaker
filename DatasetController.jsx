@@ -149,7 +149,7 @@ var DatasetController = React.createClass({
           showOutline,
           showPathLabels,
           {minSize: cityMinSize, countryCapitalsOnly: countryCapitalsOnly, stateCapitalsOnly: stateCapitalsOnly, USOnly: USOnly},
-          {font: font, fontSize: fontSize, useStarForCountryCapitals: useStarForCountryCapitals, useStarForStateCapitals: useStarForStateCapitals}));
+          {font: font, fontSize: fontSize, useStarForCountryCapitals: useStarForCountryCapitals, useStarForStateCapitals: useStarForStateCapitals, giveShowCitiesPrecedence: true}));
     }
 
     this.props.updateDatasets(datasets);

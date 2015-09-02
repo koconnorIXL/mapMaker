@@ -473,7 +473,7 @@ var Map = React.createClass({
     if (dataset.name == 'Cities') {
       // If this city has been specifically specified as a label to include, don't run it through any other
       // filters.
-      if (this.props.labels.filter(function(element) {
+      if (dataset.filterInfo.giveShowCitiesPrecedence && this.props.labels.filter(function(element) {
         return element.type === 'city-show' && element.name === feature.properties.name; 
       }).length > 0) {
         return commonClassName;
@@ -487,13 +487,25 @@ var Map = React.createClass({
       }
 
       // Cities have more filters than the other datasets.
-      if (feature.properties.population < dataset.filterInfo.minSize ||
-        (dataset.filterInfo.stateCapitalsOnly && feature.properties.feature_code !== 'PPLA') ||
+      if ((dataset.filterInfo.stateCapitalsOnly && feature.properties.feature_code !== 'PPLA') ||
         (dataset.name == 'Cities' && dataset.filterInfo.countryCapitalsOnly && feature.properties.feature_code !== 'PPLC') ||
         (dataset.filterInfo.USOnly && feature.properties.country_code !== "US"))
       {
         return commonClassName + ' hidden';
       }
+
+      // If the citiesToShow list was not given precedence, apply it here.
+      if (!dataset.filterInfo.giveShowCitiesPrecedence && this.props.labels.filter(function(element) {
+        return element.type === 'city-show' && element.name === feature.properties.name; 
+      }).length > 0) {
+        return commonClassName;
+      }
+
+      // Last, apply the size constraint, since it is most likely to be overridden.
+      if (feature.properties.population < dataset.filterInfo.minSize) {
+        return commonClassName + ' hidden';
+      }
+
     }
 
     // If this feature is part of an unselected sub-option for its dataset, we do not want to
