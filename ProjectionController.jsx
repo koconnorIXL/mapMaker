@@ -38,6 +38,12 @@ var ProjectionController = React.createClass({
     if (newState.projectionType === 'orthographic') {
       newState.clipAngle = parseInt(form.querySelector('.clipAngle.' + c).value, 10);
     }
+
+    // Sometimes, the zoom path name is specified in the presets panel rather than the projection options.
+    if (!newState.zoomPathName && this.props.zoomPathName) {
+      newState.zoomPathName = this.props.zoomPathName;
+    }
+
     this.props.changeState(newState);
   },
 
@@ -148,7 +154,7 @@ var ProjectionController = React.createClass({
             {zoomDatasetOptions}
           </select>
           <div className='txt'>Name of path (e.g. "France" or "Tennessee"):</div>
-          <input className="zoomPathName" defaultValue={this.props.zoomPathName} />
+          <input className="zoomPathName" />
         </div>
         <input type="submit" />
       </form>

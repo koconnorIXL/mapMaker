@@ -104,7 +104,6 @@ var MapMaker = React.createClass({
   },
 
   usePreset: function(info) {
-    console.log("switching");
     this.setState(info);
   },
 
