@@ -41,7 +41,7 @@ module.exports = {
     filename: 'USSR.json',
     collectiveName: 'soviet_republics',
     individualName: 'soviet_republic',
-    defaultColors: ['#FF0000'],
+    defaultColors: ['#d290fc', '#c678ef', '#b161db', '#9949ce', '#7f37b7'],
     subOptions: []
   }
 };
