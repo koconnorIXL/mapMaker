@@ -7,7 +7,7 @@ var datasetOptions = require('./Datasets.jsx');
 var labelPoints = require('./LabelPoints.jsx');
 
 var mapSize = 800;
-var defaultStrokeWidth = 1.5;
+var defaultStrokeWidth = 0.5;
 var defaultPointRadius = 4.5;
 var starSizeMultiplier = 4;
 var pathLabelAreaMinimum = 10000;
