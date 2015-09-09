@@ -543,6 +543,14 @@ var Map = React.createClass({
         return commonClassName + ' hidden';
       }
     }
+
+    if (feature.properties.COUNTY) {
+      commonClassName += ' ' + feature.properties.COUNTY.replace(/\s/g, '_');
+    }
+    if (dataset.name === 'Congressional Districts') {
+      commonClassName += ' ' + feature.properties.STATE.replace(/\s/g, '_') + feature.properties.CONG_DIST;
+    }
+
     return commonClassName; 
   },
 

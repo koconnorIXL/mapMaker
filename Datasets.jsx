@@ -43,5 +43,19 @@ module.exports = {
     individualName: 'soviet_republic',
     defaultColors: ['#d290fc', '#c678ef', '#b161db', '#9949ce', '#7f37b7'],
     subOptions: []
+  },
+  'Counties': {
+    filename: 'counties.json',
+    collectiveName: 'counties',
+    individualName: 'county',
+    defaultColors: ['#d290fc', '#c678ef', '#b161db', '#9949ce', '#7f37b7'],
+    subOptions: []
+  },
+  'Congressional Districts': {
+    filename: 'congressional_districts.json',
+    collectiveName: 'congressionalDistricts',
+    individualName: 'congressionalDistrict',
+    defaultColors: ['#d290fc', '#c678ef', '#b161db', '#9949ce', '#7f37b7'],
+    subOptions: []
   }
 };
