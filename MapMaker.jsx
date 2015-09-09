@@ -7,6 +7,7 @@ var Map = require('./Map.jsx');
 var SubcontrollerContainer = require('./SubcontrollerContainer.jsx');
 var datasetOptions = require('./Datasets.jsx');
 var Dataset = require('./Dataset.js');
+var PresetController = require('./PresetController.jsx');
 
 
 var MAX_SCALE_RATIO = 8;
@@ -101,10 +102,20 @@ var MapMaker = React.createClass({
   updateDatasets: function(datasets) {
     this.setState({datasets: datasets});
   },
+
+  usePreset: function(info) {
+    this.setState(info);
+  },
+
   render: function() {
     
     return (
       <div>
+        <SubcontrollerContainer
+          type={PresetController}
+          title="Quick Presets"
+          usePreset={this.usePreset}
+        />
         <SubcontrollerContainer
           {...this.state}
           type={ProjectionController}

@@ -100,6 +100,7 @@ var DatasetController = React.createClass({
       var useStarForCountryCapitals = true;
       var useStarForStateCapitals = false;
       var USOnly = false;
+      var giveShowCitiesPrecedence = true;
       var font;
       var fontSize;
       if (datasetName == 'Cities') {
@@ -111,6 +112,7 @@ var DatasetController = React.createClass({
         var fontSizeInput = React.findDOMNode(this.refs[datasetName]).querySelector('.fontSizeFillIn');
         var useStarForStateCapitalsInput = React.findDOMNode(this.refs[datasetName]).querySelector('.useStarForStateCapitals');
         var useStarForCountryCapitalsInput = React.findDOMNode(this.refs[datasetName]).querySelector('.useStarForCountryCapitals');
+        var giveShowCitiesPrecedenceInput = React.findDOMNode(this.refs[datasetName]).querySelector('.giveShowCitiesPrecedence');
 
         if (cityMinSizeInput === null) {
           // 'Cities' has just been newly selected, so we use the default minimum size.
@@ -127,6 +129,7 @@ var DatasetController = React.createClass({
           USOnly = USOnlyInput.checked;
           useStarForStateCapitals = useStarForStateCapitalsInput.checked;
           useStarForCountryCapitals = useStarForCountryCapitalsInput.checked;
+          giveShowCitiesPrecedence = giveShowCitiesPrecedenceInput.checked;
         }
       } else {
         // Get whether to show the outline of this dataset.
@@ -149,7 +152,12 @@ var DatasetController = React.createClass({
           showOutline,
           showPathLabels,
           {minSize: cityMinSize, countryCapitalsOnly: countryCapitalsOnly, stateCapitalsOnly: stateCapitalsOnly, USOnly: USOnly},
-          {font: font, fontSize: fontSize, useStarForCountryCapitals: useStarForCountryCapitals, useStarForStateCapitals: useStarForStateCapitals}));
+          {
+            font: font, 
+            fontSize: fontSize, 
+            useStarForCountryCapitals: useStarForCountryCapitals, 
+            useStarForStateCapitals: useStarForStateCapitals, 
+            giveShowCitiesPrecedence: giveShowCitiesPrecedence}));
     }
 
     this.props.updateDatasets(datasets);
@@ -231,6 +239,10 @@ var DatasetController = React.createClass({
               <input className="stateCapitalsOnly" type="checkbox">State capitals only?</input>
               <br />
               <input className="USOnly" type="checkbox">US cities only?</input>
+              <br />
+              <input className="giveShowCitiesPrecedence" type="checkbox" defaultChecked>
+                Let the 'Cities to Show' list take precedence over all other filters (as opposed to just overriding minimum size)?
+              </input>
               <br />
               <div className="txt">Label font:</div>
               <input className="fontFillIn" type="text" defaultValue={propPassedIn[0].styleInfo.font} />
