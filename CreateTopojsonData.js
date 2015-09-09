@@ -6,12 +6,13 @@ var removeSmallIslands = require('./RemoveSmallIslands.js').removeSmallIslands;
 var ResolveBorders = require('./FixDisputedBoundaries.js');
 
 var datasetsToModify = [
-  'countries.json',
-  'admin1.json',
-  'usa.json',
-  'disputed_boundaries.json',
-  'USSR.json'
+  'congressional_districts.json',
+  'counties.json'
 ];
+
+
+var SIMPLIFY_MINIMUM_AREA_GLOBAL = 0.02;
+var SIMPLIFY_MINIMUM_AREA_LOCAL = 0.00001;
 
 datasetsToModify.forEach(function(filename) {
 
@@ -33,7 +34,7 @@ datasetsToModify.forEach(function(filename) {
   // smooth out some of the really detailed boundaries
   var simplifyOptions = {
     'coordinate-system': 'cartesian',
-    'minimum-area': 0.02
+    'minimum-area': SIMPLIFY_MINIMUM_AREA_LOCAL 
   };
   topojsonData = topojson.simplify(topojsonData, simplifyOptions);
 
