@@ -113,7 +113,7 @@ exports.fastFiveColoring = function(geometryCollection) {
       });
       
       for (var i = indicesToRemove.length - 1; i >= 0; i--) {
-        vertex.neighbors.splice(i, 1);
+        vertex.neighbors.splice(indicesToRemove[i], 1);
       }
     });
   

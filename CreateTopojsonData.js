@@ -6,12 +6,16 @@ var removeSmallIslands = require('./RemoveSmallIslands.js').removeSmallIslands;
 var ResolveBorders = require('./FixDisputedBoundaries.js');
 
 var datasetsToModify = [
-  'countries.json',
-  'admin1.json',
-  'usa.json',
-  'disputed_boundaries.json',
-  'USSR.json'
+  'congressional_districts.json',
+  'counties.json'
 ];
+
+
+var SIMPLIFY_MINIMUM_AREA_GLOBAL = 0.02;
+var SIMPLIFY_MINIMUM_AREA_LOCAL = 0.00001;
+
+var SMALL_ISLAND_THRESHOLD_GLOBAL = 3;
+var SMALL_ISLAND_THRESHOLD_LOCAL = 0;
 
 datasetsToModify.forEach(function(filename) {
 
@@ -20,7 +24,7 @@ datasetsToModify.forEach(function(filename) {
   
   // Prune some small islands out of the geojson data.
   var standardProjection = d3.geo.equirectangular();
-  removeSmallIslands(data, d3.geo.path().projection(standardProjection), 3);
+  removeSmallIslands(data, d3.geo.path().projection(standardProjection), SMALL_ISLAND_THRESHOLD_LOCAL);
 
   // convert the geojson to topojson
   var options = {
@@ -33,7 +37,7 @@ datasetsToModify.forEach(function(filename) {
   // smooth out some of the really detailed boundaries
   var simplifyOptions = {
     'coordinate-system': 'cartesian',
-    'minimum-area': 0.02
+    'minimum-area': SIMPLIFY_MINIMUM_AREA_LOCAL 
   };
   topojsonData = topojson.simplify(topojsonData, simplifyOptions);
 
