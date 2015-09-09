@@ -127,6 +127,14 @@ path.disputed_boundary {
 
 .mapLabel {
   text-anchor: middle;
+}
+
+.mapLabel.small {
+  font-size: 11px;
+  font: Verdana;
+}
+
+.mapLabel.large {
   font-size: 24px;
   font-weight: 300;
   fill-opacity: 0.5;

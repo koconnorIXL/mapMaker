@@ -378,6 +378,9 @@ var Map = React.createClass({
     var projection = getProjection(this.props);
 
     var extraLabelData = [];
+    if (this.props.showCachedUSStateLabels) {
+      extraLabelData = extraLabelData.concat(labelPoints.usStateLabelInfo);
+    }
     if (this.props.showContinentLabels) {
       extraLabelData = extraLabelData.concat(labelPoints.continentLabelInfo);
     }
@@ -393,7 +396,12 @@ var Map = React.createClass({
       .data(extraLabelData);
 
     labelComponents.enter().append("text")
-      .attr("class", "mapLabel")
+      .attr("class", function (d) {
+        if (d.largeDisplay) {
+          return "mapLabel large";
+        }
+        return "mapLabel small";
+      })
       .attr("key", function (d, i) {
         return i;
       })
@@ -410,6 +418,38 @@ var Map = React.createClass({
           ")scale(" + Math.min(1 / zoomScale) + ")";
       })
       .text(function (d) { return d.label; });
+
+    // Add connecting lines between labels and anchor points, for those that have anchor points (e.g. fly-out labels for US states).
+    labelComponents.each(function(d) {
+      if (d.anchorPoint) {
+        var anchorPointCoords = projection([d.anchorPoint.long, d.anchorPoint.lat]);
+
+        // We want to connect the anchor point to the nearest corner of the label.
+        var labelWidth = this.getBBox().width;
+        var labelHeight = this.getBBox().height;
+        // Since the labels are centered, we must adjust our corner location calculations.
+        var labelPointX = projection([d.long, d.lat])[0] - labelWidth/2;
+        var labelPointY = projection([d.long, d.lat])[1];
+
+        if (Math.abs(anchorPointCoords[0] - labelPointX) > Math.abs(anchorPointCoords[0] - labelPointX - labelWidth)) {
+          // The other side of the box is closer along the x dimension.
+          labelPointX = labelPointX + labelWidth;
+        }
+        if (Math.abs(anchorPointCoords[1] - labelPointY) > Math.abs(anchorPointCoords[1] - labelPointY - labelHeight)) {
+          // The other side of the box is closer along the y dimension.
+          labelPointY = labelPointY + labelHeight;
+        }
+
+        svg.append("svg:line")
+          .datum(d)
+          .attr("class", "labelLink")
+          .attr("x1", anchorPointCoords[0])
+          .attr("y1", anchorPointCoords[1])
+          .attr("x2", labelPointX)
+          .attr("y2", labelPointY)
+          .attr("stroke", "black");
+      }
+    })
   },
 
   isInView: function(coords, svg) {
