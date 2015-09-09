@@ -141,7 +141,7 @@ module.exports = {
     {
       label: "Florida",
       lat: 27.39,
-      long: -81.47
+      long: -82
     },
     {
       label: "Georgia",
@@ -172,7 +172,7 @@ module.exports = {
     {
       label: "Iowa",
       lat: 42,
-      long: -93.49
+      long: -94.5
     },
     {
       label: "Kansas",
@@ -272,8 +272,8 @@ module.exports = {
     },
     {
       label: "New York",
-      lat: 42.36,
-      long: -75.81
+      lat: 42.4,
+      long: -76.8
     },
     {
       label: "North Carolina",
@@ -307,8 +307,8 @@ module.exports = {
     },
     {
       label: "Rhode Island",
-      lat: 40,
-      long: -69,
+      lat: 39.45,
+      long: -67,
       anchorPoint: {
         lat: 41.6772,
         long: -71.5101
@@ -350,7 +350,7 @@ module.exports = {
     },
     {
       label: "Virginia",
-      lat: 37,
+      lat: 36.93,
       long: -79.23
     },
     {
