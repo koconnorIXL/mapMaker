@@ -131,3 +131,15 @@ path.disputed_boundary {
   font-weight: 300;
   fill-opacity: 0.5;
 }
+
+.Horry_County {
+  visibility: hidden;
+}
+
+.North_Slope_Borough {
+  visibility: hidden;
+}
+
+.texas14, .michigan10, .michigan01, .alaska01 {
+  visibility: hidden;
+}

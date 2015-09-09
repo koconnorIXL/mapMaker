@@ -14,6 +14,9 @@ var datasetsToModify = [
 var SIMPLIFY_MINIMUM_AREA_GLOBAL = 0.02;
 var SIMPLIFY_MINIMUM_AREA_LOCAL = 0.00001;
 
+var SMALL_ISLAND_THRESHOLD_GLOBAL = 3;
+var SMALL_ISLAND_THRESHOLD_LOCAL = 0;
+
 datasetsToModify.forEach(function(filename) {
 
   // Get the geojson data.
@@ -21,7 +24,7 @@ datasetsToModify.forEach(function(filename) {
   
   // Prune some small islands out of the geojson data.
   var standardProjection = d3.geo.equirectangular();
-  removeSmallIslands(data, d3.geo.path().projection(standardProjection), 3);
+  removeSmallIslands(data, d3.geo.path().projection(standardProjection), SMALL_ISLAND_THRESHOLD_LOCAL);
 
   // convert the geojson to topojson
   var options = {
