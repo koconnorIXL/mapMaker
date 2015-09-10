@@ -23,8 +23,8 @@ datasetsToModify.forEach(function(filename) {
   var data = JSON.parse(fs.readFileSync('geojsonDatasets/' + filename));
   
   // Prune some small islands out of the geojson data.
-  var standardProjection = d3.geo.equirectangular();
-  removeSmallIslands(data, d3.geo.path().projection(standardProjection), SMALL_ISLAND_THRESHOLD_LOCAL);
+  //var standardProjection = d3.geo.equirectangular();
+  //removeSmallIslands(data, d3.geo.path().projection(standardProjection), SMALL_ISLAND_THRESHOLD_LOCAL);
 
   // convert the geojson to topojson
   var options = {
@@ -39,7 +39,7 @@ datasetsToModify.forEach(function(filename) {
     'coordinate-system': 'cartesian',
     'minimum-area': SIMPLIFY_MINIMUM_AREA_LOCAL 
   };
-  topojsonData = topojson.simplify(topojsonData, simplifyOptions);
+  //topojsonData = topojson.simplify(topojsonData, simplifyOptions);
 
   // resolve some disputed country boundaries in the countries dataset
   if (filename === 'countries.json') {

@@ -2,6 +2,7 @@ var React = require('react');
 var datasetOptions = require('./Datasets.jsx');
 var Dataset = require('./Dataset.js');
 var stateCapitals = require('./StateCapitals.js');
+var US_DATA = require('./USData.js');
 
 var PresetController = React.createClass({
   makeUSMap: function(e) {
@@ -70,6 +71,35 @@ var PresetController = React.createClass({
     });
   },
 
+  makeCountyMap: function(e) {
+    e.preventDefault();
+    var stateName = document.querySelector('.presetController').querySelector('.countyStateName').value;
+    this.props.usePreset({
+      projectionType: "mercator",
+      labels: [],
+      datasets: [
+        new Dataset(
+          'States/Provinces', 
+          Array(datasetOptions['States/Provinces'].defaultColors.length + 1).join("#ffffff ").split(' '),
+          ['United States of America'],
+          [],
+          false
+        ),
+        new Dataset(
+          'Counties',
+          datasetOptions['Counties'].defaultColors,
+          [stateName], 
+          [],
+          false,
+          false
+        )
+      ],
+      showGridLines: false,
+      zoomDataset: "States/Provinces",
+      zoomPathName: stateName
+    });
+  },
+
   makeUSHighlightedMap: function(e) {
     e.preventDefault();
     var stateName = document.querySelector('.presetController').querySelector('.highlightStateName').value;
@@ -102,6 +132,12 @@ var PresetController = React.createClass({
           <div className="txt">US State Map (&lt;geographicMap preset=&quot;Alabama&quot;&gt;&lt;/geographicMap&gt;):</div>
           <div className="txt">Enter state name here:</div>
           <input className="zoomStateName" />
+          <input type="submit" />
+        </form>
+        <form onSubmit={this.makeCountyMap}>
+          <div className="txt">US State Map with counties</div>
+          <div className="txt">Enter state name here:</div>
+          <input className="countyStateName" />
           <input type="submit" />
         </form>
         <form onSubmit={this.makeUSHighlightedMap}>

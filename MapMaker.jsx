@@ -1,4 +1,5 @@
 var React = require('react');
+var topojson = require('topojson');
 var ProjectionController = require('./ProjectionController.jsx');
 var MapLabelManager = require('./MapLabelManager.jsx');
 var MapQuestionBankTag = require('./MapQuestionBankTag.jsx');
@@ -8,9 +9,11 @@ var SubcontrollerContainer = require('./SubcontrollerContainer.jsx');
 var datasetOptions = require('./Datasets.jsx');
 var Dataset = require('./Dataset.js');
 var PresetController = require('./PresetController.jsx');
+var BoundingBoxHelper = require('./BoundingBoxHelper.jsx');
+var jsonGetter = require('./JSONGetter.js').getTopojson;
 
 
-var MAX_SCALE_RATIO = 8;
+var MAX_SCALE_RATIO = 20;
 
 var MapMaker = React.createClass({
   
@@ -104,7 +107,52 @@ var MapMaker = React.createClass({
   },
 
   usePreset: function(info) {
-    this.setState(info);
+    if (info.zoomDataset && info.zoomPathName) {
+      var d = datasetOptions[info.zoomDataset];
+
+      var filename = d.filename;
+      var name = filename.substring(0, filename.length - 5);
+      jsonGetter(filename, function(json) {
+        var features = topojson.feature(json, json.objects[name]).features;
+        var feature = features.filter(function(f) { return f.properties.name === info.zoomPathName; })[0];
+        if (feature) {
+          var p = BoundingBoxHelper.getProjectionToBound(
+            {
+              rotate: this.state.rotate,
+              center: this.state.center,
+              scale: this.state.scaleRatio * Math.max(this.state.width, this.state.height),
+              clipAngle: this.state.clipAngle,
+              precision: this.state.precision,
+              projectionType: this.state.projectionType,
+              parallels: this.state.parallels,
+              translate: [this.state.width / 2, this.state.height / 2],
+              clipExtent: [[0, 0], [this.state.width, this.state.height]]
+            },
+            feature,
+            this.state.width,
+            this.state.height,
+            1.1);
+
+          var clipExtent = p.clipExtent();
+          var w = clipExtent[1][0] - clipExtent[0][0];
+          var h = clipExtent[1][1] - clipExtent[0][1];
+          this.setState({
+            rotate: p.rotate(),
+            center: p.center(),
+            scaleRatio: p.scale() / Math.max(w, h),
+            clipAngle: p.clipAngle(),
+            width: w,
+            height: h,
+            precision: p.precision(),
+            parallels: p.parallels ? p.parallels() : this.state.parallels,
+            datasets: info.datasets || this.state.datasets
+          });
+        }
+      }.bind(this));
+    }
+    else {
+      this.setState(info);
+    }
   },
 
   render: function() {
@@ -150,7 +198,6 @@ var MapMaker = React.createClass({
           clipExtent={[[0, 0], [this.state.width, this.state.height]]}
           zoomIn={this.zoomIn}
           zoomOut={this.zoomOut}
-          dragRotate={this.dragRotate}
         />
       </div>
     );

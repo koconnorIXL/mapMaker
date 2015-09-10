@@ -1,3 +1,5 @@
+var US_DATA = require('./USData.js');
+
 module.exports = {
   'Countries': {
     filename: 'countries.json',
@@ -49,13 +51,13 @@ module.exports = {
     collectiveName: 'counties',
     individualName: 'county',
     defaultColors: ['#d290fc', '#c678ef', '#b161db', '#9949ce', '#7f37b7'],
-    subOptions: []
+    subOptions: US_DATA.STATE_LIST
   },
   'Congressional Districts': {
     filename: 'congressional_districts.json',
     collectiveName: 'congressionalDistricts',
     individualName: 'congressionalDistrict',
     defaultColors: ['#d290fc', '#c678ef', '#b161db', '#9949ce', '#7f37b7'],
-    subOptions: []
+    subOptions: US_DATA.STATE_LIST 
   }
 };

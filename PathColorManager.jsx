@@ -39,7 +39,7 @@ var PathColorManager = React.createClass({
       if (err) { return console.log(err); }
         
       var options = json.objects[datasetFilename.substring(0, datasetFilename.length - 5)].geometries.map(
-        function(path) { return <option>{path.properties.name}</option>; });
+        function(path) { return <option key={path.properties.name}>{path.properties.name}</option>; });
       this.setState({options: options});
     }.bind(this));
   },

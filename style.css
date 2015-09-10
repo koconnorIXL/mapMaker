@@ -132,7 +132,7 @@ path.disputed_boundary {
   fill-opacity: 0.5;
 }
 
-.Horry_County {
+.Horry_County, .North_Slope_Borough, .Wrangell-Petersburg_Census_Area {
   visibility: hidden;
 }
 

@@ -202,7 +202,7 @@ var DatasetController = React.createClass({
           }
 
           for (var i = 0; i < colors.length; i++) {
-            colorPickers.push(<input type="color" onChange={this.updateColor} value={colors[i]} />);
+            colorPickers.push(<input key={i} type="color" onChange={this.updateColor} value={colors[i]} />);
           }
 
           // Create the sub-option selectors.
@@ -214,9 +214,13 @@ var DatasetController = React.createClass({
             if (selectedSubOptions.indexOf(possibleSubOptions[i]) !== -1) {
               subOptionClassName += ' selectedSubOption';
             }
-            subOptionSelectors.push(<div className={subOptionClassName} onClick={this.handleSubOptionClick}>
-              {possibleSubOptions[i]}
-            </div>);
+            subOptionSelectors.push(
+              <div 
+                key={possibleSubOptions[i]} 
+                className={subOptionClassName} 
+                onClick={this.handleSubOptionClick}>
+               {possibleSubOptions[i]}
+              </div>);
           }
 
           // Make the path color manager.
@@ -259,14 +263,14 @@ var DatasetController = React.createClass({
             // Make the form for non-cities options.
             showOutlineInput = <form className="nonCitiesInputContainer" onSubmit={this.handleFilterChange}>
               <div className='txt'>Show dataset outline, regardless of which internal paths are shown?</div>
-              <select className="showOutlineInput" >
-                <option selected={this.props.showOutline}>Yes</option>
-                <option selected={!this.props.showOutline}>No</option>
+              <select value={this.props.showOutline} className="showOutlineInput" >
+                <option value={true}>Yes</option>
+                <option value={false}>No</option>
               </select>
               <div className='txt'>Show path labels for this dataset?</div>
-              <select className="showPathLabelsInput" >
-                <option selected={this.props.showPathLabels}>Yes</option>
-                <option selected={!this.props.showPathLabels}>No</option>
+              <select value={this.props.showPathLabels} className="showPathLabelsInput" >
+                <option value={true}>Yes</option>
+                <option value={false}>No</option>
               </select>
               <div className='txt'>Submit changes:</div>
               <input type="submit" />
@@ -276,7 +280,7 @@ var DatasetController = React.createClass({
           }
         }
 
-        datasetFields.push(<div className={overallClassName} ref={prop}>
+        datasetFields.push(<div className={overallClassName} key={prop} ref={prop}>
           <div 
             className="datasetName"
             onClick={this.handleClick}>
