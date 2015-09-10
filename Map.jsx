@@ -12,6 +12,7 @@ var defaultPointRadius = 4.5;
 var starSizeMultiplier = 4;
 var pathLabelAreaMinimum = 10000;
 var boundingBoxMarginMultiplier = 1.1;
+var compassRoseSize = 100;
 
 function getViewBox(scale, translate) {
   translate[0] *= -1;
@@ -185,6 +186,13 @@ var Map = React.createClass({
                     dx*boundingBoxMarginMultiplier + ' ' + 
                     dy*boundingBoxMarginMultiplier)
                   .attr("height", height);
+
+                // Resize compass rose.
+                svg.selectAll(".compassRose")
+                  .attr("width", compassRoseSize/zoomScale)
+                  .attr("height", compassRoseSize/zoomScale)
+                  .attr("x", parseFloat(svg.attr('viewBox').split(' ')[0]))
+                  .attr("y", parseFloat(svg.attr('viewBox').split(' ')[1]));
 
                 // Redraw path labels.
                 reactObj.createPathLabels(svg, zoomScale);
@@ -372,6 +380,17 @@ var Map = React.createClass({
 
     // Add continent/ocean labels.
     this.addExtraLabels(svg, zoomScale);
+
+    // Add a compass rose in the upper left corner of the map if requested.
+    if (this.props.showCompassRose) {
+      svg.append("svg:image")
+        .attr("class", "compassRose")
+        .attr("width", compassRoseSize/zoomScale)
+        .attr("height", compassRoseSize/zoomScale)
+        .attr("x", parseFloat(svg.attr('viewBox').split(' ')[0]))
+        .attr("y", parseFloat(svg.attr('viewBox').split(' ')[1]))
+        .attr("xlink:href", "simple_compass_rose.svg");
+    }
   },
 
   addExtraLabels: function(svg, zoomScale) {
