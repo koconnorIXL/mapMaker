@@ -59,5 +59,12 @@ module.exports = {
     individualName: 'congressionalDistrict',
     defaultColors: ['#d290fc', '#c678ef', '#b161db', '#9949ce', '#7f37b7'],
     subOptions: US_DATA.STATE_LIST 
+  },
+  'Colonies': {
+    filename: 'colonies.json',
+    collectiveName: 'colonies',
+    individualName: 'colony',
+    defaultColors: ['#ffffff'],
+    subOptions: []
   }
 };
