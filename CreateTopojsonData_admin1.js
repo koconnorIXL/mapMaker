@@ -56,13 +56,20 @@ datasetsToModify.forEach(function(filename) {
     }
 
     var topology = topojson.topology({collection: subDataset}, options);  
+    
+    var retVal = topojson.merge(topology, topology.objects.collection.geometries);
+    if (topology.objects.collection.geometries.length > 0) {
+      if (DO_NOT_SIMPLIFY.indexOf(topology.objects.collection.geometries[0].properties.name) > -1) {
+        topology = topojson.simplify(topology, simplifyOptions);
+      }
 
-    if (DO_NOT_SIMPLIFY.indexOf(topology.objects.collection.geometries[0].properties.name) > -1) {
-      topology = topojson.simplify(topology, simplifyOptions);
+      retVal.properties = topology.objects.collection.geometries[0].properties;
+    }
+    else {
+      console.log(subDataset);
     }
 
-    var retVal = topojson.merge(topology, topology.objects.collection.geometries);
-    retVal.properties = topology.objects.collection.geometries[0].properties;
+
     return retVal;
   });
 
@@ -87,9 +94,11 @@ datasetsToModify.forEach(function(filename) {
   var geometryCollection = topojsonData.objects[filename.slice(0, filename.length - 5)].geometries;
 
   var fiveColoring = MapColoring.fastFiveColoring(geometryCollection);
-
+  
   for (var i = 0; i < geometryCollection.length; i++) {
-    geometryCollection[i].properties.mapcolor5 = fiveColoring[i];
+    if (geometryCollection[i] && geometryCollection[i].properties) {
+      geometryCollection[i].properties.mapcolor5 = fiveColoring[i];
+    }
   }
 
   fs.writeFile('topojsonDatasets/' + filename.slice(0, filename.length - 5) + '.json', JSON.stringify(topojsonData));
