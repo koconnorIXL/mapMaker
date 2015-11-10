@@ -15,9 +15,9 @@ exports.removeSmallIslands = function removeSmallIslands(geojson, d3Path, minAre
         return NO_CHANGE;
       }
       // Don't remove small paths in the US (i.e. Hawaii, Alaska, Rhode Island).
-      else if ((properties && properties.admin === "United States of America") && d3Path.area(geojson) >= US_THRESHOLD) {
-        return NO_CHANGE;
-      }
+//      else if ((properties && properties.admin === "United States of America") && d3Path.area(geojson) >= US_THRESHOLD) {
+//        return NO_CHANGE;
+//      }
       else {
         geojson.coordinates = [];
         return REMOVED;
