@@ -112,17 +112,6 @@ datasetsToModify.forEach(function (filename) {
   topojsonData.objects[filename.slice(0, filename.length - 5)] = topojsonData.objects.collection;
   topojsonData.objects.collection = null;
 
-  // add a mapcolor5 field to the topojson
-  var geometryCollection = topojsonData.objects[filename.slice(0, filename.length - 5)].geometries;
-
-  var fiveColoring = MapColoring.fastFiveColoring(geometryCollection);
-
-  for (var i = 0; i < geometryCollection.length; i++) {
-    if (geometryCollection[i] && geometryCollection[i].properties) {
-      geometryCollection[i].properties.mapcolor5 = fiveColoring[i];
-    }
-  }
-
   fs.writeFile('topojsonDatasets/' + filename.slice(0, filename.length - 5) + '.json', JSON.stringify(topojsonData));
 });
 
