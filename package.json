@@ -8,6 +8,7 @@
     "browserify": ">=10.2.6",
     "watchify":  ">=3.2.3",
     "gulp": ">=3.8.11",
+    "gulp-react": "*",
     "vinyl-source-stream": ">=1.1.0",
     "reactify": ">=1.1.1",
     "react": ">=0.13.3",
