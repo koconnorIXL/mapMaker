@@ -1,8 +1,7 @@
 module.exports = {
   'Abkhazia': {
     name: 'Abkhazia',
-    continent: 'Asia',
-    claimed_by: ['Georgia']
+    continent: 'Asia', claimed_by: ['Georgia']
   },
   'South_Ossetia': {
     name: 'South Ossetia',
@@ -63,6 +62,47 @@ module.exports = {
     name: 'Southern_Belize',
     continent: 'South America',
     claimed_by: ['Belize']
+  },
+  // P2
+  'Atacama_Corridor': {
+    name: 'Atacama_Corridor',
+    continent: 'South America',
+    claimed_by: ['Chile', 'Bolivia']
+  },
+  'Bhutan_China_border': {
+    name: 'Bhutan_China_border',
+    continent: 'Asia',
+    claimed_by: ['Bhutan', 'China']
+  },
+  'Guayana_Esequiba': {
+    name: 'Guayana_Esequiba',
+    continent: 'South America',
+    claimed_by: ['Guyana', 'Venezuela']
+  },
+  'New_River_Triangle_Tigri': {
+    name: 'New_River_Triangle_Tigri',
+    continent: 'South America',
+    claimed_by: ['Guyana', 'Suriname']
+  },
+  'Lawa_Headwaters': {
+    name: 'Lawa_Headwaters',
+    continent: 'South America',
+    claimed_by: ['France', 'Suriname']
+  },
+  //'Nagorno-Karabakh': {
+  //  name: 'Nagorno-Karabakh',
+  //  continent: 'Asia',
+  //  claimed_by: ['Azerbaijan']
+  //},
+  'Trans-Karakoram_Tract': {
+    name: 'Trans-Karakoram_Tract',
+    continent: 'Asia',
+    claimed_by: ['China', 'India']
+  },
+  'Transnistria': {
+    name: 'Transnistria',
+    continent: 'Europe',
+    claimed_by: ['Moldova', 'Ukraine']
   }
 };
 

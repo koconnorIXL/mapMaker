@@ -16,17 +16,19 @@ function nextN(start, n, arr) {
   return res;
 }
 
-function lessThanThreshold(x) {
-  return x < CLOSE_THRESHOLD;
-}
-
-function greaterThanThreshold(x) {
-  return x >= CLOSE_THRESHOLD;
-}
 
 var computeMinDists = require('./ComputeMinDists.js');
 
-function splicePaths(newData, existingData) {
+function splicePaths(newData, existingData, closeThreshold) {
+  closeThreshold = closeThreshold || CLOSE_THRESHOLD;
+  function lessThanThreshold(x) {
+    return x < closeThreshold;
+  }
+  
+  function greaterThanThreshold(x) {
+    return x >= closeThreshold;
+  }
+
   var ps1 = newData;
   var ps2 = existingData;
 

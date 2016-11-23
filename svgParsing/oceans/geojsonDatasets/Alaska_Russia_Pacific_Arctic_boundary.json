@@ -1,0 +1,24 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pacific_ocean"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+              [
+                -168.082815533959,
+                65.6633394369723
+              ],
+              [
+                -169.7388087462112,
+                66.066320208212
+              ]
+        ]
+      }
+    }
+  ]
+}

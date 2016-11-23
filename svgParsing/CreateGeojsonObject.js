@@ -1,18 +1,14 @@
+var createGeojsonPolygonObject = require('./CreateGeojsonPolygonObject');
+var createGeojsonMultiPolygonObject = require('./CreateGeojsonMultiPolygonObject');
 
 function createGeojsonObject(coordinates, properties) {
-  return {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        properties: properties,
-        geometry: {
-          type: 'Polygon',
-          coordinates: [coordinates.slice()]
-        }
-      }
-    ]
-  };
+  if (coordinates.length === 1) {
+    return createGeojsonPolygonObject(coordinates, properties);
+  }
+  else {
+    return createGeojsonMultiPolygonObject(coordinates, properties);
+  }
 }
 
 module.exports = createGeojsonObject;
+
