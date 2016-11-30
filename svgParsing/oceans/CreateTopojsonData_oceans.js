@@ -48,7 +48,9 @@ function getFreshData() {
 }
 
 // Get the geojson data.
-var data = getFreshData(); 
+var data = getFreshData();
+
+data.features = data.features.filter(function(feature) { return feature.properties.name.indexOf('Ocean') > -1; });
 
 // First, create one big dataset which contains low-res data for the boundary
 // of every country in the world.

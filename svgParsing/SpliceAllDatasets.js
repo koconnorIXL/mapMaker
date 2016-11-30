@@ -32,19 +32,25 @@ for (var id in propMap) {
     var territoryFeature = JSON.parse(fs.readFileSync(filename)).features[0];
     
     // Get the feature which the new feature is claimed by.
-    var claimer = territoryFeature.properties.claimed_by[0];
-    var claimingFeature = countries.features.filter(function(feature) {
-      return feature.properties.NAME === claimer;
+    var claimers = territoryFeature.properties.claimed_by;
+    var claimer = claimers[0];
+    var claimingFeatures = countries.features.filter(function(feature) {
+      return claimers.indexOf(feature.properties.NAME || feature.properties.name) > -1;
+    });
+    var claimingFeature = claimingFeatures.filter(function(feature) {
+      return feature.properties.NAME === claimer || feature.properties.name === claimer;
     })[0];
     
     // Add the new feature to the 'external_claims' entry for the claiming
     // country, if not already present.
-    if (!claimingFeature.properties.external_claims) {
-      claimingFeature.properties.external_claims = [];
-    }
-    if (claimingFeature.properties.external_claims.indexOf(id) === -1) {
-      claimingFeature.properties.external_claims.push(id);
-    }
+    claimingFeatures.forEach(function(feature) {
+      if (!feature.properties.external_claims) {
+        feature.properties.external_claims = [];
+      }
+      if (feature.properties.external_claims.indexOf(id) === -1) {
+        feature.properties.external_claims.push(id);
+      }
+    });
     
     var claimerIndex = countries.features.indexOf(claimingFeature);
     var longestPathInfo = findLongestCoordinateArray(claimingFeature);
@@ -61,7 +67,7 @@ for (var id in propMap) {
         }
         var newPaths = splicePaths(territoryPs, claimingPs, PRECISION_MAP[id]);
         claimingPs = newPaths[1];
-        territoryFeature.geometry.coordinates[i] = [newPaths[1]];
+        territoryFeature.geometry.coordinates[i] = [newPaths[0]];
       }
     }
     else {

@@ -103,6 +103,11 @@ module.exports = {
     name: 'Transnistria',
     continent: 'Europe',
     claimed_by: ['Moldova', 'Ukraine']
+  },
+  'Crimea': {
+    name: 'Crimea',
+    continent: 'Europe',
+    claimed_by: ['Ukraine', 'Russia']
   }
 };
 

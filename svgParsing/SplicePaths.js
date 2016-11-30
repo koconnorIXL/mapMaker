@@ -84,10 +84,12 @@ function splicePaths(newData, existingData, closeThreshold) {
   //console.log(ps2);
   //console.log(minDists1);
   //console.log(minDists2);
+  //console.log('splitter');
   //console.log(splitter);
+  //console.log('overlap');
   //console.log(overlap);
   
-  var finalNewPath = overlap.concat(splitter.slice(1));
+  var finalNewPath = overlap.concat(splitter);
   var firstNewP = finalNewPath[0];
   var lastNewP = finalNewPath[finalNewPath.length - 1];
   if (firstNewP[0] !== lastNewP[0] || firstNewP[1] !== lastNewP[1]) {
