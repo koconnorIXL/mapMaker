@@ -9,18 +9,22 @@ var countries = JSON.parse(fs.readFileSync('../geojsonDatasets/countries_high_re
 var REVERSED = [
   'South_Ossetia',
   'Bir_Tawil',
-  'Kashmir'
+  'Kashmir',
+  'Transnistria'
+];
+
+var ALREADY_SPLICED_MANUALLY = [
+  'Korean_Demilitarized_Zone',
+  'Nagorno-Karabakh',
+  'Mayotte'
 ];
 
 var PRECISION_MAP = {};
 
-var FRENCH_GUIANA_POLYGON_INDEX = 3;
+var FRENCH_GUIANA_POLYGON_INDEX = 2;
 
 for (var id in propMap) {
   if (propMap.hasOwnProperty(id)) {
-    if (id === 'Korean_Demilitarized_Zone' || id === 'Nagorno_Karabakh') {
-      continue;
-    }
     console.log(id);
 
     // It is nice to have all the boundary paths in the same orientation (clockwise). So if this
@@ -53,41 +57,43 @@ for (var id in propMap) {
     });
     
     var claimerIndex = countries.features.indexOf(claimingFeature);
-    var longestPathInfo = findLongestCoordinateArray(claimingFeature);
-    var claimingPs = longestPathInfo.coordinates.slice();
-    if (id === 'Lawa_Headwaters') {
-      claimingPs = claimingFeature.geometry.coordinates[FRENCH_GUIANA_POLYGON_INDEX][0];
-    }
- 
-    if (territoryFeature.geometry.type === 'MultiPolygon') {
-      for (var i = 0; i < territoryFeature.geometry.coordinates.length; i++) {
-        var territoryPs = territoryFeature.geometry.coordinates[i][0];
-        if (reversed || (id === 'Bhutan_China_border' && (i === 0 || i === 2))) {
+    
+    if (ALREADY_SPLICED_MANUALLY.indexOf(id) === -1) {
+      var longestPathInfo = findLongestCoordinateArray(claimingFeature);
+      var claimingPs = longestPathInfo.coordinates.slice();
+      if (id === 'Lawa_Headwaters') {
+        claimingPs = claimingFeature.geometry.coordinates[FRENCH_GUIANA_POLYGON_INDEX][0];
+      }
+      if (territoryFeature.geometry.type === 'MultiPolygon') {
+        for (var i = 0; i < territoryFeature.geometry.coordinates.length; i++) {
+          var territoryPs = territoryFeature.geometry.coordinates[i][0];
+          if (reversed || (id === 'Bhutan_China_border' && (i === 0 || i === 2))) {
+            territoryPs = territoryPs.reverse();
+          }
+          var newPaths = splicePaths(territoryPs, claimingPs, PRECISION_MAP[id]);
+          claimingPs = newPaths[1];
+          territoryFeature.geometry.coordinates[i] = [newPaths[0]];
+        }
+      }
+      else {
+        var territoryPs = territoryFeature.geometry.coordinates[0];
+        if (reversed) {
           territoryPs = territoryPs.reverse();
         }
         var newPaths = splicePaths(territoryPs, claimingPs, PRECISION_MAP[id]);
+        territoryFeature.geometry.coordinates = [newPaths[0]];
         claimingPs = newPaths[1];
-        territoryFeature.geometry.coordinates[i] = [newPaths[0]];
       }
-    }
-    else {
-      var territoryPs = territoryFeature.geometry.coordinates[0];
-      if (reversed) {
-        territoryPs = territoryPs.reverse();
+      if (claimingFeature.geometry.type === 'MultiPolygon') {
+        var polygonIndex = longestPathInfo.polygonIndex;
+        if (id === 'Lawa_Headwaters') {
+          polygonIndex = FRENCH_GUIANA_POLYGON_INDEX;
+        }
+        claimingFeature.geometry.coordinates[polygonIndex][longestPathInfo.index] = claimingPs;
       }
-      var newPaths = splicePaths(territoryPs, claimingPs, PRECISION_MAP[id]);
-      territoryFeature.geometry.coordinates = [newPaths[0]];
-      claimingPs = newPaths[1];
-    }
-    if (claimingFeature.geometry.type === 'MultiPolygon') {
-      var polygonIndex = longestPathInfo.polygonIndex;
-      if (id === 'Lawa_Headwaters') {
-        polygonIndex = FRENCH_GUIANA_POLYGON_INDEX;
+      else {
+        claimingFeature.geometry.coordinates[longestPathInfo.index] = claimingPs;
       }
-      claimingFeature.geometry.coordinates[polygonIndex][longestPathInfo.index] = claimingPs;
-    }
-    else {
-      claimingFeature.geometry.coordinates[longestPathInfo.index] = claimingPs;
     }
 
     countries.features.splice(claimerIndex, 0, territoryFeature);

@@ -7,7 +7,8 @@
         "name": "Abyei_Area",
         "continent": "Africa",
         "claimed_by": [
-          "Sudan"
+          "Sudan",
+          "S. Sudan"
         ]
       },
       "geometry": {

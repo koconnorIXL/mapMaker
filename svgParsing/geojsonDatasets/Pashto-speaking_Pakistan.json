@@ -7,7 +7,8 @@
         "name": "Pashto-speaking_Pakistan",
         "continent": "Asia",
         "claimed_by": [
-          "Pakistan"
+          "Pakistan",
+          "Afghanistan"
         ]
       },
       "geometry": {

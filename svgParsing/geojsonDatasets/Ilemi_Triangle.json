@@ -8,8 +8,7 @@
         "continent": "Africa",
         "claimed_by": [
           "Kenya",
-          "South Sudan",
-          "Ethiopia"
+          "S. Sudan"
         ]
       },
       "geometry": {
@@ -101,7 +100,7 @@
               4.71116175200078
             ],
             [
-              35.62651570123458,
+              34.9964531125,
               4.6243610226708896
             ]
           ]

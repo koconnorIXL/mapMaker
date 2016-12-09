@@ -1,17 +1,18 @@
 module.exports = {
   'Abkhazia': {
     name: 'Abkhazia',
-    continent: 'Asia', claimed_by: ['Georgia']
+    continent: 'Asia', 
+    claimed_by: ['Georgia']
   },
   'South_Ossetia': {
-    name: 'South Ossetia',
+    name: 'South_Ossetia',
     continent: 'Asia',
     claimed_by: ['Georgia']
   },
   'Abyei_Area': {
     name: 'Abyei_Area',
     continent: 'Africa',
-    claimed_by: ['Sudan']
+    claimed_by: ['Sudan', "S. Sudan"]
   },
   'Aksai_Chin': {
     name: 'Aksai_Chin',
@@ -41,27 +42,27 @@ module.exports = {
   'Ilemi_Triangle': {
     name: 'Ilemi_Triangle',
     continent: 'Africa',
-    claimed_by: ['Kenya', 'South Sudan', 'Ethiopia']
+    claimed_by: ['Kenya', 'S. Sudan']
   },
   'Kashmir': {
     name: 'Kashmir',
     continent: 'Asia',
-    claimed_by: ['India', 'Pakistan', 'China']
+    claimed_by: ['India', 'Pakistan']
   },
   'Korean_Demilitarized_Zone': {
-    name: 'sKorean_Demilitarized_Zone',
+    name: 'Korean_Demilitarized_Zone',
     continent: 'Asia',
     claimed_by: ['South Korea', 'North Korea']
   },
   'Pashto-speaking_Pakistan': {
     name: 'Pashto-speaking_Pakistan',
     continent: 'Asia',
-    claimed_by: ['Pakistan']
+    claimed_by: ['Pakistan', 'Afghanistan']
   },
   'Southern_Belize': {
     name: 'Southern_Belize',
-    continent: 'South America',
-    claimed_by: ['Belize']
+    continent: 'North America',
+    claimed_by: ['Belize', 'Guatemala']
   },
   // P2
   'Atacama_Corridor': {
@@ -89,11 +90,11 @@ module.exports = {
     continent: 'South America',
     claimed_by: ['France', 'Suriname']
   },
-  //'Nagorno-Karabakh': {
-  //  name: 'Nagorno-Karabakh',
-  //  continent: 'Asia',
-  //  claimed_by: ['Azerbaijan']
-  //},
+  'Nagorno-Karabakh': {
+    name: 'Nagorno-Karabakh',
+    continent: 'Asia',
+    claimed_by: ['Azerbaijan']
+  },
   'Trans-Karakoram_Tract': {
     name: 'Trans-Karakoram_Tract',
     continent: 'Asia',
@@ -102,12 +103,17 @@ module.exports = {
   'Transnistria': {
     name: 'Transnistria',
     continent: 'Europe',
-    claimed_by: ['Moldova', 'Ukraine']
+    claimed_by: ['Moldova']
   },
   'Crimea': {
     name: 'Crimea',
     continent: 'Europe',
     claimed_by: ['Ukraine', 'Russia']
+  },
+  'Mayotte': {
+    name: 'Mayotte',
+    continent: 'Africa',
+    claimed_by: ['Comoros', 'France']
   }
 };
 

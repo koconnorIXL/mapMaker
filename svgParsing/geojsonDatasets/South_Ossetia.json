@@ -4,7 +4,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "South Ossetia",
+        "name": "South_Ossetia",
         "continent": "Asia",
         "claimed_by": [
           "Georgia"

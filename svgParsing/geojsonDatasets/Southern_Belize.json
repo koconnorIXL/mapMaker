@@ -5,9 +5,10 @@
       "type": "Feature",
       "properties": {
         "name": "Southern_Belize",
-        "continent": "South America",
+        "continent": "North America",
         "claimed_by": [
-          "Belize"
+          "Belize",
+          "Guatemala"
         ]
       },
       "geometry": {
