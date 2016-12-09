@@ -1,0 +1,260 @@
+{
+  "Albania": {
+    "east": "Macedonia",
+    "south": "Greece",
+    "north": "Montenegro",
+    "west": "Montenegro"
+  },
+  "Aland": {
+    "east": "Aland"
+  },
+  "Andorra": {
+    "south": "Spain",
+    "west": "Spain",
+    "north": "France"
+  },
+  "Austria": {
+    "east": "Hungary",
+    "south": "Slovenia",
+    "west": "Liechtenstein",
+    "north": "Czech Rep."
+  },
+  "Belgium": {
+    "east": "Germany",
+    "north": "Netherlands",
+    "south": "France",
+    "west": "France"
+  },
+  "Bulgaria": {
+    "south": "Greece",
+    "west": "Serbia",
+    "north": "Romania"
+  },
+  "Bosnia and Herz.": {
+    "north": "Croatia",
+    "west": "Croatia",
+    "east": "Serbia",
+    "south": "Montenegro"
+  },
+  "Belarus": {
+    "north": "Latvia",
+    "west": "Poland",
+    "south": "Ukraine",
+    "east": "Russia"
+  },
+  "Switzerland": {
+    "east": "Austria",
+    "north": "Germany",
+    "south": "Italy",
+    "west": "France"
+  },
+  "Czech Rep.": {
+    "south": "Austria",
+    "west": "Germany",
+    "east": "Slovakia",
+    "north": "Poland"
+  },
+  "Germany": {
+    "east": "Poland",
+    "south": "Switzerland",
+    "west": "Belgium",
+    "north": "Denmark"
+  },
+  "Denmark": {
+    "east": "Denmark",
+    "south": "Germany"
+  },
+  "Spain": {
+    "east": "France",
+    "north": "France",
+    "south": "Portugal",
+    "west": "Portugal"
+  },
+  "Estonia": {
+    "south": "Latvia",
+    "west": "Latvia",
+    "east": "Russia",
+    "north": "Russia"
+  },
+  "Finland": {
+    "east": "Russia",
+    "north": "Norway",
+    "west": "Sweden",
+    "south": "Sweden"
+  },
+  "France": {
+    "east": "Monaco",
+    "south": "Spain",
+    "north": "Belgium",
+    "west": "Spain"
+  },
+  "Faeroe Is.": {},
+  "United Kingdom": {
+    "east": "United Kingdom",
+    "south": "Ireland",
+    "west": "Ireland"
+  },
+  "Guernsey": {},
+  "Gibraltar": {},
+  "Greece": {
+    "north": "Macedonia",
+    "west": "Albania",
+    "east": "Greece"
+  },
+  "Croatia": {
+    "east": "Serbia",
+    "south": "Montenegro",
+    "north": "Hungary",
+    "west": "Slovenia"
+  },
+  "Hungary": {
+    "north": "Slovakia",
+    "west": "Austria",
+    "south": "Serbia",
+    "east": "Ukraine"
+  },
+  "Isle of Man": {},
+  "Ireland": {
+    "east": "Ireland",
+    "north": "United Kingdom"
+  },
+  "Iceland": {},
+  "Italy": {
+    "east": "Slovenia",
+    "north": "San Marino",
+    "west": "France",
+    "south": "Vatican"
+  },
+  "Jersey": {},
+  "Kosovo": {
+    "south": "Albania",
+    "west": "Montenegro",
+    "east": "Macedonia",
+    "north": "Serbia"
+  },
+  "Liechtenstein": {
+    "east": "Austria",
+    "north": "Austria",
+    "south": "Switzerland",
+    "west": "Switzerland"
+  },
+  "Lithuania": {
+    "east": "Russia",
+    "south": "Poland",
+    "north": "Latvia",
+    "west": "Poland"
+  },
+  "Luxembourg": {
+    "north": "Belgium",
+    "west": "Belgium",
+    "east": "Germany",
+    "south": "France"
+  },
+  "Latvia": {
+    "east": "Russia",
+    "south": "Lithuania",
+    "north": "Estonia",
+    "west": "Lithuania"
+  },
+  "Monaco": {
+    "north": "France",
+    "west": "France"
+  },
+  "Transnistria": {
+    "south": "Moldova",
+    "west": "Moldova",
+    "east": "Ukraine",
+    "north": "Ukraine"
+  },
+  "Moldova": {
+    "east": "Transnistria",
+    "north": "Ukraine",
+    "south": "Romania",
+    "west": "Romania"
+  },
+  "Macedonia": {
+    "south": "Greece",
+    "west": "Albania",
+    "east": "Bulgaria",
+    "north": "Serbia"
+  },
+  "Malta": {},
+  "Montenegro": {
+    "east": "Kosovo",
+    "south": "Albania",
+    "north": "Bosnia and Herz.",
+    "west": "Croatia"
+  },
+  "Netherlands": {
+    "south": "Belgium",
+    "west": "Belgium",
+    "east": "Germany"
+  },
+  "Norway": {
+    "east": "Russia",
+    "south": "Sweden"
+  },
+  "Poland": {
+    "east": "Belarus",
+    "north": "Lithuania",
+    "south": "Slovakia",
+    "west": "Germany"
+  },
+  "Portugal": {
+    "east": "Spain",
+    "north": "Spain"
+  },
+  "Romania": {
+    "east": "Moldova",
+    "south": "Bulgaria",
+    "north": "Ukraine",
+    "west": "Hungary"
+  },
+  "Russia": {
+    "south": "Ukraine",
+    "west": "Finland",
+    "north": "Norway",
+    "east": "Russia"
+  },
+  "San Marino": {
+    "south": "Italy",
+    "west": "Italy"
+  },
+  "Serbia": {
+    "east": "Bulgaria",
+    "south": "Kosovo",
+    "west": "Bosnia and Herz.",
+    "north": "Hungary"
+  },
+  "Slovakia": {
+    "south": "Hungary",
+    "west": "Austria",
+    "north": "Poland",
+    "east": "Ukraine"
+  },
+  "Slovenia": {
+    "north": "Austria",
+    "west": "Italy",
+    "east": "Hungary",
+    "south": "Italy"
+  },
+  "Sweden": {
+    "east": "Sweden",
+    "north": "Norway",
+    "west": "Norway"
+  },
+  "Crimea": {
+    "north": "Ukraine",
+    "west": "Ukraine"
+  },
+  "Ukraine": {
+    "north": "Belarus",
+    "west": "Slovakia",
+    "south": "Crimea",
+    "east": "Ukraine"
+  },
+  "Vatican": {
+    "north": "Italy",
+    "west": "Italy"
+  }
+}

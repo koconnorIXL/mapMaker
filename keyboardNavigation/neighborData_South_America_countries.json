@@ -1,0 +1,94 @@
+{
+  "Argentina": {
+    "east": "Uruguay",
+    "north": "Bolivia",
+    "west": "Chile",
+    "south": "Chile"
+  },
+  "Bolivia": {
+    "south": "Argentina",
+    "west": "Peru",
+    "east": "Brazil",
+    "north": "Peru"
+  },
+  "Brazil": {
+    "south": "Uruguay",
+    "west": "Peru",
+    "north": "Lawa_Headwaters"
+  },
+  "Atacama_Corridor": {
+    "east": "Bolivia",
+    "south": "Chile",
+    "north": "Peru",
+    "west": "Peru"
+  },
+  "Chile": {
+    "east": "Argentina",
+    "north": "Atacama_Corridor"
+  },
+  "Colombia": {
+    "east": "Venezuela",
+    "south": "Peru",
+    "west": "Ecuador",
+    "north": "Venezuela"
+  },
+  "Ecuador": {
+    "east": "Colombia",
+    "north": "Colombia",
+    "south": "Peru"
+  },
+  "Falkland Is.": {},
+  "Lawa_Headwaters": {
+    "east": "Brazil",
+    "south": "Brazil",
+    "north": "Suriname",
+    "west": "Suriname"
+  },
+  "Guayana_Esequiba": {
+    "east": "Guyana",
+    "south": "Brazil",
+    "north": "Venezuela",
+    "west": "Venezuela"
+  },
+  "New_River_Triangle_Tigri": {
+    "east": "Suriname",
+    "south": "Brazil",
+    "north": "Guyana",
+    "west": "Guyana"
+  },
+  "Guyana": {
+    "east": "Suriname",
+    "south": "New_River_Triangle_Tigri",
+    "north": "Guayana_Esequiba",
+    "west": "Guayana_Esequiba"
+  },
+  "Peru": {
+    "east": "Brazil",
+    "south": "Atacama_Corridor",
+    "north": "Colombia",
+    "west": "Ecuador"
+  },
+  "Paraguay": {
+    "south": "Argentina",
+    "west": "Bolivia",
+    "north": "Brazil",
+    "east": "Brazil"
+  },
+  "Suriname": {
+    "east": "Lawa_Headwaters",
+    "south": "Brazil",
+    "west": "Guyana",
+    "north": "Guyana"
+  },
+  "Uruguay": {
+    "south": "Argentina",
+    "west": "Argentina",
+    "east": "Brazil",
+    "north": "Brazil"
+  },
+  "Venezuela": {
+    "east": "Venezuela",
+    "south": "Brazil",
+    "west": "Colombia"
+  }
+}

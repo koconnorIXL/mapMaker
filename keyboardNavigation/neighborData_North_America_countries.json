@@ -1,0 +1,117 @@
+{
+  "Aruba": {},
+  "Anguilla": {},
+  "Antigua and Barb.": {},
+  "Bahamas": {},
+  "Bajo Nuevo Bank (Petrel Is.)": {},
+  "St-Barthelemy": {},
+  "Southern_Belize": {
+    "east": "Belize",
+    "north": "Belize",
+    "south": "Guatemala",
+    "west": "Guatemala"
+  },
+  "Belize": {
+    "south": "Southern_Belize",
+    "west": "Mexico",
+    "north": "Mexico"
+  },
+  "Bermuda": {},
+  "Barbados": {},
+  "Canada": {
+    "east": "Canada",
+    "south": "United States",
+    "west": "United States"
+  },
+  "Costa Rica": {
+    "east": "Panama",
+    "north": "Nicaragua",
+    "west": "Nicaragua",
+    "south": "Panama"
+  },
+  "Cuba": {
+    "east": "USNB Guantanamo Bay",
+    "south": "USNB Guantanamo Bay"
+  },
+  "Curacao": {},
+  "Cayman Is.": {},
+  "Dominica": {},
+  "Dominican Rep.": {
+    "north": "Haiti",
+    "west": "Haiti"
+  },
+  "Grenada": {},
+  "Greenland": {
+    "east": "Greenland"
+  },
+  "Guatemala": {
+    "east": "Honduras",
+    "north": "Belize",
+    "south": "El Salvador",
+    "west": "Mexico"
+  },
+  "Honduras": {
+    "north": "Guatemala",
+    "west": "Guatemala",
+    "east": "Nicaragua",
+    "south": "Nicaragua"
+  },
+  "Haiti": {
+    "east": "Dominican Rep.",
+    "south": "Dominican Rep."
+  },
+  "Jamaica": {},
+  "St. Kitts and Nevis": {},
+  "Saint Lucia": {},
+  "St-Martin": {
+    "east": "Sint Maarten",
+    "south": "Sint Maarten"
+  },
+  "Mexico": {
+    "east": "Mexico",
+    "south": "Guatemala",
+    "north": "United States",
+    "west": "United States"
+  },
+  "Montserrat": {},
+  "Nicaragua": {
+    "east": "Nicaragua",
+    "south": "Costa Rica",
+    "north": "Honduras",
+    "west": "Honduras"
+  },
+  "Panama": {
+    "north": "Costa Rica",
+    "west": "Costa Rica",
+    "east": "Panama"
+  },
+  "Puerto Rico": {},
+  "Serranilla Bank": {},
+  "El Salvador": {
+    "north": "Guatemala",
+    "west": "Guatemala",
+    "east": "Honduras"
+  },
+  "St. Pierre and Miquelon": {},
+  "Sint Maarten": {
+    "north": "St-Martin",
+    "west": "St-Martin",
+    "east": "Sint Maarten"
+  },
+  "Turks and Caicos Is.": {},
+  "Trinidad and Tobago": {},
+  "U.S. Minor Outlying Is.": {},
+  "United States": {
+    "east": "United States",
+    "north": "Canada",
+    "south": "Mexico"
+  },
+  "USNB Guantanamo Bay": {
+    "north": "Cuba",
+    "west": "Cuba",
+    "east": "USNB Guantanamo Bay"
+  },
+  "St. Vin. and Gren.": {},
+  "British Virgin Is.": {},
+  "U.S. Virgin Is.": {}
+}

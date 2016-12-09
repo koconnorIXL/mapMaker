@@ -1,0 +1,341 @@
+{
+  "Afghanistan": {
+    "east": "China",
+    "north": "Uzbekistan",
+    "south": "Pashto-speaking_Pakistan",
+    "west": "Iran"
+  },
+  "United Arab Emirates": {
+    "east": "Oman",
+    "south": "Oman",
+    "north": "Saudi Arabia",
+    "west": "Saudi Arabia"
+  },
+  "Armenia": {
+    "east": "Azerbaijan",
+    "north": "Georgia",
+    "west": "Turkey",
+    "south": "Iran"
+  },
+  "Nagorno-Karabakh": {
+    "east": "Azerbaijan",
+    "north": "Azerbaijan"
+  },
+  "Azerbaijan": {
+    "south": "Iran",
+    "west": "Armenia",
+    "north": "Georgia",
+    "east": "Iran"
+  },
+  "Bangladesh": {
+    "south": "Myanmar",
+    "west": "India",
+    "east": "Myanmar"
+  },
+  "Bahrain": {},
+  "Brunei": {
+    "south": "Malaysia",
+    "west": "Malaysia"
+  },
+  "Bhutan_China_border": {
+    "east": "China",
+    "south": "Bhutan",
+    "north": "China"
+  },
+  "Bhutan": {
+    "north": "Bhutan_China_border",
+    "west": "India",
+    "east": "Arunachal_Pradesh",
+    "south": "India"
+  },
+  "Aksai_Chin": {
+    "east": "China",
+    "north": "China",
+    "south": "Kashmir",
+    "west": "Kashmir"
+  },
+  "Trans-Karakoram_Tract": {
+    "east": "China",
+    "north": "China",
+    "south": "Pakistan",
+    "west": "Pakistan"
+  },
+  "China": {
+    "south": "Lao PDR",
+    "west": "Tajikistan",
+    "east": "Dem. Rep. Korea",
+    "north": "Mongolia"
+  },
+  "Cyprus U.N. Buffer Zone": {
+    "east": "Dhekelia",
+    "north": "Cyprus"
+  },
+  "N. Cyprus": {
+    "south": "Dhekelia",
+    "west": "Cyprus U.N. Buffer Zone",
+    "east": "Dhekelia"
+  },
+  "Cyprus": {
+    "south": "Akrotiri",
+    "west": "Cyprus U.N. Buffer Zone",
+    "east": "Dhekelia",
+    "north": "Dhekelia"
+  },
+  "Dhekelia": {
+    "south": "Cyprus U.N. Buffer Zone",
+    "west": "Cyprus",
+    "north": "N. Cyprus"
+  },
+  "Abkhazia": {
+    "east": "Georgia",
+    "south": "Georgia"
+  },
+  "South_Ossetia": {
+    "south": "Georgia",
+    "west": "Georgia"
+  },
+  "Georgia": {
+    "east": "Azerbaijan",
+    "south": "Armenia",
+    "north": "South_Ossetia",
+    "west": "Turkey"
+  },
+  "Hong Kong": {
+    "north": "China",
+    "west": "China"
+  },
+  "Indonesia": {
+    "north": "Malaysia",
+    "west": "Malaysia",
+    "east": "Timor-Leste",
+    "south": "Timor-Leste"
+  },
+  "Arunachal_Pradesh": {
+    "south": "Myanmar",
+    "west": "Bhutan",
+    "east": "China",
+    "north": "China"
+  },
+  "Kashmir": {
+    "east": "China",
+    "north": "Siachen Glacier",
+    "south": "India",
+    "west": "Pakistan"
+  },
+  "India": {
+    "east": "Myanmar",
+    "north": "Kashmir",
+    "west": "Pakistan",
+    "south": "Myanmar"
+  },
+  "Indian Ocean Ter.": {},
+  "Iran": {
+    "east": "Afghanistan",
+    "north": "Turkmenistan",
+    "west": "Iraq",
+    "south": "Pashto-speaking_Pakistan"
+  },
+  "Iraq": {
+    "east": "Iran",
+    "south": "Saudi Arabia",
+    "west": "Jordan",
+    "north": "Turkey"
+  },
+  "Israel": {
+    "east": "Jordan",
+    "south": "Jordan",
+    "north": "Lebanon"
+  },
+  "Jordan": {
+    "east": "Saudi Arabia",
+    "north": "Golan_Heights",
+    "west": "Israel",
+    "south": "Saudi Arabia"
+  },
+  "Japan": {
+    "east": "Japan"
+  },
+  "Baikonur": {
+    "east": "Kazakhstan",
+    "north": "Kazakhstan"
+  },
+  "Siachen Glacier": {
+    "north": "Trans-Karakoram_Tract",
+    "west": "Pakistan",
+    "east": "China",
+    "south": "Kashmir"
+  },
+  "Kazakhstan": {
+    "east": "China",
+    "south": "Uzbekistan",
+    "west": "Baikonur"
+  },
+  "Kyrgyzstan": {
+    "east": "China",
+    "south": "Tajikistan",
+    "north": "Kazakhstan",
+    "west": "Uzbekistan"
+  },
+  "Cambodia": {
+    "north": "Lao PDR",
+    "west": "Thailand",
+    "east": "Vietnam"
+  },
+  "Korean_Demilitarized_Zone": {
+    "east": "Korea",
+    "south": "Korea",
+    "north": "Dem. Rep. Korea",
+    "west": "Dem. Rep. Korea"
+  },
+  "Korea": {
+    "north": "Korean_Demilitarized_Zone",
+    "west": "Korean_Demilitarized_Zone"
+  },
+  "Kuwait": {
+    "north": "Iraq",
+    "west": "Iraq",
+    "south": "Saudi Arabia"
+  },
+  "Lao PDR": {
+    "east": "Vietnam",
+    "north": "China",
+    "south": "Cambodia",
+    "west": "Myanmar"
+  },
+  "Lebanon": {
+    "south": "Golan_Heights",
+    "west": "Israel",
+    "east": "Syria",
+    "north": "Syria"
+  },
+  "Sri Lanka": {},
+  "Macao": {
+    "north": "China",
+    "west": "China"
+  },
+  "Maldives": {},
+  "Myanmar": {
+    "north": "Arunachal_Pradesh",
+    "west": "India",
+    "east": "Lao PDR",
+    "south": "Thailand"
+  },
+  "Mongolia": {
+    "east": "China",
+    "south": "China"
+  },
+  "Malaysia": {
+    "east": "Brunei",
+    "north": "Thailand",
+    "south": "Indonesia",
+    "west": "Thailand"
+  },
+  "Nepal": {
+    "east": "China",
+    "north": "China",
+    "south": "India",
+    "west": "India"
+  },
+  "Oman": {
+    "north": "United Arab Emirates",
+    "west": "Saudi Arabia",
+    "south": "Yemen"
+  },
+  "Pashto-speaking_Pakistan": {
+    "north": "Afghanistan",
+    "west": "Iran",
+    "east": "Pakistan"
+  },
+  "Pakistan": {
+    "north": "Trans-Karakoram_Tract",
+    "west": "Pashto-speaking_Pakistan",
+    "east": "China",
+    "south": "India"
+  },
+  "Spratly Is.": {},
+  "Philippines": {
+    "east": "Philippines"
+  },
+  "Dem. Rep. Korea": {
+    "south": "Korean_Demilitarized_Zone",
+    "west": "China",
+    "east": "Korean_Demilitarized_Zone"
+  },
+  "Palestine": {
+    "south": "Israel",
+    "west": "Israel",
+    "east": "Palestine"
+  },
+  "Qatar": {
+    "south": "Saudi Arabia",
+    "west": "Saudi Arabia"
+  },
+  "Saudi Arabia": {
+    "east": "Yemen",
+    "south": "Yemen",
+    "north": "Iraq",
+    "west": "Jordan"
+  },
+  "Scarborough Reef": {},
+  "Singapore": {},
+  "Golan_Heights": {
+    "south": "Jordan",
+    "west": "Israel",
+    "east": "Syria",
+    "north": "Lebanon"
+  },
+  "Syria": {
+    "east": "Iraq",
+    "south": "Jordan",
+    "west": "Lebanon",
+    "north": "Turkey"
+  },
+  "Thailand": {
+    "east": "Cambodia",
+    "south": "Malaysia",
+    "north": "Myanmar",
+    "west": "Myanmar"
+  },
+  "Tajikistan": {
+    "south": "Afghanistan",
+    "west": "Uzbekistan",
+    "east": "China",
+    "north": "Kyrgyzstan"
+  },
+  "Turkmenistan": {
+    "east": "Uzbekistan",
+    "south": "Iran",
+    "west": "Iran",
+    "north": "Kazakhstan"
+  },
+  "Timor-Leste": {
+    "north": "Indonesia",
+    "west": "Indonesia"
+  },
+  "Turkey": {
+    "east": "Azerbaijan",
+    "north": "Georgia",
+    "south": "Syria"
+  },
+  "Taiwan": {},
+  "Uzbekistan": {
+    "east": "Kyrgyzstan",
+    "south": "Afghanistan",
+    "north": "Kazakhstan",
+    "west": "Turkmenistan"
+  },
+  "Vietnam": {
+    "north": "China",
+    "west": "Lao PDR",
+    "south": "Cambodia"
+  },
+  "Akrotiri": {
+    "east": "Cyprus",
+    "north": "Cyprus"
+  },
+  "Yemen": {
+    "east": "Oman",
+    "north": "Saudi Arabia",
+    "west": "Saudi Arabia"
+  }
+}

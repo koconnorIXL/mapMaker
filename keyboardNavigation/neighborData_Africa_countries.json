@@ -1,0 +1,317 @@
+{
+  "Angola": {
+    "east": "Zambia",
+    "north": "Congo",
+    "west": "Congo",
+    "south": "Namibia"
+  },
+  "Burundi": {
+    "north": "Rwanda",
+    "west": "Dem. Rep. Congo",
+    "east": "Tanzania",
+    "south": "Tanzania"
+  },
+  "Benin": {
+    "north": "Niger",
+    "west": "Burkina Faso",
+    "east": "Nigeria",
+    "south": "Togo"
+  },
+  "Burkina Faso": {
+    "east": "Niger",
+    "south": "Ghana",
+    "west": "Cote dIvoire",
+    "north": "Mali"
+  },
+  "Botswana": {
+    "south": "South Africa",
+    "west": "Namibia",
+    "east": "Zimbabwe",
+    "north": "Zimbabwe"
+  },
+  "Central African Rep.": {
+    "south": "Dem. Rep. Congo",
+    "west": "Cameroon",
+    "east": "S. Sudan",
+    "north": "Chad"
+  },
+  "Cote dIvoire": {
+    "east": "Ghana",
+    "north": "Mali",
+    "west": "Liberia",
+    "south": "Liberia"
+  },
+  "Cameroon": {
+    "east": "Chad",
+    "north": "Chad",
+    "south": "Gabon",
+    "west": "Nigeria"
+  },
+  "Dem. Rep. Congo": {
+    "south": "Zambia",
+    "west": "Congo",
+    "east": "Burundi",
+    "north": "Central African Rep."
+  },
+  "Congo": {
+    "east": "Congo",
+    "south": "Angola",
+    "north": "Cameroon",
+    "west": "Gabon"
+  },
+  "Mayotte": {},
+  "Comoros": {},
+  "Cape Verde": {},
+  "Djibouti": {
+    "north": "Eritrea",
+    "west": "Eritrea",
+    "south": "Ethiopia",
+    "east": "Somaliland"
+  },
+  "Algeria": {
+    "east": "Libya",
+    "south": "Mali",
+    "north": "Tunisia",
+    "west": "W. Sahara"
+  },
+  "Hala_ib_triangle": {
+    "north": "Egypt",
+    "west": "Egypt",
+    "south": "Sudan"
+  },
+  "Egypt": {
+    "east": "Hala_ib_triangle",
+    "south": "Sudan",
+    "north": "Libya",
+    "west": "Libya"
+  },
+  "Eritrea": {
+    "east": "Djibouti",
+    "south": "Ethiopia",
+    "north": "Sudan",
+    "west": "Sudan"
+  },
+  "Ethiopia": {
+    "east": "Somaliland",
+    "north": "Eritrea",
+    "west": "S. Sudan",
+    "south": "Kenya"
+  },
+  "Gabon": {
+    "east": "Congo",
+    "north": "Cameroon",
+    "south": "Congo",
+    "west": "Eq. Guinea"
+  },
+  "Ghana": {
+    "north": "Burkina Faso",
+    "west": "Cote dIvoire",
+    "south": "Cote dIvoire",
+    "east": "Togo"
+  },
+  "Guinea": {
+    "east": "Cote dIvoire",
+    "south": "Liberia",
+    "north": "Senegal",
+    "west": "Guinea-Bissau"
+  },
+  "Gambia": {
+    "east": "Senegal",
+    "north": "Senegal"
+  },
+  "Guinea-Bissau": {
+    "east": "Guinea",
+    "south": "Guinea",
+    "north": "Senegal"
+  },
+  "Eq. Guinea": {
+    "east": "Gabon",
+    "north": "Cameroon",
+    "south": "Gabon"
+  },
+  "Br. Indian Ocean Ter.": {},
+  "Ilemi_Triangle": {
+    "east": "Kenya",
+    "south": "Kenya",
+    "north": "S. Sudan",
+    "west": "S. Sudan"
+  },
+  "Kenya": {
+    "east": "Somalia",
+    "north": "Ethiopia",
+    "west": "Uganda",
+    "south": "Tanzania"
+  },
+  "Liberia": {
+    "east": "Cote dIvoire",
+    "north": "Guinea",
+    "west": "Sierra Leone"
+  },
+  "Libya": {
+    "north": "Tunisia",
+    "west": "Algeria",
+    "east": "Egypt",
+    "south": "Chad"
+  },
+  "Lesotho": {
+    "north": "South Africa",
+    "west": "South Africa"
+  },
+  "Morocco": {
+    "east": "Algeria",
+    "south": "W. Sahara",
+    "west": "W. Sahara"
+  },
+  "Madagascar": {},
+  "Mali": {
+    "east": "Niger",
+    "south": "Cote dIvoire",
+    "west": "Senegal",
+    "north": "Algeria"
+  },
+  "Mozambique": {
+    "north": "Tanzania",
+    "west": "Zimbabwe",
+    "south": "Swaziland"
+  },
+  "Mauritania": {
+    "east": "Mali",
+    "north": "W. Sahara",
+    "south": "Senegal",
+    "west": "Senegal"
+  },
+  "Mauritius": {},
+  "Malawi": {
+    "east": "Mozambique",
+    "south": "Mozambique",
+    "north": "Tanzania",
+    "west": "Zambia"
+  },
+  "Namibia": {
+    "east": "Botswana",
+    "north": "Angola",
+    "south": "South Africa"
+  },
+  "Niger": {
+    "south": "Nigeria",
+    "west": "Mali",
+    "north": "Algeria",
+    "east": "Chad"
+  },
+  "Nigeria": {
+    "north": "Niger",
+    "west": "Benin",
+    "east": "Chad",
+    "south": "Cameroon"
+  },
+  "Rwanda": {
+    "south": "Burundi",
+    "west": "Dem. Rep. Congo",
+    "east": "Tanzania",
+    "north": "Uganda"
+  },
+  "W. Sahara": {
+    "east": "Algeria",
+    "north": "Morocco",
+    "south": "Mauritania"
+  },
+  "Abyei_Area": {
+    "east": "S. Sudan",
+    "north": "Sudan",
+    "south": "S. Sudan"
+  },
+  "Bir_Tawil": {
+    "north": "Egypt",
+    "west": "Egypt",
+    "south": "Sudan"
+  },
+  "Sudan": {
+    "south": "S. Sudan",
+    "west": "Chad",
+    "east": "Eritrea",
+    "north": "Egypt"
+  },
+  "S. Sudan": {
+    "south": "Uganda",
+    "west": "Central African Rep.",
+    "east": "Uganda",
+    "north": "Sudan"
+  },
+  "Senegal": {
+    "east": "Mali",
+    "south": "Guinea-Bissau",
+    "west": "Gambia",
+    "north": "Mauritania"
+  },
+  "Sierra Leone": {
+    "east": "Liberia",
+    "north": "Guinea",
+    "south": "Liberia"
+  },
+  "Somaliland": {
+    "north": "Djibouti",
+    "west": "Ethiopia",
+    "south": "Somalia"
+  },
+  "Somalia": {
+    "north": "Somaliland",
+    "west": "Kenya",
+    "south": "Kenya",
+    "east": "Somaliland"
+  },
+  "Sao Tome and Principe": {},
+  "Swaziland": {
+    "east": "Mozambique",
+    "north": "Mozambique",
+    "south": "South Africa",
+    "west": "South Africa"
+  },
+  "Seychelles": {},
+  "Chad": {
+    "east": "Sudan",
+    "south": "Central African Rep.",
+    "west": "Niger",
+    "north": "Libya"
+  },
+  "Togo": {
+    "east": "Benin",
+    "north": "Burkina Faso",
+    "west": "Ghana",
+    "south": "Ghana"
+  },
+  "Tunisia": {
+    "south": "Algeria",
+    "west": "Algeria",
+    "east": "Libya"
+  },
+  "Tanzania": {
+    "north": "Uganda",
+    "west": "Dem. Rep. Congo",
+    "east": "Kenya",
+    "south": "Mozambique"
+  },
+  "Uganda": {
+    "south": "Tanzania",
+    "west": "Dem. Rep. Congo",
+    "east": "Kenya",
+    "north": "S. Sudan"
+  },
+  "South Africa": {
+    "north": "Botswana",
+    "west": "Namibia",
+    "east": "Lesotho",
+    "south": "Lesotho"
+  },
+  "Zambia": {
+    "north": "Dem. Rep. Congo",
+    "west": "Angola",
+    "east": "Malawi",
+    "south": "Zimbabwe"
+  },
+  "Zimbabwe": {
+    "south": "South Africa",
+    "west": "Botswana",
+    "east": "Mozambique",
+    "north": "Zambia"
+  }
+}
