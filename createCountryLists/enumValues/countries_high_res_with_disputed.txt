@@ -1,0 +1,132 @@
+  /** A dataset containing a high res versions of Abkhazia and surrounding claiming/claimed regions. */
+  ABKHAZIA_WITH_DISPUTED_HIGH_RES("Abkhazia_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Abyei_Area and surrounding claiming/claimed regions. */
+  ABYEI_AREA_WITH_DISPUTED_HIGH_RES("Abyei_Area_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Afghanistan and surrounding claiming/claimed regions. */
+  AFGHANISTAN_WITH_DISPUTED_HIGH_RES("Afghanistan_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Aksai_Chin and surrounding claiming/claimed regions. */
+  AKSAI_CHIN_WITH_DISPUTED_HIGH_RES("Aksai_Chin_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Argentina and surrounding claiming/claimed regions. */
+  ARGENTINA_WITH_DISPUTED_HIGH_RES("Argentina_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Arunachal_Pradesh and surrounding claiming/claimed regions. */
+  ARUNACHAL_PRADESH_WITH_DISPUTED_HIGH_RES("Arunachal_Pradesh_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Atacama_Corridor and surrounding claiming/claimed regions. */
+  ATACAMA_CORRIDOR_WITH_DISPUTED_HIGH_RES("Atacama_Corridor_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Azerbaijan and surrounding claiming/claimed regions. */
+  AZERBAIJAN_WITH_DISPUTED_HIGH_RES("Azerbaijan_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Belize and surrounding claiming/claimed regions. */
+  BELIZE_WITH_DISPUTED_HIGH_RES("Belize_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Bhutan_China_border and surrounding claiming/claimed regions. */
+  BHUTAN_CHINA_BORDER_WITH_DISPUTED_HIGH_RES("Bhutan_China_border_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Bhutan and surrounding claiming/claimed regions. */
+  BHUTAN_WITH_DISPUTED_HIGH_RES("Bhutan_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Bir_Tawil and surrounding claiming/claimed regions. */
+  BIR_TAWIL_WITH_DISPUTED_HIGH_RES("Bir_Tawil_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Bolivia and surrounding claiming/claimed regions. */
+  BOLIVIA_WITH_DISPUTED_HIGH_RES("Bolivia_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Chile and surrounding claiming/claimed regions. */
+  CHILE_WITH_DISPUTED_HIGH_RES("Chile_with_disputed_high_res"),
+  /** A dataset containing a high res versions of China and surrounding claiming/claimed regions. */
+  CHINA_WITH_DISPUTED_HIGH_RES("China_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Comoros and surrounding claiming/claimed regions. */
+  COMOROS_WITH_DISPUTED_HIGH_RES("Comoros_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Crimea and surrounding claiming/claimed regions. */
+  CRIMEA_WITH_DISPUTED_HIGH_RES("Crimea_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Cuba and surrounding claiming/claimed regions. */
+  CUBA_WITH_DISPUTED_HIGH_RES("Cuba_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Cyprus_U.N._Buffer_Zone and surrounding claiming/claimed regions. */
+  CYPRUS_UN_BUFFER_ZONE_WITH_DISPUTED_HIGH_RES("Cyprus_UN_Buffer_Zone_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Cyprus and surrounding claiming/claimed regions. */
+  CYPRUS_WITH_DISPUTED_HIGH_RES("Cyprus_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Dem._Rep._Korea and surrounding claiming/claimed regions. */
+  DEM_REP_KOREA_WITH_DISPUTED_HIGH_RES("Dem_Rep_Korea_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Egypt and surrounding claiming/claimed regions. */
+  EGYPT_WITH_DISPUTED_HIGH_RES("Egypt_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Falkland_Is. and surrounding claiming/claimed regions. */
+  FALKLAND_IS_WITH_DISPUTED_HIGH_RES("Falkland_Is_with_disputed_high_res"),
+  /** A dataset containing a high res versions of France and surrounding claiming/claimed regions. */
+  FRANCE_WITH_DISPUTED_HIGH_RES("France_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Georgia and surrounding claiming/claimed regions. */
+  GEORGIA_WITH_DISPUTED_HIGH_RES("Georgia_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Gibraltar and surrounding claiming/claimed regions. */
+  GIBRALTAR_WITH_DISPUTED_HIGH_RES("Gibraltar_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Golan_Heights and surrounding claiming/claimed regions. */
+  GOLAN_HEIGHTS_WITH_DISPUTED_HIGH_RES("Golan_Heights_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Guayana_Esequiba and surrounding claiming/claimed regions. */
+  GUAYANA_ESEQUIBA_WITH_DISPUTED_HIGH_RES("Guayana_Esequiba_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Guyana and surrounding claiming/claimed regions. */
+  GUYANA_WITH_DISPUTED_HIGH_RES("Guyana_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Hala_ib_triangle and surrounding claiming/claimed regions. */
+  HALA_IB_TRIANGLE_WITH_DISPUTED_HIGH_RES("Hala_ib_triangle_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Ilemi_Triangle and surrounding claiming/claimed regions. */
+  ILEMI_TRIANGLE_WITH_DISPUTED_HIGH_RES("Ilemi_Triangle_with_disputed_high_res"),
+  /** A dataset containing a high res versions of India and surrounding claiming/claimed regions. */
+  INDIA_WITH_DISPUTED_HIGH_RES("India_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Israel and surrounding claiming/claimed regions. */
+  ISRAEL_WITH_DISPUTED_HIGH_RES("Israel_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Kashmir and surrounding claiming/claimed regions. */
+  KASHMIR_WITH_DISPUTED_HIGH_RES("Kashmir_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Kenya and surrounding claiming/claimed regions. */
+  KENYA_WITH_DISPUTED_HIGH_RES("Kenya_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Korea and surrounding claiming/claimed regions. */
+  KOREA_WITH_DISPUTED_HIGH_RES("Korea_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Korean_Demilitarized_Zone and surrounding claiming/claimed regions. */
+  KOREAN_DEMILITARIZED_ZONE_WITH_DISPUTED_HIGH_RES("Korean_Demilitarized_Zone_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Kosovo and surrounding claiming/claimed regions. */
+  KOSOVO_WITH_DISPUTED_HIGH_RES("Kosovo_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Lawa_Headwaters and surrounding claiming/claimed regions. */
+  LAWA_HEADWATERS_WITH_DISPUTED_HIGH_RES("Lawa_Headwaters_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Mayotte and surrounding claiming/claimed regions. */
+  MAYOTTE_WITH_DISPUTED_HIGH_RES("Mayotte_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Moldova and surrounding claiming/claimed regions. */
+  MOLDOVA_WITH_DISPUTED_HIGH_RES("Moldova_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Morocco and surrounding claiming/claimed regions. */
+  MOROCCO_WITH_DISPUTED_HIGH_RES("Morocco_with_disputed_high_res"),
+  /** A dataset containing a high res versions of N._Cyprus and surrounding claiming/claimed regions. */
+  N_CYPRUS_WITH_DISPUTED_HIGH_RES("N_Cyprus_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Nagorno-Karabakh and surrounding claiming/claimed regions. */
+  NAGORNO_KARABAKH_WITH_DISPUTED_HIGH_RES("Nagorno-Karabakh_with_disputed_high_res"),
+  /** A dataset containing a high res versions of New_River_Triangle_Tigri and surrounding claiming/claimed regions. */
+  NEW_RIVER_TRIANGLE_TIGRI_WITH_DISPUTED_HIGH_RES("New_River_Triangle_Tigri_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Pakistan and surrounding claiming/claimed regions. */
+  PAKISTAN_WITH_DISPUTED_HIGH_RES("Pakistan_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Palestine and surrounding claiming/claimed regions. */
+  PALESTINE_WITH_DISPUTED_HIGH_RES("Palestine_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Pashto-speaking_Pakistan and surrounding claiming/claimed regions. */
+  PASHTO_SPEAKING_PAKISTAN_WITH_DISPUTED_HIGH_RES("Pashto-speaking_Pakistan_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Russia and surrounding claiming/claimed regions. */
+  RUSSIA_WITH_DISPUTED_HIGH_RES("Russia_with_disputed_high_res"),
+  /** A dataset containing a high res versions of S._Sudan and surrounding claiming/claimed regions. */
+  S_SUDAN_WITH_DISPUTED_HIGH_RES("S_Sudan_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Serbia and surrounding claiming/claimed regions. */
+  SERBIA_WITH_DISPUTED_HIGH_RES("Serbia_with_disputed_high_res"),
+  /** A dataset containing a high res versions of South_Ossetia and surrounding claiming/claimed regions. */
+  SOUTH_OSSETIA_WITH_DISPUTED_HIGH_RES("South_Ossetia_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Southern_Belize and surrounding claiming/claimed regions. */
+  SOUTHERN_BELIZE_WITH_DISPUTED_HIGH_RES("Southern_Belize_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Spain and surrounding claiming/claimed regions. */
+  SPAIN_WITH_DISPUTED_HIGH_RES("Spain_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Sudan and surrounding claiming/claimed regions. */
+  SUDAN_WITH_DISPUTED_HIGH_RES("Sudan_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Suriname and surrounding claiming/claimed regions. */
+  SURINAME_WITH_DISPUTED_HIGH_RES("Suriname_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Syria and surrounding claiming/claimed regions. */
+  SYRIA_WITH_DISPUTED_HIGH_RES("Syria_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Taiwan and surrounding claiming/claimed regions. */
+  TAIWAN_WITH_DISPUTED_HIGH_RES("Taiwan_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Trans-Karakoram_Tract and surrounding claiming/claimed regions. */
+  TRANS_KARAKORAM_TRACT_WITH_DISPUTED_HIGH_RES("Trans-Karakoram_Tract_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Transnistria and surrounding claiming/claimed regions. */
+  TRANSNISTRIA_WITH_DISPUTED_HIGH_RES("Transnistria_with_disputed_high_res"),
+  /** A dataset containing a high res versions of USNB_Guantanamo_Bay and surrounding claiming/claimed regions. */
+  USNB_GUANTANAMO_BAY_WITH_DISPUTED_HIGH_RES("USNB_Guantanamo_Bay_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Ukraine and surrounding claiming/claimed regions. */
+  UKRAINE_WITH_DISPUTED_HIGH_RES("Ukraine_with_disputed_high_res"),
+  /** A dataset containing a high res versions of United_Kingdom and surrounding claiming/claimed regions. */
+  UNITED_KINGDOM_WITH_DISPUTED_HIGH_RES("United_Kingdom_with_disputed_high_res"),
+  /** A dataset containing a high res versions of United_States and surrounding claiming/claimed regions. */
+  UNITED_STATES_WITH_DISPUTED_HIGH_RES("United_States_with_disputed_high_res"),
+  /** A dataset containing a high res versions of Venezuela and surrounding claiming/claimed regions. */
+  VENEZUELA_WITH_DISPUTED_HIGH_RES("Venezuela_with_disputed_high_res"),
+  /** A dataset containing a high res versions of W._Sahara and surrounding claiming/claimed regions. */
+  W_SAHARA_WITH_DISPUTED_HIGH_RES("W_Sahara_with_disputed_high_res"),
