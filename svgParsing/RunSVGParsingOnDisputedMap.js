@@ -8,7 +8,7 @@ var propMap = require('./NewTerritoryPropMap.js');
 var getProjection = require('./GetProjectionUsedForIllustrationSVG.js');
 var d3Projection = getProjection();
 
-svgToGeojson('disputed-borders-base-map_p2.svg', d3Projection, function(coordinateLists) {
+svgToGeojson('disputed-borders-base-map_p3.svg', d3Projection, function(coordinateLists) {
   for (var id in coordinateLists) {
     if (coordinateLists.hasOwnProperty(id)) {
       var properties = propMap[id];

@@ -4,9 +4,11 @@
     {
       "type": "Feature",
       "properties": {
-        "claimed_by": [ "Azerbaijan" ],
+        "name": "Nagorno-Karabakh",
         "continent": "Asia",
-        "name": "Nagorno-Karabakh"
+        "claimed_by": [
+          "Azerbaijan"
+        ]
       },
       "geometry": {
         "type": "Polygon",

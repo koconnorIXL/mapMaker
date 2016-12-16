@@ -19,7 +19,13 @@ var ALREADY_SPLICED_MANUALLY = [
   'Mayotte'
 ];
 
-var PRECISION_MAP = {};
+var HAS_FINALIZED_DATASET = [
+  'Kashmir'
+];
+
+var PRECISION_MAP = {
+  'Bhutan_China_border': 0.025
+};
 
 var FRENCH_GUIANA_POLYGON_INDEX = 2;
 
@@ -33,6 +39,10 @@ for (var id in propMap) {
 
     // Get the file with this feature's geographic data
     var filename = './geojsonDatasets/' + id + '.json';
+    if (HAS_FINALIZED_DATASET.indexOf(id) > -1) {
+      console.log('final');
+      filename = './geojsonDatasets/' + id + '_final.json';
+    }
     var territoryFeature = JSON.parse(fs.readFileSync(filename)).features[0];
     
     // Get the feature which the new feature is claimed by.
@@ -59,6 +69,7 @@ for (var id in propMap) {
     var claimerIndex = countries.features.indexOf(claimingFeature);
     
     if (ALREADY_SPLICED_MANUALLY.indexOf(id) === -1) {
+      console.log('splicing');
       var longestPathInfo = findLongestCoordinateArray(claimingFeature);
       var claimingPs = longestPathInfo.coordinates.slice();
       if (id === 'Lawa_Headwaters') {
@@ -67,7 +78,7 @@ for (var id in propMap) {
       if (territoryFeature.geometry.type === 'MultiPolygon') {
         for (var i = 0; i < territoryFeature.geometry.coordinates.length; i++) {
           var territoryPs = territoryFeature.geometry.coordinates[i][0];
-          if (reversed || (id === 'Bhutan_China_border' && (i === 0 || i === 2))) {
+          if (reversed || (id === 'Bhutan_China_border' && (i === 0 || i === 3))) {
             territoryPs = territoryPs.reverse();
           }
           var newPaths = splicePaths(territoryPs, claimingPs, PRECISION_MAP[id]);

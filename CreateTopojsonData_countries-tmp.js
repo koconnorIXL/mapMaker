@@ -143,6 +143,7 @@ getFreshData().features.forEach(function(countryFeature) {
   };
 
   var name = countryFeature.properties.name || countryFeature.properties.NAME;
+  console.log(name);
 
   var filename = getFileName('countries_high_res', sanitize(name + '_high_res'));
   var topology = topojson.topology({collection: featureCollection}, high_res_options);
@@ -169,6 +170,7 @@ function getFreshFeatureMap() {
 
 var all_features = getFreshFeatureMap();
 Object.keys(getFreshFeatureMap()).forEach(function(name) {
+  console.log(name);
   var countryFeature = all_features[name];
 
   var props = countryFeature.properties;
@@ -179,7 +181,7 @@ Object.keys(getFreshFeatureMap()).forEach(function(name) {
   var disputedBorderNeighbors = (props.disputed_border_with || []).map(function(x) { return all_features[x]; });
   
   if (claims.length + claimers.length + mergeParents.length + incomingMerges.length + disputedBorderNeighbors.length > 0) {
-    console.log(name);
+    //console.log(name);
     var featureCollection = {
       type: 'FeatureCollection',
       features: [countryFeature].concat(claims).concat(claimers).concat(mergeParents).concat(incomingMerges).concat(disputedBorderNeighbors)
@@ -192,7 +194,7 @@ Object.keys(getFreshFeatureMap()).forEach(function(name) {
     var topology = topojson.topology({collection: featureCollection}, high_res_options);
     for (var i = 0; i < topology.objects.collection.geometries.length; i++) {
       var geometry = topology.objects.collection.geometries[i];
-      geometry.properties.mapcolor5 = FIVE_COLORING[name]
+      geometry.properties.mapcolor5 = FIVE_COLORING[geometry.properties.name || geometry.properties.NAME]
     }
     topology.objects[sanitize(name + '_high_res')] = topology.objects.collection;
     delete topology.objects.collection;

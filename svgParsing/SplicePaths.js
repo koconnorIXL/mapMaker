@@ -82,6 +82,7 @@ function splicePaths(newData, existingData, closeThreshold) {
   }
   //console.log(ps1);
   //console.log(ps2);
+  //console.log('foo');
   //console.log(minDists1);
   //console.log(minDists2);
   //console.log('splitter');

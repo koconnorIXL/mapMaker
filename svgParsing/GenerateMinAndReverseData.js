@@ -2,7 +2,8 @@ var fs = require('fs');
 
 var NAMES = [
   'Korean_Demilitarized_Zone',
-  'Nagorno-Karabakh'
+  'Nagorno-Karabakh',
+  'Kashmir'
 ];
 
 NAMES.forEach(function(name) {

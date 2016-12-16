@@ -17,7 +17,8 @@ module.exports = {
   'Aksai_Chin': {
     name: 'Aksai_Chin',
     continent: 'Asia',
-    claimed_by: ['China', 'India']
+    claimed_by: ['China', 'India'],
+    disputed_border_with: [ 'Kashmir' ]
   },
   'Arunachal_Pradesh': {
     name: 'Arunachal_Pradesh',
@@ -44,15 +45,29 @@ module.exports = {
     continent: 'Africa',
     claimed_by: ['Kenya', 'S. Sudan']
   },
+  'India-China_border': {
+    name: 'India-China_border',
+    continent: 'Asia',
+    claimed_by: ['India', 'China'],
+    disputed_border_with: [ 'Kashmir' ]
+  },
+  'Trans-Karakoram_Tract': {
+    name: 'Trans-Karakoram_Tract',
+    continent: 'Asia',
+    claimed_by: ['China', 'India'],
+    disputed_border_with: [ 'Kashmir' ]
+  },
   'Kashmir': {
     name: 'Kashmir',
     continent: 'Asia',
-    claimed_by: ['India', 'Pakistan']
+    claimed_by: ['India', 'Pakistan'],
+    incoming_merges: ['Siachen Glacier'],
+    disputed_border_with: [ 'Aksai_Chin', 'Trans-Karakoram_Tract', 'India-China_border' ]
   },
   'Korean_Demilitarized_Zone': {
     name: 'Korean_Demilitarized_Zone',
     continent: 'Asia',
-    claimed_by: ['South Korea', 'North Korea']
+    claimed_by: ['Korea', 'Dem. Rep. Korea']
   },
   'Pashto-speaking_Pakistan': {
     name: 'Pashto-speaking_Pakistan',
@@ -95,11 +110,6 @@ module.exports = {
     continent: 'Asia',
     claimed_by: ['Azerbaijan']
   },
-  'Trans-Karakoram_Tract': {
-    name: 'Trans-Karakoram_Tract',
-    continent: 'Asia',
-    claimed_by: ['China', 'India']
-  },
   'Transnistria': {
     name: 'Transnistria',
     continent: 'Europe',
@@ -114,6 +124,12 @@ module.exports = {
     name: 'Mayotte',
     continent: 'Africa',
     claimed_by: ['Comoros', 'France']
+  },
+  // P3
+  'Rincon_de_Artigas': {
+    name: 'Rincon_de_Artigas',
+    continent: 'South America',
+    claimed_by: ['Brazil', 'Uruguay']
   }
 };
 

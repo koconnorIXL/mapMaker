@@ -4,6 +4,7 @@ var topojson = require('topojson');
 var MapColoring = require('./MapColoring.js');
 var removeSmallIslands = require('./RemoveSmallIslands.js').removeSmallIslands;
 var ResolveBorders = require('./FixDisputedBoundaries.js');
+var ContinentColoring = require('./ContinentColoring.js');
 
 var datasetsToModify = [
   'congressional_districts.json',
@@ -50,9 +51,18 @@ datasetsToModify.forEach(function(filename) {
   var geometryCollection = topojsonData.objects[filename.slice(0, filename.length - 5)].geometries;
 
   var fiveColoring = MapColoring.fastFiveColoring(geometryCollection);
-
-  for (var i = 0; i < geometryCollection.length; i++) {
-    geometryCollection[i].properties.mapcolor5 = fiveColoring[i];
+  if (filename === 'continents.json') {
+    for (var i = 0; i < geometryCollection.length; i++) {
+      var props = geometryCollection[i].properties;
+      if (ContinentColoring[props.name]) {
+        props.mapcolor5 = ContinentColoring[props.name];
+      }
+    }
+  }
+  else {
+    for (var i = 0; i < geometryCollection.length; i++) {
+      geometryCollection[i].properties.mapcolor5 = fiveColoring[i];
+    }
   }
 
   fs.writeFile('topojsonDatasets/' + filename.slice(0, filename.length - 5) + '.json', JSON.stringify(topojsonData));
