@@ -19,6 +19,14 @@ var CONTINENTS = [
   'Seven seas (open ocean)'
 ];
 
+var RANDOM_SUBGROUPS = {
+  'US_border_countries': [
+    'Canada',
+    'Mexico',
+    'Russia'
+  ]
+};
+
 function sanitize(name) {
   return name = name
     .replace(/ /g, '_')
@@ -129,6 +137,31 @@ CONTINENTS.forEach(function(continentName) {
     geometry.properties.mapcolor5 = FIVE_COLORING[name]
   }
   topology.objects[sanitize(continentName + '_countries')] = topology.objects.collection;
+  delete topology.objects.collection;
+  fs.writeFileSync(filename, JSON.stringify(topology));
+});
+
+Object.keys(RANDOM_SUBGROUPS).forEach(function(subgroupName) {
+  var groupCountries = RANDOM_SUBGROUPS[subgroupName];
+  var data = getFreshData().features.filter(function(feature) {
+    var name = feature.properties.name || feature.properties.NAME;
+    return groupCountries.indexOf(name) > -1;
+  });
+
+  var featureCollection = {
+    type: 'FeatureCollection',
+    features: data
+  };
+
+  var filename = getFileName('misc', sanitize(subgroupName));
+  var topology = topojson.topology({collection: featureCollection}, options);
+  topology = topojson.simplify(topology, continentalSimplifyOptions);
+  for (var i = 0; i < topology.objects.collection.geometries.length; i++) {
+    var geometry = topology.objects.collection.geometries[i];
+    var name = geometry.properties.name || geometry.properties.NAME;
+    geometry.properties.mapcolor5 = FIVE_COLORING[name]
+  }
+  topology.objects[sanitize(subgroupName)] = topology.objects.collection;
   delete topology.objects.collection;
   fs.writeFileSync(filename, JSON.stringify(topology));
 });

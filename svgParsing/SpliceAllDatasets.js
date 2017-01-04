@@ -27,8 +27,6 @@ var PRECISION_MAP = {
   'Bhutan_China_border': 0.025
 };
 
-var FRENCH_GUIANA_POLYGON_INDEX = 2;
-
 for (var id in propMap) {
   if (propMap.hasOwnProperty(id)) {
     console.log(id);
@@ -72,9 +70,6 @@ for (var id in propMap) {
       console.log('splicing');
       var longestPathInfo = findLongestCoordinateArray(claimingFeature);
       var claimingPs = longestPathInfo.coordinates.slice();
-      if (id === 'Lawa_Headwaters') {
-        claimingPs = claimingFeature.geometry.coordinates[FRENCH_GUIANA_POLYGON_INDEX][0];
-      }
       if (territoryFeature.geometry.type === 'MultiPolygon') {
         for (var i = 0; i < territoryFeature.geometry.coordinates.length; i++) {
           var territoryPs = territoryFeature.geometry.coordinates[i][0];
@@ -97,9 +92,6 @@ for (var id in propMap) {
       }
       if (claimingFeature.geometry.type === 'MultiPolygon') {
         var polygonIndex = longestPathInfo.polygonIndex;
-        if (id === 'Lawa_Headwaters') {
-          polygonIndex = FRENCH_GUIANA_POLYGON_INDEX;
-        }
         claimingFeature.geometry.coordinates[polygonIndex][longestPathInfo.index] = claimingPs;
       }
       else {

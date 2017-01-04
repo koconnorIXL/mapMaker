@@ -103,7 +103,7 @@ module.exports = {
   'Lawa_Headwaters': {
     name: 'Lawa_Headwaters',
     continent: 'South America',
-    claimed_by: ['France', 'Suriname']
+    claimed_by: ['French Guiana', 'Suriname']
   },
   'Nagorno-Karabakh': {
     name: 'Nagorno-Karabakh',
