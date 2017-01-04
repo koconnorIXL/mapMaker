@@ -11,10 +11,16 @@
     "east": "Brazil",
     "north": "Peru"
   },
+  "Rincon_de_Artigas": {
+    "east": "Brazil",
+    "north": "Brazil",
+    "south": "Uruguay",
+    "west": "Uruguay"
+  },
   "Brazil": {
     "south": "Uruguay",
     "west": "Peru",
-    "north": "Lawa_Headwaters"
+    "north": "French Guiana"
   },
   "Atacama_Corridor": {
     "east": "Bolivia",
@@ -39,10 +45,16 @@
   },
   "Falkland Is.": {},
   "Lawa_Headwaters": {
+    "east": "French Guiana",
+    "south": "Brazil",
+    "north": "French Guiana",
+    "west": "Suriname"
+  },
+  "French Guiana": {
     "east": "Brazil",
     "south": "Brazil",
-    "north": "Suriname",
-    "west": "Suriname"
+    "west": "Suriname",
+    "north": "Suriname"
   },
   "Guayana_Esequiba": {
     "east": "Guyana",
@@ -75,7 +87,7 @@
     "east": "Brazil"
   },
   "Suriname": {
-    "east": "Lawa_Headwaters",
+    "east": "French Guiana",
     "south": "Brazil",
     "west": "Guyana",
     "north": "Guyana"
@@ -84,7 +96,7 @@
     "south": "Argentina",
     "west": "Argentina",
     "east": "Brazil",
-    "north": "Brazil"
+    "north": "Rincon_de_Artigas"
   },
   "Venezuela": {
     "east": "Venezuela",

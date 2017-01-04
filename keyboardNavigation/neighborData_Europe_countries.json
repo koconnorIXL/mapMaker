@@ -5,18 +5,17 @@
     "north": "Montenegro",
     "west": "Montenegro"
   },
-  "Aland": {
-    "east": "Aland"
-  },
+  "Aland": {},
   "Andorra": {
     "south": "Spain",
     "west": "Spain",
+    "east": "France",
     "north": "France"
   },
   "Austria": {
-    "east": "Hungary",
     "south": "Slovenia",
     "west": "Liechtenstein",
+    "east": "Hungary",
     "north": "Czech Rep."
   },
   "Belgium": {
@@ -27,7 +26,7 @@
   },
   "Bulgaria": {
     "south": "Greece",
-    "west": "Serbia",
+    "west": "Macedonia",
     "north": "Romania"
   },
   "Bosnia and Herz.": {
@@ -51,8 +50,8 @@
   "Czech Rep.": {
     "south": "Austria",
     "west": "Germany",
-    "east": "Slovakia",
-    "north": "Poland"
+    "north": "Poland",
+    "east": "Slovakia"
   },
   "Germany": {
     "east": "Poland",
@@ -83,10 +82,10 @@
     "south": "Sweden"
   },
   "France": {
-    "east": "Monaco",
-    "south": "Spain",
-    "north": "Belgium",
-    "west": "Spain"
+    "south": "Andorra",
+    "west": "Spain",
+    "east": "Italy",
+    "north": "Belgium"
   },
   "Faeroe Is.": {},
   "United Kingdom": {
@@ -100,6 +99,9 @@
     "north": "Macedonia",
     "west": "Albania",
     "east": "Greece"
+  },
+  "Greenland": {
+    "east": "Greenland"
   },
   "Croatia": {
     "east": "Serbia",
@@ -147,7 +149,7 @@
   "Luxembourg": {
     "north": "Belgium",
     "west": "Belgium",
-    "east": "Germany",
+    "east": "Luxembourg",
     "south": "France"
   },
   "Latvia": {
@@ -182,7 +184,7 @@
   "Montenegro": {
     "east": "Kosovo",
     "south": "Albania",
-    "north": "Bosnia and Herz.",
+    "north": "Serbia",
     "west": "Croatia"
   },
   "Netherlands": {

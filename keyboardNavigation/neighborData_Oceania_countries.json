@@ -1,0 +1,36 @@
+{
+  "American Samoa": {},
+  "Ashmore and Cartier Is.": {},
+  "Australia": {
+    "east": "Australia"
+  },
+  "Cook Is.": {},
+  "Coral Sea Is.": {},
+  "Fiji": {},
+  "Micronesia": {},
+  "Guam": {},
+  "Kiribati": {
+    "east": "Kiribati"
+  },
+  "Marshall Is.": {},
+  "N. Mariana Is.": {},
+  "New Caledonia": {},
+  "Norfolk Island": {},
+  "Niue": {},
+  "Nauru": {},
+  "New Zealand": {},
+  "Pitcairn Is.": {},
+  "Palau": {},
+  "Papua New Guinea": {
+    "east": "Papua New Guinea"
+  },
+  "Fr. Polynesia": {},
+  "Solomon Is.": {
+    "east": "Solomon Is."
+  },
+  "Tonga": {},
+  "Tuvalu": {},
+  "Vanuatu": {},
+  "Wallis and Futuna Is.": {},
+  "Samoa": {}
+}

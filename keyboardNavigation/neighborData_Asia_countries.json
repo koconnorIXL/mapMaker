@@ -1,6 +1,6 @@
 {
   "Afghanistan": {
-    "east": "China",
+    "east": "Kashmir",
     "north": "Uzbekistan",
     "south": "Pashto-speaking_Pakistan",
     "west": "Iran"
@@ -57,8 +57,8 @@
   "Trans-Karakoram_Tract": {
     "east": "China",
     "north": "China",
-    "south": "Pakistan",
-    "west": "Pakistan"
+    "south": "Kashmir",
+    "west": "Kashmir"
   },
   "China": {
     "south": "Lao PDR",
@@ -116,15 +116,21 @@
     "east": "China",
     "north": "China"
   },
-  "Kashmir": {
+  "India-China_border": {
     "east": "China",
-    "north": "Siachen Glacier",
+    "north": "Kashmir",
+    "west": "Kashmir",
+    "south": "India"
+  },
+  "Kashmir": {
     "south": "India",
-    "west": "Pakistan"
+    "west": "Afghanistan",
+    "east": "China",
+    "north": "Trans-Karakoram_Tract"
   },
   "India": {
     "east": "Myanmar",
-    "north": "Kashmir",
+    "north": "India-China_border",
     "west": "Pakistan",
     "south": "Myanmar"
   },
@@ -161,7 +167,7 @@
   },
   "Siachen Glacier": {
     "north": "Trans-Karakoram_Tract",
-    "west": "Pakistan",
+    "west": "Kashmir",
     "east": "China",
     "south": "Kashmir"
   },
@@ -244,13 +250,14 @@
   "Pashto-speaking_Pakistan": {
     "north": "Afghanistan",
     "west": "Iran",
-    "east": "Pakistan"
+    "east": "Pakistan",
+    "south": "Pakistan"
   },
   "Pakistan": {
-    "north": "Trans-Karakoram_Tract",
-    "west": "Pashto-speaking_Pakistan",
-    "east": "China",
-    "south": "India"
+    "east": "India",
+    "north": "Kashmir",
+    "south": "India",
+    "west": "Pashto-speaking_Pakistan"
   },
   "Spratly Is.": {},
   "Philippines": {

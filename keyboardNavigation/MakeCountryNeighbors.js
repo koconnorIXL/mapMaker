@@ -7,7 +7,8 @@ var datasetsToHandle = {
   'Asia_countries': '../topojsonDatasets/countries-tmp/continents/Asia_countries.json',
   'South_America_countries': '../topojsonDatasets/countries-tmp/continents/South_America_countries.json',
   'North_America_countries': '../topojsonDatasets/countries-tmp/continents/North_America_countries.json',
-  'Europe_countries': '../topojsonDatasets/countries-tmp/continents/Europe_countries.json'
+  'Europe_countries': '../topojsonDatasets/countries-tmp/continents/Europe_countries.json',
+  'Oceania_countries': '../topojsonDatasets/countries-tmp/continents/Oceania_countries.json'
 };
 
 Object.keys(datasetsToHandle).forEach(function(name) {
