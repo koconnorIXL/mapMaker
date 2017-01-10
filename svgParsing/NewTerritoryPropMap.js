@@ -67,7 +67,7 @@ module.exports = {
   'Korean_Demilitarized_Zone': {
     name: 'Korean_Demilitarized_Zone',
     continent: 'Asia',
-    claimed_by: ['Korea', 'Dem. Rep. Korea']
+    claimed_by: ['South Korea', 'North Korea']
   },
   'Pashto-speaking_Pakistan': {
     name: 'Pashto-speaking_Pakistan',

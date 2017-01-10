@@ -32,6 +32,8 @@ function sanitize(name) {
     .replace(/ /g, '_')
     .replace('(', '')
     .replace(')', '')
+    .replace("'", '')
+    .replace('"', '')
 };
 
 function getFileName(directory, name) {
