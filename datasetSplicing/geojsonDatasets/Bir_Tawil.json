@@ -1,0 +1,39 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bir_Tawil",
+        "continent": "Africa",
+        "claimed_by": [
+          "Sudan",
+          "Egypt"
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              33.18456957838702,
+              21.98727375074524
+            ],
+            [
+              33.558138060812325,
+              21.727770622986093
+            ],
+            [
+              34.00160739424358,
+              21.76573284600396
+            ],
+            [
+              34.075327963883744,
+              21.990107241799734
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -97,7 +97,7 @@ function listNeighbors(geometryCollection, v) {
   console.log(names);
 }
 
-exports.fastFiveColoring = function(geometryCollection) {
+function fastFiveColoring(geometryCollection) {
   var vertices;
   var vertices2;
   function coloring5() {
@@ -272,9 +272,33 @@ function bruteForceColoringHelper(neighbors, assignedColors, nColors) {
  * computed using a brute force algorithm. Not recommended to use this
  * with nColors < 6.
  */
-exports.bruteForceColoring = function(geometryCollection, nColors) {
+function bruteForceColoring(geometryCollection, nColors) {
   var neighbors = topojson.neighbors(geometryCollection);
   return bruteForceColoringHelper(neighbors, [], nColors);
 }
 
+function createFiveColoringMap(geometryCollection) {
+  var coloring = fastFiveColoring(geometryCollection);
 
+  var coloringMap = {};
+  for (var i = 0; i < coloring.length; i++) {
+    var name = geometryCollection[i].properties.name;
+    coloringMap[name] = coloring[i];
+  }
+  return coloringMap;
+}
+
+
+function applyColoringMap(geometryCollection, coloringMap) {
+  for (var i = 0; i < geometryCollection.length; i++) {
+    var geometry = geometryCollection[i];
+    geometry.properties.mapcolor5 = coloringMap[geometry.properties.name]
+  }
+}
+
+module.exports = {
+  fastFiveColoring: fastFiveColoring,
+  createFiveColoringMap: createFiveColoringMap,
+  applyColoringMap: applyColoringMap,
+  bruteForceColoring: bruteForceColoring
+};
