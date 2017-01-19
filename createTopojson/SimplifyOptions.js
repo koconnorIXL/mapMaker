@@ -11,13 +11,13 @@ module.exports = {
   standardGlobal: function() {
     return {
       "coordinate-system": "cartesian",
-      "minimum-area": SIMPLIFY_MINIMUM_AREA_CARTESIAN_CONTINENTAL
+      "minimum-area": SIMPLIFY_MINIMUM_AREA_GLOBAL
     };
   },
   standardContinental: function() {
     return {
       "coordinate-system": "cartesian",
-      "minimum-area": SIMPLIFY_MINIMUM_AREA_GLOBAL
+      "minimum-area": SIMPLIFY_MINIMUM_AREA_CARTESIAN_CONTINENTAL
     };
   }
 };
