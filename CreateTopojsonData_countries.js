@@ -167,7 +167,6 @@ Object.keys(getFreshFeatureMap()).forEach(function(name) {
   var disputedBorderNeighbors = (props.disputed_border_with || []).map(function(x) { return all_features[x]; });
   
   if (claims.length + claimers.length + mergeParents.length + incomingMerges.length + disputedBorderNeighbors.length > 0) {
-    //console.log(name);
     var featureCollection = {
       type: 'FeatureCollection',
       features: [countryFeature].concat(claims).concat(claimers).concat(mergeParents).concat(incomingMerges).concat(disputedBorderNeighbors)
