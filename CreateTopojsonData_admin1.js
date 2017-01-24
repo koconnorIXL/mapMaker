@@ -1,7 +1,7 @@
 var fs = require('fs');
 var d3 = require('d3');
 var topojson = require('topojson');
-var MapColoring = require('./MapColoring.js');
+var MapColoring = require('./mapColoring/MapColoring.js');
 var removeSmallIslands = require('./RemoveSmallIslands.js').removeSmallIslands;
 var ResolveBorders = require('./FixDisputedBoundaries.js');
 

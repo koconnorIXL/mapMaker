@@ -1,5 +1,4 @@
 var topojson = require('topojson');
-var MapColoring = require('../MapColoring.js');
 
 var SimplifyOptions = require('./SimplifyOptions.js');
 var TopojsonOptions = require('./TopojsonOptions.js');
