@@ -11,7 +11,7 @@ var A = -p0[1] + p1[1];
 var B = p0[0] - p1[0];
 var C = B * p0[1] + A * p0[0];
 
-var countries = JSON.parse(fs.readFileSync('../../geojsonDatasets/countries_high_res-tmp.json'));
+var countries = JSON.parse(fs.readFileSync('../../geojsonDatasets/countries_high_res.json'));
 var russia = countries.features.filter(function(feature) { 
   return feature.properties.NAME === 'Russia'; 
 })[0];

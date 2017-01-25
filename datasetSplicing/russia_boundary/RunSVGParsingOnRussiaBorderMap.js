@@ -1,8 +1,8 @@
 var fs = require('fs');
-var createGeojsonObject = require('../CreateGeojsonObject.js');
-var svgToGeojson = require('../SVGToGeographicCoordinates.js');
+var createGeojsonObject = require('../../svgParsing/CreateGeojsonObject.js');
+var svgToGeojson = require('../../svgParsing/SVGToGeographicCoordinates.js');
 
-var getProjection = require('../GetProjectionUsedForIllustrationSVG.js');
+var getProjection = require('../../svgParsing/GetProjectionUsedForIllustrationSVG.js');
 var d3Projection = getProjection();
 
 svgToGeojson('russia_boundary.svg', d3Projection, function(coordinateLists) {
