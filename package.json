@@ -19,6 +19,7 @@
     "svg-path-parser": "~1.0.1",
     "xml2js": "~0.4.17",
     "d3-geo-projection": "~1.1.1",
-    "bezier": "~0.1.0"
+    "bezier": "~0.1.0",
+    "commander": "~2.9.0"
   }
 }

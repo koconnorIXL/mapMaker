@@ -1,7 +1,6 @@
 var fs = require('fs');
 var d3 = require('d3');
 var topojson = require('topojson');
-var MapColoring = require('./mapColoring/MapColoring.js');
 var createTopojson = require('./createTopojson/CreateTopojson.js');
 var SimplifyOptions = require('./createTopojson/SimplifyOptions.js');
 var TopojsonOptions = require('./createTopojson/TopojsonOptions.js');
@@ -60,8 +59,6 @@ delete topology.objects.collection;
 // add a mapcolor5 field to the topojson
 var geometryCollection = topology.objects.countries.geometries;
 
-var FIVE_COLORING = MapColoring.createFiveColoringMap(geometryCollection);
-MapColoring.applyColoringMap(geometryCollection, FIVE_COLORING);
 
 fs.writeFileSync('topojsonDatasets/countries/all_countries/countries.json', JSON.stringify(topology));
 
@@ -86,7 +83,6 @@ CONTINENTS.forEach(function(continentName) {
     TopojsonOptions.standard(),
     SimplifyOptions.standardContinental());
 
-  MapColoring.applyColoringMap(topology.objects.collection.geometries, FIVE_COLORING);
   topology.objects[sanitize(continentName + '_countries')] = topology.objects.collection;
   delete topology.objects.collection;
   fs.writeFileSync(filename, JSON.stringify(topology));
@@ -111,12 +107,10 @@ Object.keys(RANDOM_SUBGROUPS).forEach(function(subgroupName) {
     TopojsonOptions.standard(),
     SimplifyOptions.standardContinental());
 
-  MapColoring.applyColoringMap(topology.objects.collection.geometries, FIVE_COLORING);
   topology.objects[sanitize(subgroupName)] = topology.objects.collection;
   delete topology.objects.collection;
   fs.writeFileSync(filename, JSON.stringify(topology));
 });
-
 
 // Next, create one dataset for each country, containing high-res data for the boundary of that 
 // individual country.
@@ -135,7 +129,6 @@ getFreshData().features.forEach(function(countryFeature) {
     TopojsonOptions.highRes(),
     null);
 
-  MapColoring.applyColoringMap(topology.objects.collection.geometries, FIVE_COLORING);
 
   topology.objects[sanitize(name + '_high_res')] = topology.objects.collection;
   delete topology.objects.collection;
@@ -143,7 +136,32 @@ getFreshData().features.forEach(function(countryFeature) {
 });
 
 
-// Next, create one dataset for every region with a external claims and/or claimers. The dataset
+
+// Next, create one dataset for each country, containing medium-res data for the boundary of that 
+// individual country.
+getFreshData().features.forEach(function(countryFeature) {
+  var featureCollection = {
+    type: 'FeatureCollection',
+    features: [countryFeature]
+  };
+
+  var name = countryFeature.properties.name || countryFeature.properties.NAME;
+
+  var filename = getFileName('countries_medium_res', sanitize(name + '_medium_res'));
+
+  var topology = createTopojson(
+    featureCollection,
+    TopojsonOptions.highRes(),
+    SimplifyOptions.standardContinental());
+
+
+  topology.objects[sanitize(name + '_medium_res')] = topology.objects.collection;
+  delete topology.objects.collection;
+  fs.writeFileSync(filename, JSON.stringify(topology));
+});
+
+
+// Next, create one dataset for every region with external claims and/or claimers. The dataset
 // should contain the original feature, plus all of its claims and claimers.
 
 function getFreshFeatureMap() {
@@ -172,18 +190,14 @@ Object.keys(getFreshFeatureMap()).forEach(function(name) {
       features: [countryFeature].concat(claims).concat(claimers).concat(mergeParents).concat(incomingMerges).concat(disputedBorderNeighbors)
     };
 
-
     var name = countryFeature.properties.name || countryFeature.properties.NAME;
 
     var filename = getFileName('countries_high_res_with_disputed', sanitize(name + '_with_disputed_high_res'));
-
 
     var topology = createTopojson(
       featureCollection,
       TopojsonOptions.highRes(),
       null);
-
-    MapColoring.applyColoringMap(topology.objects.collection.geometries, FIVE_COLORING);
 
     topology.objects[sanitize(name + '_high_res')] = topology.objects.collection;
     delete topology.objects.collection;
@@ -191,3 +205,38 @@ Object.keys(getFreshFeatureMap()).forEach(function(name) {
     all_features = getFreshFeatureMap();
   }
 });
+
+Object.keys(getFreshFeatureMap()).forEach(function(name) {
+  //console.log(name);
+  var countryFeature = all_features[name];
+
+  var props = countryFeature.properties;
+  var claims = (props.external_claims || []).concat(props.quasi_external_claims || []).map(function(x) { return all_features[x]; });
+  var claimers = (props.claimed_by || []).concat(props.quasi_claimed_by || []).map(function(x) { return all_features[x]; });
+  var mergeParents = (props.merge_into ? [props.merge_into] : []).map(function(x) { return all_features[x]; });
+  var incomingMerges = (props.incoming_merges || []).map(function(x) { return all_features[x]; });
+  var disputedBorderNeighbors = (props.disputed_border_with || []).map(function(x) { return all_features[x]; });
+  
+  if (claims.length + claimers.length + mergeParents.length + incomingMerges.length + disputedBorderNeighbors.length > 0) {
+    var featureCollection = {
+      type: 'FeatureCollection',
+      features: [countryFeature].concat(claims).concat(claimers).concat(mergeParents).concat(incomingMerges).concat(disputedBorderNeighbors)
+    };
+
+    var name = countryFeature.properties.name || countryFeature.properties.NAME;
+
+    var filename = getFileName('countries_medium_res_with_disputed', sanitize(name + '_with_disputed_medium_res'));
+
+    var topology = createTopojson(
+      featureCollection,
+      TopojsonOptions.standard(),
+      SimplifyOptions.standardContinental());
+
+    topology.objects[sanitize(name + '_medium_res')] = topology.objects.collection;
+    delete topology.objects.collection;
+    fs.writeFileSync(filename, JSON.stringify(topology));
+    all_features = getFreshFeatureMap();
+  }
+});
+
+
