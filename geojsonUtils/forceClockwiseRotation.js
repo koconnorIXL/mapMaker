@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 /**
- * Usage: node Temp.js [filePath1] [filePath2] ...
+ * Usage: node forceClockwiseRotation.js [filePath1] [filePath2] ...
  * For each GeoJSON file path, parse the file and examine the coordinates of each feature.
  * Convert all counter-clockwise paths to be clockwise.
  */
