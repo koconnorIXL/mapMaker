@@ -1,11 +1,13 @@
 var program = require('commander');
 var exec = require('child_process').exec;
 
-program.arguments('<env_name>').usage('node scp_all.js <env_name>').parse(process.argv);
+program.arguments('<env_name> <server> <user>').usage(': node scp_all.js <env_name> <server> <user>').parse(process.argv);
 var envName = program.args[0] || 'dev';
+var serverName = program.args[1] || 'quasar';
+var username = program.args[2] || 'koconnor';
 
 var localBasePath = 'topojsonDatasets/countries/';
-var remoteBasePath = '/quasar_home/koconnor/' + envName + '/code/assets/qgen_res/social_studies/maps/countries/';
+var remoteBasePath = '/' + serverName + '_home/' + username + '/' + envName + '/code/assets/qgen_res/social_studies/maps/countries/';
 
 console.log('Copying country files to ' + envName);
 
