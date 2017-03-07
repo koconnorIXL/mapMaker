@@ -1,5 +1,6 @@
 var fs = require('fs');
 var sanitize = require('./sanitize.js');
+var addEnumValueToFile = require('./add-enum-value-to-file.js');
 
 var directory = '../topojsonDatasets/countries-tmp/countries_high_res_with_disputed';
 
