@@ -25,8 +25,8 @@ function checkRotation(arr) {
       first = arr[i];
       second = arr[i+1];
     }
-
-    total += (second[0]-first[0])*(second[1]+second[1]);
+    
+    total += (second[0]-first[0])*(second[1]+first[1]);
   }
 
   return total;

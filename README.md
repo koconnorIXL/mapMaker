@@ -14,10 +14,7 @@ which file it is, you can modify that file to achieve the result that you want.
 After modifying the GeoJSON, now you want to generate the TopoJSON file(s). To do this, run
 'node <whichever CreateTopojson* file that you found>'
 Next, you will need to copy these files to the code base. To do this, run
-'node scp_all.js <env_name> <server> <user>'
-e.g. 'node scp_all.js dev quasar koconnor'
-
-Note that you will need to remove 'ixl:' from all the exec lines if your checkout is in our code tree/Linux. If you
-are like koconnor and has checked it out on your laptop for example, then you will need the 'ixl:'.
+'node scp_all.js <env_name>'
+e.g. 'node scp_all.js dev'
 
 Dont' forget to commit these changes in both Github and the code base.
