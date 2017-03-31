@@ -14,6 +14,8 @@ module.exports = {
       }
     };
   },
+  
+  // Quantization zero means that no precision is lost.
   highRes: function() {
     return {
       "property-transform": function(feature) {
