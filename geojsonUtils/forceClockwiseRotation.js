@@ -9,7 +9,7 @@ var fs = require('fs');
 var filePaths = process.argv.slice(2);
 
 /**
- * To calculate the rotation, sum over each edge (x2 − x1) * (y2 + y1). Positive indicates
+ * To calculate the rotation, sum over each edge (x2 - x1) * (y2 + y1). Positive indicates
  * clockwise; negative indicates counter-clockwise.
  * http://stackoverflow.com/a/1165943
  */
