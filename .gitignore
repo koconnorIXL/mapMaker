@@ -3,3 +3,10 @@ build/*
 *DS_Store*
 *.swp
 
+datasetSplicing/geojsonDatasets/*
+datasetSplicing/states/geojson/*
+datasetSplicing/states/*.json
+datasetSplicing/uk/*.json
+datasetSplicing/russia_boundary/*.json
+datasetSplicing/*.json
+
