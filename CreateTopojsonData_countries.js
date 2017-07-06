@@ -6,6 +6,7 @@ var SimplifyOptions = require('./createTopojson/SimplifyOptions.js');
 var TopojsonOptions = require('./createTopojson/TopojsonOptions.js');
 var sanitize = require('./createTopojson/sanitize-filename.js');
 var DisputedMap = require('./createTopojson/DisputedMap.js');
+var removeSmallIslands = require('./RemoveSmallIslands.js').removeSmallIslands;
 
 var geojsonFilename = 'countries_high_res.json';
 
@@ -27,6 +28,18 @@ var RANDOM_SUBGROUPS = {
     'Russia'
   ]
 };
+
+var STATES_TO_NOT_SIMPLIFY = [
+  'Rhode Island',
+  'Maryland',
+  'Massachusetts',
+  'California',
+  'Michigan',
+  'Wisconsin'
+];
+
+var SMALL_ISLAND_THRESHOLD_CONTINENTAL = 0.05;
+var standardProjection = d3.geo.equirectangular();
 
 function getFileName(directory, name) {
   return 'topojsonDatasets/countries/' + directory + '/' + name + '.json';
@@ -77,6 +90,14 @@ CONTINENTS.forEach(function(continentName) {
     features: continentData
   };
 
+  continentData.forEach(function(feature) {
+    if (feature.properties.admin === 'United States of America'
+      && STATES_TO_NOT_SIMPLIFY.indexOf(feature.properties.name) === -1)
+    {
+      removeSmallIslands(feature, d3.geo.path().projection(standardProjection), SMALL_ISLAND_THRESHOLD_CONTINENTAL);
+    }
+  });
+
   var filename = getFileName('continents', sanitize(continentName + '_countries'));
   
   var topology = createTopojson(
@@ -93,7 +114,8 @@ Object.keys(RANDOM_SUBGROUPS).forEach(function(subgroupName) {
   var groupCountries = RANDOM_SUBGROUPS[subgroupName];
   var data = getFreshData().features.filter(function(feature) {
     var name = feature.properties.name || feature.properties.NAME;
-    return groupCountries.indexOf(name) > -1;
+    var admin = feature.properties.admin || feature.properties.ADMIN;
+    return groupCountries.indexOf(name) > -1 || groupCountries.indexOf(admin) > -1;
   });
 
   var featureCollection = {
