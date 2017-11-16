@@ -1,0 +1,14 @@
+This directory has some files which are helpful for adding the US states
+and Canadian provinces as features in our main countries dataset.
+
+In order to accomplish this, simply cd into this directory, and run:
+
+node AddStates.js
+
+This will create a new file in this directory called:
+
+countries_high_res.json
+
+After verifying that the data looks good, copy this file into:
+
+TOP_LEVEL/geojsonDatasets/countries_high_res.json
